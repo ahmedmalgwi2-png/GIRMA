@@ -34,7 +34,15 @@ export const LoginPage: React.FC<AuthPageProps> = ({ navigate }) => {
       await signInWithGoogle();
       navigate('/app');
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Google sign-in failed.');
+      const msg = err instanceof Error ? err.message : 'Google sign-in failed.';
+      if (msg.includes('unauthorized-domain')) {
+        const host = typeof window !== 'undefined' ? window.location.hostname : 'this domain';
+        setError(
+          `Domain not authorized for Google Sign-In (${host}). Add "${host}" in Firebase Console → Authentication → Settings → Authorized domains, or sign in with email and password below.`
+        );
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }
@@ -191,7 +199,15 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
       await signInWithGoogle();
       navigate('/onboarding');
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Google registration failed.');
+      const msg = err instanceof Error ? err.message : 'Google registration failed.';
+      if (msg.includes('unauthorized-domain')) {
+        const host = typeof window !== 'undefined' ? window.location.hostname : 'this domain';
+        setError(
+          `Domain not authorized for Google Sign-In (${host}). Add "${host}" in Firebase Console → Authentication → Settings → Authorized domains, or register with email below.`
+        );
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }
