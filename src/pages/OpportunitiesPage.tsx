@@ -304,14 +304,14 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl font-bold text-[#17231F]">
+          <h2 className="font-display text-2xl font-bold text-[#17231F] dark:text-[#ECF1EE]">
             {mode === 'saved'
               ? 'Saved Opportunities'
               : mode === 'applications'
               ? 'My Applications Tracker'
               : 'Opportunity Discovery Engine'}
           </h2>
-          <p className="text-sm text-[#77817C] mt-1">
+          <p className="text-sm text-[#77817C] dark:text-[#9AA8A1] mt-1">
             {mode === 'applications'
               ? 'Track every programme from Planning to Apply through Submission and Outcome.'
               : 'Search verified grants, funding, scholarships, fellowships, training, and market programmes.'}
@@ -319,12 +319,12 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
         </div>
 
         {firebaseUser && (
-          <div className="flex items-center gap-2 p-1 bg-white border border-[#17231F]/10 rounded-lg">
+          <div className="flex items-center gap-2 p-1 bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-lg">
             <button
               type="button"
               onClick={() => navigate('/app/opportunities')}
               className={`px-3 py-1.5 rounded-md text-xs font-medium whitespace-nowrap ${
-                mode === 'all' ? 'bg-[#123C32] text-white' : 'text-[#77817C] hover:text-[#17231F]'
+                mode === 'all' ? 'bg-[#123C32] dark:bg-[#1F7A59] text-white' : 'text-[#77817C] dark:text-[#9AA8A1] hover:text-[#17231F] dark:hover:text-[#ECF1EE]'
               }`}
             >
               All ({opportunities.length})
@@ -333,7 +333,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
               type="button"
               onClick={() => navigate('/app/applications')}
               className={`px-3 py-1.5 rounded-md text-xs font-medium whitespace-nowrap ${
-                mode !== 'all' ? 'bg-[#123C32] text-white' : 'text-[#77817C] hover:text-[#17231F]'
+                mode !== 'all' ? 'bg-[#123C32] dark:bg-[#1F7A59] text-white' : 'text-[#77817C] dark:text-[#9AA8A1] hover:text-[#17231F] dark:hover:text-[#ECF1EE]'
               }`}
             >
               Tracked ({Object.keys(applications).length})
@@ -343,7 +343,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
       </div>
 
       {statusMessage && (
-        <div className="bg-[#123C32] text-[#F8F7F1] px-4 py-3 rounded-lg text-xs flex items-center justify-between gap-4">
+        <div className="bg-[#123C32] dark:bg-[#1F7A59] text-[#F8F7F1] px-4 py-3 rounded-lg text-xs flex items-center justify-between gap-4">
           <span>{statusMessage}</span>
           <button type="button" onClick={() => setStatusMessage(null)} aria-label="Dismiss message">
             <X className="w-4 h-4" />
@@ -352,10 +352,10 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
       )}
 
       {/* Search & Multi-Faceted Filter Bar */}
-      <div className="bg-white border border-[#17231F]/10 rounded-xl p-4 sm:p-5 space-y-4">
+      <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-4 sm:p-5 space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <div className="relative lg:col-span-2">
-            <Search className="w-4 h-4 text-[#77817C] absolute left-3 top-3" />
+            <Search className="w-4 h-4 text-[#77817C] dark:text-[#9AA8A1] absolute left-3 top-3" />
             <input
               type="search"
               value={searchText}
@@ -364,7 +364,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
                 setPage(1);
               }}
               placeholder="Search grants, scholarships, organizations, industries..."
-              className="w-full pl-9 pr-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+              className="w-full pl-9 pr-3 py-2 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70 border border-[#17231F]/15 dark:border-white/15 text-sm focus:outline-none focus:border-[#1F7A59] dark:focus:border-[#57C496]"
             />
           </div>
 
@@ -375,7 +375,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
               setPage(1);
             }}
             aria-label="Filter by category"
-            className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+            className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
           >
             <option value="All">All Categories</option>
             {OPPORTUNITY_CATEGORIES.map((c) => (
@@ -387,7 +387,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
             aria-label="Sort opportunities"
-            className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+            className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
           >
             <option value="relevant">Sort: Most Relevant (GIRMA Match)</option>
             <option value="closing">Sort: Closing Soon</option>
@@ -404,7 +404,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
               setPage(1);
             }}
             aria-label="Filter by industry"
-            className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-xs bg-white"
+            className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-xs bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
           >
             <option value="All">All Industries</option>
             {INDUSTRIES.map((i) => <option key={i} value={i}>{i}</option>)}
@@ -417,7 +417,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
               setPage(1);
             }}
             aria-label="Filter by country"
-            className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-xs bg-white"
+            className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-xs bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
           >
             <option value="All">All Countries</option>
             {AFRICAN_COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -430,7 +430,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
               setPage(1);
             }}
             aria-label="Filter by state"
-            className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-xs bg-white"
+            className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-xs bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
           >
             <option value="All">All Nigerian States</option>
             {NIGERIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -443,7 +443,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
               setPage(1);
             }}
             aria-label="Filter by business stage"
-            className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-xs bg-white"
+            className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-xs bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
           >
             <option value="All">All Business Stages</option>
             {BUSINESS_STAGES.map((st) => <option key={st} value={st}>{st}</option>)}
@@ -458,7 +458,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
               setPage(1);
             }}
             placeholder="Min Funding (₦)"
-            className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-xs font-mono tabular-nums"
+            className="px-3 py-2 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-xs font-mono tabular-nums"
           />
         </div>
       </div>
@@ -467,12 +467,12 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[1, 2, 3, 4].map((n) => (
-            <div key={n} className="h-48 rounded-xl bg-white border border-[#17231F]/10 animate-pulse" />
+            <div key={n} className="h-48 rounded-xl bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 animate-pulse" />
           ))}
         </div>
       ) : paginated.length === 0 ? (
-        <div className="bg-white border border-[#17231F]/10 rounded-xl p-10 text-center space-y-3">
-          <p className="text-sm text-[#77817C]">
+        <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-10 text-center space-y-3">
+          <p className="text-sm text-[#77817C] dark:text-[#9AA8A1]">
             {mode !== 'all'
               ? 'You have not saved or tracked any opportunities yet.'
               : 'No opportunities match your current search or filter criteria.'}
@@ -489,7 +489,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
               setMinFunding('');
               if (mode !== 'all') navigate('/app/opportunities');
             }}
-            className="px-4 py-2 rounded-lg bg-[#123C32] text-white text-xs font-semibold"
+            className="px-4 py-2 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold"
           >
             {mode !== 'all' ? 'Discover Opportunities' : 'Reset All Filters'}
           </button>
@@ -499,39 +499,39 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
           {paginated.map(({ opp, match, app }) => (
             <div
               key={opp.id}
-              className="bg-white border border-[#17231F]/10 rounded-xl p-6 flex flex-col justify-between space-y-4"
+              className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 flex flex-col justify-between space-y-4"
             >
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between gap-2 text-xs">
-                  <span className="text-[#1F7A59] font-semibold">
+                  <span className="text-[#1F7A59] dark:text-[#57C496] font-semibold">
                     {opp.category} · {opp.verificationStatus === 'verified' ? 'Verified Source' : 'Unverified'}
                   </span>
                   <span
                     className={`font-mono tabular-nums font-semibold ${
-                      match.isEligible ? 'text-[#123C32]' : 'text-[#E6A23C]'
+                      match.isEligible ? 'text-[#123C32] dark:text-[#57C496]' : 'text-[#E6A23C] dark:text-[#FBBF24]'
                     }`}
                   >
                     Match {match.score}%
                   </span>
                 </div>
 
-                <h3 className="font-display text-lg font-bold text-[#17231F] leading-snug">
+                <h3 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE] leading-snug">
                   {opp.title}
                 </h3>
-                <p className="text-xs text-[#77817C]">
+                <p className="text-xs text-[#77817C] dark:text-[#9AA8A1]">
                   {opp.organizationName} · {opp.country} · {opp.industry}
                 </p>
-                <p className="text-sm text-[#77817C] line-clamp-2">{opp.description}</p>
+                <p className="text-sm text-[#77817C] dark:text-[#9AA8A1] line-clamp-2">{opp.description}</p>
               </div>
 
-              <div className="pt-3 border-t border-[#17231F]/10 flex flex-wrap items-center justify-between gap-3">
+              <div className="pt-3 border-t border-[#17231F]/10 dark:border-white/10 flex flex-wrap items-center justify-between gap-3">
                 <div className="text-xs space-y-0.5">
-                  <div className="font-mono tabular-nums font-semibold text-[#17231F]">
+                  <div className="font-mono tabular-nums font-semibold text-[#17231F] dark:text-[#ECF1EE]">
                     {opp.fundingAmountMax
                       ? `Up to ${formatNaira(opp.fundingAmountMax, opp.fundingCurrency)}`
                       : opp.benefits?.slice(0, 38) || 'Non-monetary support'}
                   </div>
-                  <div className="font-mono tabular-nums text-[#77817C]">
+                  <div className="font-mono tabular-nums text-[#77817C] dark:text-[#9AA8A1]">
                     Deadline: {opp.deadlineDate}
                   </div>
                 </div>
@@ -548,8 +548,8 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
                       aria-label={app ? 'Remove saved opportunity' : 'Save opportunity'}
                       className={`p-2 rounded-lg border text-xs ${
                         app
-                          ? 'bg-[#123C32] text-white border-[#123C32]'
-                          : 'border-[#17231F]/15 text-[#17231F] hover:border-[#123C32]'
+                          ? 'bg-[#123C32] dark:bg-[#1F7A59] text-white border-[#123C32] dark:border-[#1F7A59]'
+                          : 'border-[#17231F]/15 dark:border-white/15 text-[#17231F] dark:text-[#ECF1EE] hover:border-[#123C32] dark:hover:border-[#57C496]'
                       }`}
                     >
                       <Bookmark className="w-3.5 h-3.5" />
@@ -562,7 +562,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
                       setNotesDraft(app?.notes || '');
                       setAiAdvice(null);
                     }}
-                    className="px-4 py-2 rounded-lg bg-[#123C32] text-white text-xs font-semibold hover:bg-[#1F7A59] whitespace-nowrap"
+                    className="px-4 py-2 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653] whitespace-nowrap"
                   >
                     View Details
                   </button>
@@ -575,7 +575,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between pt-2 text-xs text-[#77817C]">
+        <div className="flex items-center justify-between pt-2 text-xs text-[#77817C] dark:text-[#9AA8A1]">
           <span>
             Showing {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, enriched.length)} of{' '}
             {enriched.length}
@@ -585,7 +585,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
               type="button"
               disabled={page <= 1}
               onClick={() => setPage((p) => p - 1)}
-              className="px-3 py-1.5 rounded-lg border border-[#17231F]/15 bg-white disabled:opacity-40"
+              className="px-3 py-1.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#121B18] text-[#17231F] dark:text-[#ECF1EE] disabled:opacity-40"
             >
               Previous
             </button>
@@ -596,7 +596,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
               type="button"
               disabled={page >= totalPages}
               onClick={() => setPage((p) => p + 1)}
-              className="px-3 py-1.5 rounded-lg border border-[#17231F]/15 bg-white disabled:opacity-40"
+              className="px-3 py-1.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#121B18] text-[#17231F] dark:text-[#ECF1EE] disabled:opacity-40"
             >
               Next
             </button>
@@ -609,22 +609,22 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
         const match = computeGirmaMatch(selectedOpp, account, businessProfile, studentProfile);
         const app = applications[selectedOpp.id || ''];
         return (
-          <div className="fixed inset-0 z-50 bg-black/50 flex justify-end">
-            <div className="w-full max-w-2xl bg-white h-full overflow-y-auto p-6 sm:p-8 space-y-6">
-              <div className="flex items-start justify-between gap-4 border-b border-[#17231F]/10 pb-4">
+          <div className="fixed inset-0 z-50 bg-black/60 flex justify-end">
+            <div className="w-full max-w-2xl bg-white dark:bg-[#121B18] border-l border-transparent dark:border-white/10 h-full overflow-y-auto p-6 sm:p-8 space-y-6">
+              <div className="flex items-start justify-between gap-4 border-b border-[#17231F]/10 dark:border-white/10 pb-4">
                 <div className="space-y-1">
-                  <div className="text-xs text-[#1F7A59] font-semibold">
+                  <div className="text-xs text-[#1F7A59] dark:text-[#57C496] font-semibold">
                     {selectedOpp.category} · {selectedOpp.verificationStatus === 'verified' ? 'Verified Source' : 'Unverified'}
                   </div>
-                  <h2 className="font-display text-2xl font-bold text-[#17231F]">
+                  <h2 className="font-display text-2xl font-bold text-[#17231F] dark:text-[#ECF1EE]">
                     {selectedOpp.title}
                   </h2>
-                  <p className="text-sm text-[#77817C]">{selectedOpp.organizationName}</p>
+                  <p className="text-sm text-[#77817C] dark:text-[#9AA8A1]">{selectedOpp.organizationName}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setSelectedOpp(null)}
-                  className="p-2 rounded-lg hover:bg-[#F8F7F1]"
+                  className="p-2 rounded-lg hover:bg-[#F8F7F1] dark:hover:bg-[#17231F] text-[#17231F] dark:text-[#ECF1EE]"
                   aria-label="Close opportunity details"
                 >
                   <X className="w-5 h-5" />
@@ -632,51 +632,51 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
               </div>
 
               {/* GIRMA Match Transparency Card */}
-              <div className="bg-[#F8F7F1] border border-[#17231F]/10 rounded-xl p-5 space-y-4">
+              <div className="bg-[#F8F7F1] dark:bg-[#17231F] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-5 space-y-4">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <div className="text-xs font-semibold text-[#123C32]">GIRMA Match Analysis</div>
-                    <div className="text-xs text-[#77817C]">
+                    <div className="text-xs font-semibold text-[#123C32] dark:text-[#57C496]">GIRMA Match Analysis</div>
+                    <div className="text-xs text-[#77817C] dark:text-[#9AA8A1]">
                       {match.isEligible
                         ? 'Meets mandatory programme criteria'
                         : 'Mandatory eligibility gap detected'}
                     </div>
                   </div>
-                  <div className="font-mono text-2xl font-bold tabular-nums text-[#123C32]">
+                  <div className="font-mono text-2xl font-bold tabular-nums text-[#123C32] dark:text-[#57C496]">
                     {match.score}%
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div className="space-y-1.5">
-                    <div className="font-semibold text-[#17231F]">Why You Match &amp; Satisfied</div>
+                    <div className="font-semibold text-[#17231F] dark:text-[#ECF1EE]">Why You Match &amp; Satisfied</div>
                     {[...match.reasons, ...match.satisfiedRequirements].map((r, i) => (
-                      <div key={i} className="flex items-start gap-1.5 text-[#238653]">
+                      <div key={i} className="flex items-start gap-1.5 text-[#238653] dark:text-[#57C496]">
                         <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                         <span>{r}</span>
                       </div>
                     ))}
                   </div>
                   <div className="space-y-1.5">
-                    <div className="font-semibold text-[#17231F]">What You Need</div>
+                    <div className="font-semibold text-[#17231F] dark:text-[#ECF1EE]">What You Need</div>
                     {match.missingRequirements.length === 0 ? (
-                      <p className="text-[#77817C]">All core requirements ready.</p>
+                      <p className="text-[#77817C] dark:text-[#9AA8A1]">All core requirements ready.</p>
                     ) : (
                       match.missingRequirements.map((m, i) => (
-                        <div key={i} className="text-[#77817C]">· {m}</div>
+                        <div key={i} className="text-[#77817C] dark:text-[#9AA8A1]">· {m}</div>
                       ))
                     )}
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-[#17231F]/10 flex flex-wrap items-center justify-between gap-3">
-                  <p className="text-xs font-medium text-[#17231F]">{match.recommendedAction}</p>
+                <div className="pt-2 border-t border-[#17231F]/10 dark:border-white/10 flex flex-wrap items-center justify-between gap-3">
+                  <p className="text-xs font-medium text-[#17231F] dark:text-[#ECF1EE]">{match.recommendedAction}</p>
                   {firebaseUser && (
                     <button
                       type="button"
                       disabled={aiAdviceLoading}
                       onClick={() => fetchAiMatchAdvice(selectedOpp)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#123C32] text-white text-xs font-semibold hover:bg-[#1F7A59] disabled:opacity-60 whitespace-nowrap"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653] disabled:opacity-60 whitespace-nowrap"
                     >
                       <Sparkles className="w-3.5 h-3.5" />
                       <span>{aiAdviceLoading ? 'Analyzing...' : 'AI Preparation Plan'}</span>
@@ -685,79 +685,79 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
                 </div>
 
                 {aiAdvice && (
-                  <div className="bg-white border border-[#17231F]/10 rounded-lg p-4 space-y-2 text-xs">
-                    <p className="font-semibold text-[#123C32]">{aiAdvice.summary}</p>
-                    <ul className="space-y-1 text-[#17231F]">
+                  <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-lg p-4 space-y-2 text-xs">
+                    <p className="font-semibold text-[#123C32] dark:text-[#57C496]">{aiAdvice.summary}</p>
+                    <ul className="space-y-1 text-[#17231F] dark:text-[#ECF1EE]">
                       {aiAdvice.actionChecklist.map((step, idx) => (
                         <li key={idx}>
                           {idx + 1}. {step}
                         </li>
                       ))}
                     </ul>
-                    <p className="text-[#E6A23C] font-medium">{aiAdvice.cautionNote}</p>
+                    <p className="text-[#E6A23C] dark:text-[#FBBF24] font-medium">{aiAdvice.cautionNote}</p>
                   </div>
                 )}
               </div>
 
               {/* Full Opportunity Metadata */}
               <div className="space-y-4 text-sm">
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 bg-white border border-[#17231F]/10 rounded-xl p-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 bg-white dark:bg-[#17231F] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-4">
                   <div>
-                    <span className="text-xs text-[#77817C] block">Funding / Benefit</span>
-                    <span className="font-mono font-semibold text-xs tabular-nums">
+                    <span className="text-xs text-[#77817C] dark:text-[#9AA8A1] block">Funding / Benefit</span>
+                    <span className="font-mono font-semibold text-xs tabular-nums text-[#17231F] dark:text-[#ECF1EE]">
                       {selectedOpp.fundingAmountMax
                         ? `${formatNaira(selectedOpp.fundingAmountMin, selectedOpp.fundingCurrency)} – ${formatNaira(selectedOpp.fundingAmountMax, selectedOpp.fundingCurrency)}`
                         : 'Programme Support'}
                     </span>
                   </div>
                   <div>
-                    <span className="text-xs text-[#77817C] block">Deadline</span>
-                    <span className="font-mono font-semibold text-xs tabular-nums">
+                    <span className="text-xs text-[#77817C] dark:text-[#9AA8A1] block">Deadline</span>
+                    <span className="font-mono font-semibold text-xs tabular-nums text-[#17231F] dark:text-[#ECF1EE]">
                       {selectedOpp.deadlineDate}
                     </span>
                   </div>
                   <div>
-                    <span className="text-xs text-[#77817C] block">Location</span>
-                    <span className="font-semibold text-xs">
+                    <span className="text-xs text-[#77817C] dark:text-[#9AA8A1] block">Location</span>
+                    <span className="font-semibold text-xs text-[#17231F] dark:text-[#ECF1EE]">
                       {selectedOpp.country} ({(selectedOpp.eligibleStates || ['All']).slice(0, 3).join(', ')})
                     </span>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold text-[#17231F] mb-1">Description</h3>
-                  <p className="text-[#77817C] leading-relaxed">{selectedOpp.description}</p>
+                  <h3 className="font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Description</h3>
+                  <p className="text-[#77817C] dark:text-[#9AA8A1] leading-relaxed">{selectedOpp.description}</p>
                 </div>
 
                 {selectedOpp.eligibilitySummary && (
                   <div>
-                    <h3 className="font-semibold text-[#17231F] mb-1">Eligibility Requirements</h3>
-                    <p className="text-[#77817C] leading-relaxed">{selectedOpp.eligibilitySummary}</p>
+                    <h3 className="font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Eligibility Requirements</h3>
+                    <p className="text-[#77817C] dark:text-[#9AA8A1] leading-relaxed">{selectedOpp.eligibilitySummary}</p>
                   </div>
                 )}
 
                 {selectedOpp.benefits && (
                   <div>
-                    <h3 className="font-semibold text-[#17231F] mb-1">Benefits</h3>
-                    <p className="text-[#77817C] leading-relaxed">{selectedOpp.benefits}</p>
+                    <h3 className="font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Benefits</h3>
+                    <p className="text-[#77817C] dark:text-[#9AA8A1] leading-relaxed">{selectedOpp.benefits}</p>
                   </div>
                 )}
 
                 {selectedOpp.applicationInstructions && (
                   <div>
-                    <h3 className="font-semibold text-[#17231F] mb-1">Application Instructions</h3>
-                    <p className="text-[#77817C] leading-relaxed">{selectedOpp.applicationInstructions}</p>
+                    <h3 className="font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Application Instructions</h3>
+                    <p className="text-[#77817C] dark:text-[#9AA8A1] leading-relaxed">{selectedOpp.applicationInstructions}</p>
                   </div>
                 )}
               </div>
 
               {/* Application Tracking & Official External Link */}
-              <div className="border-t border-[#17231F]/10 pt-5 space-y-4">
+              <div className="border-t border-[#17231F]/10 dark:border-white/10 pt-5 space-y-4">
                 {firebaseUser ? (
                   <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-semibold mb-1.5">Application Status</label>
+                        <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Application Status</label>
                         <select
                           value={app?.status || 'Saved'}
                           onChange={(e) =>
@@ -767,7 +767,7 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
                               notesDraft
                             )
                           }
-                          className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                          className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                         >
                           {APPLICATION_STATUSES.map((st) => (
                             <option key={st} value={st}>{st}</option>
@@ -785,14 +785,14 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
                               true
                             )
                           }
-                          className="flex-1 py-2 px-4 rounded-lg bg-[#123C32] text-white text-xs font-semibold hover:bg-[#1F7A59]"
+                          className="flex-1 py-2 px-4 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]"
                         >
                           Save Status &amp; Notes
                         </button>
                         <button
                           type="button"
                           onClick={() => handleShare(selectedOpp)}
-                          className="p-2 rounded-lg border border-[#17231F]/15 hover:bg-[#F8F7F1]"
+                          className="p-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-[#17231F] dark:text-[#ECF1EE] hover:bg-[#F8F7F1] dark:hover:bg-[#17231F]"
                           aria-label="Share opportunity"
                         >
                           <Share2 className="w-4 h-4" />
@@ -800,13 +800,13 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
                       </div>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold mb-1.5">Personal Application Notes</label>
+                      <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Personal Application Notes</label>
                       <textarea
                         rows={3}
                         value={notesDraft}
                         onChange={(e) => setNotesDraft(e.target.value)}
                         placeholder="Record submission date, portal reference ID, or documents left to prepare..."
-                        className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                        className="w-full px-3 py-2 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                       />
                     </div>
                   </>
@@ -814,14 +814,14 @@ export const OpportunitiesPage: React.FC<OpportunitiesPageProps> = ({
                   <button
                     type="button"
                     onClick={() => navigate('/login')}
-                    className="w-full py-2.5 rounded-lg bg-[#123C32] text-white text-sm font-semibold"
+                    className="w-full py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-sm font-semibold"
                   >
                     Sign In to Save &amp; Track Application
                   </button>
                 )}
 
-                <div className="bg-[#F8F7F1] rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <p className="text-xs text-[#77817C]">
+                <div className="bg-[#F8F7F1] dark:bg-[#17231F] rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <p className="text-xs text-[#77817C] dark:text-[#9AA8A1]">
                     Opening the external provider website does not automatically submit your application on GIRMA.
                   </p>
                   <a

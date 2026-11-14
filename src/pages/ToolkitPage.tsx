@@ -212,14 +212,14 @@ export const ToolkitPage: React.FC = () => {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="font-display text-2xl font-bold text-[#17231F]">Business Toolkit</h2>
-        <p className="text-sm text-[#77817C] mt-1">
+        <h2 className="font-display text-2xl font-bold text-[#17231F] dark:text-[#ECF1EE]">Business Toolkit</h2>
+        <p className="text-sm text-[#77817C] dark:text-[#9AA8A1] mt-1">
           Deterministic Naira financial calculators, strategic canvases, and AI-assisted document builders with PDF export.
         </p>
       </div>
 
       {notice && (
-        <div className="bg-[#123C32] text-[#F8F7F1] px-4 py-3 rounded-lg text-xs flex items-center justify-between">
+        <div className="bg-[#123C32] dark:bg-[#1F7A59] text-[#F8F7F1] px-4 py-3 rounded-lg text-xs flex items-center justify-between">
           <span>{notice}</span>
           <button type="button" onClick={() => setNotice(null)} className="underline">Dismiss</button>
         </div>
@@ -237,8 +237,8 @@ export const ToolkitPage: React.FC = () => {
             }}
             className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap ${
               activeTool === t.id
-                ? 'bg-[#123C32] text-white'
-                : 'bg-white border border-[#17231F]/10 text-[#17231F] hover:border-[#123C32]'
+                ? 'bg-[#123C32] dark:bg-[#1F7A59] text-white'
+                : 'bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 text-[#17231F] dark:text-[#ECF1EE] hover:border-[#123C32] dark:hover:border-[#57C496]'
             }`}
           >
             {t.label}
@@ -247,10 +247,10 @@ export const ToolkitPage: React.FC = () => {
       </div>
 
       {/* Active Tool Workspace */}
-      <div className="bg-white border border-[#17231F]/10 rounded-2xl p-6 sm:p-8 space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#17231F]/10 pb-4">
-          <h3 className="font-display text-xl font-bold text-[#17231F]">{currentTab.label}</h3>
-          <span className="text-xs font-mono text-[#77817C]">
+      <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-2xl p-6 sm:p-8 space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#17231F]/10 dark:border-white/10 pb-4">
+          <h3 className="font-display text-xl font-bold text-[#17231F] dark:text-[#ECF1EE]">{currentTab.label}</h3>
+          <span className="text-xs font-mono text-[#77817C] dark:text-[#9AA8A1]">
             {currentTab.kind === 'math' ? 'Exact Mathematical Formula' : 'Structured Document & PDF'}
           </span>
         </div>
@@ -270,7 +270,7 @@ export const ToolkitPage: React.FC = () => {
                 ['contingencyPercent', 'Contingency Buffer (%)'],
               ].map(([key, label]) => (
                 <div key={key}>
-                  <label className="block text-xs font-semibold mb-1">{label}</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">{label}</label>
                   <input
                     type="number"
                     min={0}
@@ -278,26 +278,26 @@ export const ToolkitPage: React.FC = () => {
                     onChange={(e) =>
                       setStartup((p) => ({ ...p, [key]: Number(e.target.value) || 0 }))
                     }
-                    className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm font-mono tabular-nums"
+                    className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] font-mono tabular-nums"
                   />
                 </div>
               ))}
             </div>
-            <div className="lg:col-span-5 bg-[#F8F7F1] rounded-xl p-6 space-y-4 flex flex-col justify-between">
-              <div className="space-y-3 text-sm">
+            <div className="lg:col-span-5 bg-[#F8F7F1] dark:bg-[#17231F] rounded-xl p-6 space-y-4 flex flex-col justify-between">
+              <div className="space-y-3 text-sm text-[#17231F] dark:text-[#ECF1EE]">
                 <div className="flex justify-between">
-                  <span className="text-[#77817C]">One-Time Setup Costs</span>
+                  <span className="text-[#77817C] dark:text-[#9AA8A1]">One-Time Setup Costs</span>
                   <span className="font-mono tabular-nums font-semibold">{formatNaira(startupRes.oneTimeCosts)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#77817C]">Working Capital ({startup.runwayMonths} mo)</span>
+                  <span className="text-[#77817C] dark:text-[#9AA8A1]">Working Capital ({startup.runwayMonths} mo)</span>
                   <span className="font-mono tabular-nums font-semibold">{formatNaira(startupRes.workingCapital)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#77817C]">Contingency ({startup.contingencyPercent}%)</span>
+                  <span className="text-[#77817C] dark:text-[#9AA8A1]">Contingency ({startup.contingencyPercent}%)</span>
                   <span className="font-mono tabular-nums font-semibold">{formatNaira(startupRes.contingencyAmount)}</span>
                 </div>
-                <div className="pt-3 border-t border-[#17231F]/10 flex justify-between text-base font-bold text-[#123C32]">
+                <div className="pt-3 border-t border-[#17231F]/10 dark:border-white/10 flex justify-between text-base font-bold text-[#123C32] dark:text-[#57C496]">
                   <span>Total Capital Needed</span>
                   <span className="font-mono tabular-nums">{formatNaira(startupRes.totalRequiredCapital)}</span>
                 </div>
@@ -306,7 +306,7 @@ export const ToolkitPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => saveDocument('Startup Cost Estimate', { input: startup, result: startupRes })}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-[#123C32] text-white text-xs font-semibold"
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]"
                 >
                   <Save className="w-3.5 h-3.5" />
                   <span>Save</span>
@@ -321,7 +321,7 @@ export const ToolkitPage: React.FC = () => {
                       },
                     ])
                   }
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-[#123C32]/25 bg-white text-xs font-semibold text-[#123C32]"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-[#123C32]/25 dark:border-[#57C496]/35 bg-white dark:bg-[#121B18] text-xs font-semibold text-[#123C32] dark:text-[#57C496]"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>PDF</span>
@@ -345,42 +345,42 @@ export const ToolkitPage: React.FC = () => {
                 ['otherOperatingExpenses', 'Other Operating Costs (₦)'],
               ].map(([key, label]) => (
                 <div key={key}>
-                  <label className="block text-xs font-semibold mb-1">{label}</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">{label}</label>
                   <input
                     type="number"
                     min={0}
                     value={pnl[key as keyof typeof pnl]}
                     onChange={(e) => setPnl((p) => ({ ...p, [key]: Number(e.target.value) || 0 }))}
-                    className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm font-mono tabular-nums"
+                    className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] font-mono tabular-nums"
                   />
                 </div>
               ))}
             </div>
-            <div className="lg:col-span-5 bg-[#F8F7F1] rounded-xl p-6 space-y-4 flex flex-col justify-between">
-              <div className="space-y-3 text-sm">
+            <div className="lg:col-span-5 bg-[#F8F7F1] dark:bg-[#17231F] rounded-xl p-6 space-y-4 flex flex-col justify-between">
+              <div className="space-y-3 text-sm text-[#17231F] dark:text-[#ECF1EE]">
                 <div className="flex justify-between">
-                  <span className="text-[#77817C]">Gross Profit</span>
+                  <span className="text-[#77817C] dark:text-[#9AA8A1]">Gross Profit</span>
                   <span className="font-mono tabular-nums font-semibold">
                     {formatNaira(pnlRes.grossProfit)} ({pnlRes.grossMarginPercent.toFixed(1)}%)
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#77817C]">Operating Expenses</span>
+                  <span className="text-[#77817C] dark:text-[#9AA8A1]">Operating Expenses</span>
                   <span className="font-mono tabular-nums font-semibold">
                     {formatNaira(pnlRes.totalOperatingExpenses)}
                   </span>
                 </div>
-                <div className="pt-3 border-t border-[#17231F]/10 flex justify-between text-base font-bold">
+                <div className="pt-3 border-t border-[#17231F]/10 dark:border-white/10 flex justify-between text-base font-bold">
                   <span>Monthly Net Profit</span>
                   <span
                     className={`font-mono tabular-nums ${
-                      pnlRes.netProfit >= 0 ? 'text-[#238653]' : 'text-[#D94C4C]'
+                      pnlRes.netProfit >= 0 ? 'text-[#238653] dark:text-[#57C496]' : 'text-[#D94C4C] dark:text-[#F87171]'
                     }`}
                   >
                     {formatNaira(pnlRes.netProfit)} ({pnlRes.netMarginPercent.toFixed(1)}%)
                   </span>
                 </div>
-                <div className="flex justify-between text-xs text-[#77817C]">
+                <div className="flex justify-between text-xs text-[#77817C] dark:text-[#9AA8A1]">
                   <span>Annualized Net Projection</span>
                   <span className="font-mono tabular-nums">{formatNaira(pnlRes.annualizedNetProfit)}</span>
                 </div>
@@ -389,7 +389,7 @@ export const ToolkitPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => saveDocument('Monthly Profit & Loss Statement', { input: pnl, result: pnlRes })}
-                  className="flex-1 py-2.5 rounded-lg bg-[#123C32] text-white text-xs font-semibold"
+                  className="flex-1 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]"
                 >
                   Save Statement
                 </button>
@@ -403,7 +403,7 @@ export const ToolkitPage: React.FC = () => {
                       },
                     ])
                   }
-                  className="px-4 py-2.5 rounded-lg border border-[#123C32]/25 bg-white text-xs font-semibold text-[#123C32]"
+                  className="px-4 py-2.5 rounded-lg border border-[#123C32]/25 dark:border-[#57C496]/35 bg-white dark:bg-[#121B18] text-xs font-semibold text-[#123C32] dark:text-[#57C496]"
                 >
                   PDF
                 </button>
@@ -417,7 +417,7 @@ export const ToolkitPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-6 space-y-4">
               <div>
-                <label className="block text-xs font-semibold mb-1">Monthly Fixed Costs (₦)</label>
+                <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Monthly Fixed Costs (₦)</label>
                 <input
                   type="number"
                   min={0}
@@ -425,11 +425,11 @@ export const ToolkitPage: React.FC = () => {
                   onChange={(e) =>
                     setBreakEven((p) => ({ ...p, fixedMonthlyCosts: Number(e.target.value) || 0 }))
                   }
-                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm font-mono tabular-nums"
+                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] font-mono tabular-nums"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold mb-1">Selling Price per Unit (₦)</label>
+                <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Selling Price per Unit (₦)</label>
                 <input
                   type="number"
                   min={0}
@@ -437,11 +437,11 @@ export const ToolkitPage: React.FC = () => {
                   onChange={(e) =>
                     setBreakEven((p) => ({ ...p, sellingPricePerUnit: Number(e.target.value) || 0 }))
                   }
-                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm font-mono tabular-nums"
+                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] font-mono tabular-nums"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold mb-1">Variable Cost per Unit (₦)</label>
+                <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Variable Cost per Unit (₦)</label>
                 <input
                   type="number"
                   min={0}
@@ -449,41 +449,41 @@ export const ToolkitPage: React.FC = () => {
                   onChange={(e) =>
                     setBreakEven((p) => ({ ...p, variableCostPerUnit: Number(e.target.value) || 0 }))
                   }
-                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm font-mono tabular-nums"
+                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] font-mono tabular-nums"
                 />
               </div>
             </div>
-            <div className="lg:col-span-6 bg-[#F8F7F1] rounded-xl p-6 space-y-4 flex flex-col justify-between">
+            <div className="lg:col-span-6 bg-[#F8F7F1] dark:bg-[#17231F] rounded-xl p-6 space-y-4 flex flex-col justify-between">
               {breakEvenRes.isViable ? (
-                <div className="space-y-3 text-sm">
+                <div className="space-y-3 text-sm text-[#17231F] dark:text-[#ECF1EE]">
                   <div className="flex justify-between">
-                    <span className="text-[#77817C]">Contribution Margin / Unit</span>
+                    <span className="text-[#77817C] dark:text-[#9AA8A1]">Contribution Margin / Unit</span>
                     <span className="font-mono tabular-nums font-semibold">
                       {formatNaira(breakEvenRes.contributionMarginPerUnit)} ({breakEvenRes.contributionMarginRatioPercent.toFixed(1)}%)
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#77817C]">Break-Even Volume</span>
-                    <span className="font-mono tabular-nums font-bold text-[#123C32]">
+                    <span className="text-[#77817C] dark:text-[#9AA8A1]">Break-Even Volume</span>
+                    <span className="font-mono tabular-nums font-bold text-[#123C32] dark:text-[#57C496]">
                       {breakEvenRes.breakEvenUnits?.toLocaleString()} units / month
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#77817C]">Break-Even Revenue</span>
-                    <span className="font-mono tabular-nums font-bold text-[#123C32]">
+                    <span className="text-[#77817C] dark:text-[#9AA8A1]">Break-Even Revenue</span>
+                    <span className="font-mono tabular-nums font-bold text-[#123C32] dark:text-[#57C496]">
                       {formatNaira(breakEvenRes.breakEvenRevenue || 0)}
                     </span>
                   </div>
                 </div>
               ) : (
-                <p className="text-sm text-[#D94C4C]">
+                <p className="text-sm text-[#D94C4C] dark:text-[#F87171]">
                   Selling price must exceed variable cost per unit to reach break-even.
                 </p>
               )}
               <button
                 type="button"
                 onClick={() => saveDocument('Break-Even Analysis', { input: breakEven, result: breakEvenRes })}
-                className="w-full py-2.5 rounded-lg bg-[#123C32] text-white text-xs font-semibold"
+                className="w-full py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]"
               >
                 Save Break-Even Report
               </button>
@@ -503,7 +503,7 @@ export const ToolkitPage: React.FC = () => {
                 ['vatPercent', 'VAT Rate (%) — Nigeria Standard 7.5%'],
               ].map(([key, label]) => (
                 <div key={key}>
-                  <label className="block text-xs font-semibold mb-1">{label}</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">{label}</label>
                   <input
                     type="number"
                     min={0}
@@ -512,30 +512,30 @@ export const ToolkitPage: React.FC = () => {
                     onChange={(e) =>
                       setPricing((p) => ({ ...p, [key]: Number(e.target.value) || 0 }))
                     }
-                    className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm font-mono tabular-nums"
+                    className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] font-mono tabular-nums"
                   />
                 </div>
               ))}
             </div>
-            <div className="lg:col-span-6 bg-[#F8F7F1] rounded-xl p-6 space-y-4 flex flex-col justify-between">
-              <div className="space-y-3 text-sm">
+            <div className="lg:col-span-6 bg-[#F8F7F1] dark:bg-[#17231F] rounded-xl p-6 space-y-4 flex flex-col justify-between">
+              <div className="space-y-3 text-sm text-[#17231F] dark:text-[#ECF1EE]">
                 <div className="flex justify-between">
-                  <span className="text-[#77817C]">Total Unit Cost</span>
+                  <span className="text-[#77817C] dark:text-[#9AA8A1]">Total Unit Cost</span>
                   <span className="font-mono tabular-nums font-semibold">{formatNaira(pricingRes.totalUnitCost)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#77817C]">Recommended Pre-Tax Price</span>
+                  <span className="text-[#77817C] dark:text-[#9AA8A1]">Recommended Pre-Tax Price</span>
                   <span className="font-mono tabular-nums font-semibold">
                     {formatNaira(Math.round(pricingRes.recommendedPreTaxPrice))}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#77817C]">Unit Profit (Markup {pricingRes.markupPercent.toFixed(1)}%)</span>
-                  <span className="font-mono tabular-nums font-semibold text-[#238653]">
+                  <span className="text-[#77817C] dark:text-[#9AA8A1]">Unit Profit (Markup {pricingRes.markupPercent.toFixed(1)}%)</span>
+                  <span className="font-mono tabular-nums font-semibold text-[#238653] dark:text-[#57C496]">
                     {formatNaira(Math.round(pricingRes.profitPerUnit))}
                   </span>
                 </div>
-                <div className="pt-3 border-t border-[#17231F]/10 flex justify-between text-base font-bold text-[#123C32]">
+                <div className="pt-3 border-t border-[#17231F]/10 dark:border-white/10 flex justify-between text-base font-bold text-[#123C32] dark:text-[#57C496]">
                   <span>Customer Price (incl. VAT)</span>
                   <span className="font-mono tabular-nums">
                     {formatNaira(Math.round(pricingRes.finalCustomerPriceWithVat))}
@@ -545,7 +545,7 @@ export const ToolkitPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => saveDocument('Unit Pricing Schedule', { input: pricing, result: pricingRes })}
-                className="w-full py-2.5 rounded-lg bg-[#123C32] text-white text-xs font-semibold"
+                className="w-full py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]"
               >
                 Save Pricing Schedule
               </button>
@@ -565,7 +565,7 @@ export const ToolkitPage: React.FC = () => {
                 ['fundingDocs', 'Proposal, Pitch Deck & Projections Readiness (1 = None, 5 = Complete)'],
               ].map(([key, label]) => (
                 <div key={key} className="space-y-1">
-                  <div className="flex justify-between text-xs font-semibold">
+                  <div className="flex justify-between text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE]">
                     <span>{label}</span>
                     <span className="font-mono tabular-nums">{readiness[key]} / 5</span>
                   </div>
@@ -577,20 +577,20 @@ export const ToolkitPage: React.FC = () => {
                     onChange={(e) =>
                       setReadiness((p) => ({ ...p, [key]: Number(e.target.value) }))
                     }
-                    className="w-full accent-[#123C32]"
+                    className="w-full accent-[#123C32] dark:accent-[#57C496]"
                   />
                 </div>
               ))}
             </div>
-            <div className="lg:col-span-5 bg-[#F8F7F1] rounded-xl p-6 space-y-4">
-              <div className="flex items-center justify-between">
+            <div className="lg:col-span-5 bg-[#F8F7F1] dark:bg-[#17231F] rounded-xl p-6 space-y-4">
+              <div className="flex items-center justify-between text-[#17231F] dark:text-[#ECF1EE]">
                 <span className="text-sm font-semibold">Readiness Score</span>
-                <span className="font-mono text-2xl font-bold tabular-nums text-[#123C32]">
+                <span className="font-mono text-2xl font-bold tabular-nums text-[#123C32] dark:text-[#57C496]">
                   {readinessRes.totalScore}%
                 </span>
               </div>
-              <p className="text-xs font-semibold text-[#1F7A59]">Stage: {readinessRes.band}</p>
-              <ul className="space-y-2 text-xs text-[#77817C]">
+              <p className="text-xs font-semibold text-[#1F7A59] dark:text-[#57C496]">Stage: {readinessRes.band}</p>
+              <ul className="space-y-2 text-xs text-[#77817C] dark:text-[#9AA8A1]">
                 {readinessRes.recommendations.length === 0 ? (
                   <li>Strong institutional readiness across all five pillars.</li>
                 ) : (
@@ -600,7 +600,7 @@ export const ToolkitPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => saveDocument('Business Readiness Assessment', { answers: readiness, result: readinessRes })}
-                className="w-full py-2.5 rounded-lg bg-[#123C32] text-white text-xs font-semibold"
+                className="w-full py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]"
               >
                 Save Assessment
               </button>
@@ -612,11 +612,11 @@ export const ToolkitPage: React.FC = () => {
         {currentTab.kind === 'canvas' && (
           <div className="space-y-5">
             <div>
-              <label className="block text-xs font-semibold mb-1">Document Title</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Document Title</label>
               <input
                 value={canvasFields.title}
                 onChange={(e) => setCanvasFields((p) => ({ ...p, title: e.target.value }))}
-                className="w-full max-w-md px-3.5 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full max-w-md px-3.5 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE]"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -635,12 +635,12 @@ export const ToolkitPage: React.FC = () => {
                   ]
               ).map(([key, label]) => (
                 <div key={key}>
-                  <label className="block text-xs font-semibold mb-1.5">{label}</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">{label}</label>
                   <textarea
                     rows={4}
                     value={canvasFields[key]}
                     onChange={(e) => setCanvasFields((p) => ({ ...p, [key]: e.target.value }))}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE]"
                   />
                 </div>
               ))}
@@ -649,7 +649,7 @@ export const ToolkitPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => saveDocument(canvasFields.title || currentTab.label, canvasFields)}
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-[#123C32] text-white text-xs font-semibold"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]"
               >
                 <Save className="w-3.5 h-3.5" />
                 <span>Save Canvas</span>
@@ -668,7 +668,7 @@ export const ToolkitPage: React.FC = () => {
                     ]
                   )
                 }
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg border border-[#123C32]/25 text-xs font-semibold text-[#123C32]"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg border border-[#123C32]/25 dark:border-[#57C496]/35 bg-white dark:bg-[#121B18] text-xs font-semibold text-[#123C32] dark:text-[#57C496]"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Export PDF</span>
@@ -681,7 +681,7 @@ export const ToolkitPage: React.FC = () => {
         {currentTab.kind === 'template' && (
           <div className="space-y-5">
             <div>
-              <label className="block text-xs font-semibold mb-1.5">
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">
                 Provide your business context, target market, or funding goal
               </label>
               <textarea
@@ -689,7 +689,7 @@ export const ToolkitPage: React.FC = () => {
                 value={templateNotes}
                 onChange={(e) => setTemplateNotes(e.target.value)}
                 placeholder="e.g., Grain aggregation and hibiscus packaging in Yola, seeking ₦5M equipment grant to triple weekly output..."
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
               />
             </div>
 
@@ -698,7 +698,7 @@ export const ToolkitPage: React.FC = () => {
                 type="button"
                 disabled={generating}
                 onClick={handleGenerateTemplate}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#123C32] text-white text-xs font-semibold hover:bg-[#1F7A59] disabled:opacity-60"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653] disabled:opacity-60"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{generating ? 'Drafting Document...' : `Generate ${currentTab.label}`}</span>
@@ -713,7 +713,7 @@ export const ToolkitPage: React.FC = () => {
                         sections: generatedSections,
                       })
                     }
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-[#123C32]/25 text-xs font-semibold text-[#123C32]"
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-[#123C32]/25 dark:border-[#57C496]/35 bg-white dark:bg-[#121B18] text-xs font-semibold text-[#123C32] dark:text-[#57C496]"
                   >
                     <Save className="w-3.5 h-3.5" />
                     <span>Save Document</span>
@@ -727,7 +727,7 @@ export const ToolkitPage: React.FC = () => {
                         generatedSections
                       )
                     }
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-[#123C32]/25 text-xs font-semibold text-[#123C32]"
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-[#123C32]/25 dark:border-[#57C496]/35 bg-white dark:bg-[#121B18] text-xs font-semibold text-[#123C32] dark:text-[#57C496]"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>Export PDF</span>
@@ -737,10 +737,10 @@ export const ToolkitPage: React.FC = () => {
             </div>
 
             {generatedSections.length > 0 && (
-              <div className="space-y-4 pt-4 border-t border-[#17231F]/10">
+              <div className="space-y-4 pt-4 border-t border-[#17231F]/10 dark:border-white/10">
                 {generatedSections.map((sec, idx) => (
-                  <div key={idx} className="bg-[#F8F7F1] rounded-xl p-4 space-y-2">
-                    <h4 className="font-display text-sm font-bold text-[#123C32]">{sec.heading}</h4>
+                  <div key={idx} className="bg-[#F8F7F1] dark:bg-[#17231F] rounded-xl p-4 space-y-2">
+                    <h4 className="font-display text-sm font-bold text-[#123C32] dark:text-[#57C496]">{sec.heading}</h4>
                     <textarea
                       rows={4}
                       value={sec.body}
@@ -749,7 +749,7 @@ export const ToolkitPage: React.FC = () => {
                           prev.map((s, i) => (i === idx ? { ...s, body: e.target.value } : s))
                         )
                       }
-                      className="w-full bg-white px-3 py-2 rounded-lg border border-[#17231F]/10 text-sm"
+                      className="w-full bg-white dark:bg-[#0F1714] px-3 py-2 rounded-lg border border-[#17231F]/10 dark:border-white/15 text-sm text-[#17231F] dark:text-[#ECF1EE]"
                     />
                   </div>
                 ))}
@@ -760,19 +760,19 @@ export const ToolkitPage: React.FC = () => {
       </div>
 
       {/* Saved Business Documents Repository */}
-      <section className="bg-white border border-[#17231F]/10 rounded-2xl p-6 space-y-4">
-        <h3 className="font-display text-lg font-bold text-[#17231F]">Saved Business Documents</h3>
+      <section className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-2xl p-6 space-y-4">
+        <h3 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE]">Saved Business Documents</h3>
         {savedDocs.length === 0 ? (
-          <p className="text-sm text-[#77817C]">
+          <p className="text-sm text-[#77817C] dark:text-[#9AA8A1]">
             Documents and financial analyses you save from the Toolkit appear here for quick PDF export.
           </p>
         ) : (
-          <div className="divide-y divide-[#17231F]/10">
+          <div className="divide-y divide-[#17231F]/10 dark:divide-white/10">
             {savedDocs.map((d) => (
               <div key={d.id} className="py-3 flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm font-semibold text-[#17231F]">{d.title}</p>
-                  <p className="text-xs text-[#77817C]">{d.toolType}</p>
+                  <p className="text-sm font-semibold text-[#17231F] dark:text-[#ECF1EE]">{d.title}</p>
+                  <p className="text-xs text-[#77817C] dark:text-[#9AA8A1]">{d.toolType}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -786,7 +786,7 @@ export const ToolkitPage: React.FC = () => {
                           : [{ heading: 'Saved Data', body: JSON.stringify(d.payload, null, 2) }]
                       )
                     }
-                    className="px-3 py-1.5 rounded-lg border border-[#123C32]/25 text-xs font-semibold text-[#123C32]"
+                    className="px-3 py-1.5 rounded-lg border border-[#123C32]/25 dark:border-[#57C496]/35 text-xs font-semibold text-[#123C32] dark:text-[#57C496]"
                   >
                     Export PDF
                   </button>
@@ -794,7 +794,7 @@ export const ToolkitPage: React.FC = () => {
                     type="button"
                     onClick={() => d.id && deleteSavedDoc(d.id)}
                     aria-label="Delete document"
-                    className="p-2 rounded-lg text-[#D94C4C] hover:bg-[#D94C4C]/10"
+                    className="p-2 rounded-lg text-[#D94C4C] dark:text-[#F87171] hover:bg-[#D94C4C]/10 dark:hover:bg-[#F87171]/15"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

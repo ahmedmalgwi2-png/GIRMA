@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Bell, CheckCheck, ShieldCheck } from 'lucide-react';
+import { Bell, CheckCheck, Monitor, Moon, ShieldCheck, Sun } from 'lucide-react';
 import {
   addDoc,
   collection,
@@ -12,6 +12,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
+import { ThemeMode, useTheme } from '../context/ThemeContext';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import {
   AFRICAN_COUNTRIES,
@@ -96,10 +97,10 @@ export const NotificationsPage: React.FC<{ navigate: (path: string) => void }> =
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl font-bold text-[#17231F]">
+          <h2 className="font-display text-2xl font-bold text-[#17231F] dark:text-[#ECF1EE]">
             Notifications &amp; Deadline Intelligence
           </h2>
-          <p className="text-sm text-[#77817C] mt-1">
+          <p className="text-sm text-[#77817C] dark:text-[#9AA8A1] mt-1">
             Automated deduplicated alerts for 7-day, 3-day, and 1-day deadlines on saved or 60%+ matched opportunities.
           </p>
         </div>
@@ -107,14 +108,14 @@ export const NotificationsPage: React.FC<{ navigate: (path: string) => void }> =
           <button
             type="button"
             onClick={runDeadlineScan}
-            className="px-4 py-2 rounded-lg border border-[#123C32]/25 bg-white text-xs font-semibold text-[#123C32]"
+            className="px-4 py-2 rounded-lg border border-[#123C32]/25 dark:border-[#57C496]/35 bg-white dark:bg-[#121B18] text-xs font-semibold text-[#123C32] dark:text-[#57C496]"
           >
             Run Deadline Check
           </button>
           <button
             type="button"
             onClick={markAllRead}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#123C32] text-white text-xs font-semibold"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]"
           >
             <CheckCheck className="w-3.5 h-3.5" />
             <span>Mark All Read</span>
@@ -123,41 +124,41 @@ export const NotificationsPage: React.FC<{ navigate: (path: string) => void }> =
       </div>
 
       {schedulerInfo && (
-        <div className="bg-white border border-[#17231F]/10 rounded-xl px-4 py-3 text-xs text-[#77817C] flex flex-wrap justify-between gap-2">
+        <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl px-4 py-3 text-xs text-[#77817C] dark:text-[#9AA8A1] flex flex-wrap justify-between gap-2">
           <span>Deadline Intelligence Windows: 7 days, 3 days, 1 day before close · Threshold: 60%+ Match</span>
           <span>Timezone: {schedulerInfo.timezone}</span>
         </div>
       )}
 
       {loading ? (
-        <div className="h-44 bg-white border border-[#17231F]/10 rounded-xl animate-pulse" />
+        <div className="h-44 bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl animate-pulse" />
       ) : items.length === 0 ? (
-        <div className="bg-white border border-[#17231F]/10 rounded-xl p-8 text-center space-y-2">
-          <Bell className="w-6 h-6 text-[#77817C] mx-auto" />
-          <p className="text-sm text-[#77817C]">No notifications yet. Save opportunities to activate deadline alerts.</p>
+        <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-8 text-center space-y-2">
+          <Bell className="w-6 h-6 text-[#77817C] dark:text-[#9AA8A1] mx-auto" />
+          <p className="text-sm text-[#77817C] dark:text-[#9AA8A1]">No notifications yet. Save opportunities to activate deadline alerts.</p>
         </div>
       ) : (
-        <div className="bg-white border border-[#17231F]/10 rounded-xl divide-y divide-[#17231F]/10">
+        <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl divide-y divide-[#17231F]/10 dark:divide-white/10">
           {items.map((n) => (
             <div
               key={n.id}
               className={`p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
-                n.isRead ? 'opacity-75' : 'bg-[#F8F7F1]/50'
+                n.isRead ? 'opacity-75' : 'bg-[#F8F7F1]/50 dark:bg-[#17231F]/60'
               }`}
             >
               <div className="space-y-1">
-                <div className="text-xs font-semibold text-[#1F7A59]">
+                <div className="text-xs font-semibold text-[#1F7A59] dark:text-[#57C496]">
                   {n.category} {!n.isRead && '· Unread'}
                 </div>
-                <h3 className="text-sm font-bold text-[#17231F]">{n.title}</h3>
-                <p className="text-xs text-[#77817C]">{n.message}</p>
+                <h3 className="text-sm font-bold text-[#17231F] dark:text-[#ECF1EE]">{n.title}</h3>
+                <p className="text-xs text-[#77817C] dark:text-[#9AA8A1]">{n.message}</p>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 {n.opportunityId && (
                   <button
                     type="button"
                     onClick={() => navigate(`/app/opportunities?id=${n.opportunityId}`)}
-                    className="px-3 py-1.5 rounded-lg border border-[#123C32]/25 text-xs font-semibold text-[#123C32]"
+                    className="px-3 py-1.5 rounded-lg border border-[#123C32]/25 dark:border-[#57C496]/35 text-xs font-semibold text-[#123C32] dark:text-[#57C496]"
                   >
                     Open Opportunity
                   </button>
@@ -166,7 +167,7 @@ export const NotificationsPage: React.FC<{ navigate: (path: string) => void }> =
                   <button
                     type="button"
                     onClick={() => markRead(n.id!)}
-                    className="px-3 py-1.5 rounded-lg bg-[#123C32] text-white text-xs font-semibold"
+                    className="px-3 py-1.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold"
                   >
                     Mark Read
                   </button>
@@ -306,50 +307,50 @@ export const ProfileAndBusinessPage: React.FC<{ section: 'profile' | 'business' 
   return (
     <div className="space-y-8 max-w-3xl">
       {notice && (
-        <div className="bg-[#123C32] text-white px-4 py-3 rounded-lg text-xs flex justify-between">
+        <div className="bg-[#123C32] dark:bg-[#1F7A59] text-white px-4 py-3 rounded-lg text-xs flex justify-between">
           <span>{notice}</span>
           <button type="button" onClick={() => setNotice(null)} className="underline">Dismiss</button>
         </div>
       )}
 
       {section === 'profile' && (
-        <form onSubmit={savePersonalProfile} className="bg-white border border-[#17231F]/10 rounded-2xl p-6 sm:p-8 space-y-5">
-          <h2 className="font-display text-2xl font-bold text-[#17231F]">My Profile</h2>
+        <form onSubmit={savePersonalProfile} className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-2xl p-6 sm:p-8 space-y-5">
+          <h2 className="font-display text-2xl font-bold text-[#17231F] dark:text-[#ECF1EE]">My Profile</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold mb-1">Full Name</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Full Name</label>
               <input
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE]"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Phone Number</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Phone Number</label>
               <input
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE]"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Country</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Country</label>
               <select
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
               >
                 {AFRICAN_COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">State</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">State</label>
               {country === 'Nigeria' ? (
                 <select
                   value={state}
                   onChange={(e) => setState(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                 >
                   {NIGERIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
@@ -357,33 +358,33 @@ export const ProfileAndBusinessPage: React.FC<{ section: 'profile' | 'business' 
                 <input
                   value={state}
                   onChange={(e) => setState(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE]"
                 />
               )}
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Category</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Category</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as UserCategory)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
               >
                 {USER_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Interests (comma-separated)</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Interests (comma-separated)</label>
               <input
                 value={interests}
                 onChange={(e) => setInterests(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE]"
               />
             </div>
           </div>
           <button
             type="submit"
             disabled={saving}
-            className="px-6 py-2.5 rounded-lg bg-[#123C32] text-white text-sm font-semibold"
+            className="px-6 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-sm font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653] disabled:opacity-60"
           >
             {saving ? 'Saving...' : 'Save Personal Profile'}
           </button>
@@ -391,107 +392,107 @@ export const ProfileAndBusinessPage: React.FC<{ section: 'profile' | 'business' 
       )}
 
       {/* Business Profile & Verification Section */}
-      <form onSubmit={saveBusinessProfile} className="bg-white border border-[#17231F]/10 rounded-2xl p-6 sm:p-8 space-y-5">
+      <form onSubmit={saveBusinessProfile} className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-2xl p-6 sm:p-8 space-y-5">
         <div className="flex items-center justify-between gap-4">
-          <h2 className="font-display text-xl font-bold text-[#17231F]">Business Profile</h2>
-          <span className="text-xs font-semibold capitalize text-[#1F7A59]">
+          <h2 className="font-display text-xl font-bold text-[#17231F] dark:text-[#ECF1EE]">Business Profile</h2>
+          <span className="text-xs font-semibold capitalize text-[#1F7A59] dark:text-[#57C496]">
             Status: {businessProfile?.verificationStatus || 'unverified'}
           </span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold mb-1">Business Name</label>
+            <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Business Name</label>
             <input
               required
               minLength={2}
               value={bizName}
               onChange={(e) => setBizName(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE]"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold mb-1">Industry</label>
+            <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Industry</label>
             <select
               value={bizIndustry}
               onChange={(e) => setBizIndustry(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
             >
               {INDUSTRIES.map((i) => <option key={i} value={i}>{i}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold mb-1">State</label>
+            <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">State</label>
             <select
               value={bizState}
               onChange={(e) => setBizState(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
             >
               {NIGERIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold mb-1">Registration Status</label>
+            <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Registration Status</label>
             <select
               value={bizReg}
               onChange={(e) => setBizReg(e.target.value as (typeof REGISTRATION_STATUSES)[number])}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
             >
               {REGISTRATION_STATUSES.map((r) => <option key={r} value={r}>{r}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold mb-1">Business Stage</label>
+            <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Business Stage</label>
             <select
               value={bizStage}
               onChange={(e) => setBizStage(e.target.value as (typeof BUSINESS_STAGES)[number])}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
             >
               {BUSINESS_STAGES.map((st) => <option key={st} value={st}>{st}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold mb-1">Funding Need (₦)</label>
+            <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Funding Need (₦)</label>
             <input
               type="number"
               min={0}
               value={fundingNeed}
               onChange={(e) => setFundingNeed(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm font-mono tabular-nums"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] font-mono tabular-nums"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold mb-1">Products (comma-separated)</label>
+            <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Products (comma-separated)</label>
             <input
               value={products}
               onChange={(e) => setProducts(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE]"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold mb-1">Website</label>
+            <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Website</label>
             <input
               value={website}
               onChange={(e) => setWebsite(e.target.value)}
               placeholder="https://..."
-              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
             />
           </div>
         </div>
         <div>
-          <label className="block text-xs font-semibold mb-1">Business Description (min 10 chars)</label>
+          <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Business Description (min 10 chars)</label>
           <textarea
             required
             minLength={10}
             rows={3}
             value={bizDesc}
             onChange={(e) => setBizDesc(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+            className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE]"
           />
         </div>
         <button
           type="submit"
           disabled={saving}
-          className="px-6 py-2.5 rounded-lg bg-[#123C32] text-white text-sm font-semibold"
+          className="px-6 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-sm font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653] disabled:opacity-60"
         >
           Save Business Profile
         </button>
@@ -499,23 +500,23 @@ export const ProfileAndBusinessPage: React.FC<{ section: 'profile' | 'business' 
 
       {/* Request Verification */}
       {businessProfile && businessProfile.verificationStatus !== 'verified' && (
-        <form onSubmit={submitVerification} className="bg-white border border-[#17231F]/10 rounded-2xl p-6 sm:p-8 space-y-4">
+        <form onSubmit={submitVerification} className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-2xl p-6 sm:p-8 space-y-4">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-[#123C32]" />
-            <h3 className="font-display text-lg font-bold text-[#17231F]">
+            <ShieldCheck className="w-5 h-5 text-[#123C32] dark:text-[#57C496]" />
+            <h3 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE]">
               Submit Business for Verification
             </h3>
           </div>
-          <p className="text-xs text-[#77817C]">
+          <p className="text-xs text-[#77817C] dark:text-[#9AA8A1]">
             Verified businesses receive priority trust in the Business Directory. Registration alone never marks a business as verified.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold mb-1">Document Type</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Document Type</label>
               <select
                 value={docType}
                 onChange={(e) => setDocType(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
               >
                 <option value="CAC Certificate">CAC Certificate (BN / RC)</option>
                 <option value="SMEDAN Registration">SMEDAN Certificate</option>
@@ -524,26 +525,26 @@ export const ProfileAndBusinessPage: React.FC<{ section: 'profile' | 'business' 
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1">Registration / Reference Number</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Registration / Reference Number</label>
               <input
                 required
                 value={regRef}
                 onChange={(e) => setRegRef(e.target.value)}
                 placeholder="e.g., RC-1948201 or BN-382910"
-                className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm font-mono"
+                className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70 font-mono"
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold mb-1">Additional Notes for Reviewer</label>
+            <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1">Additional Notes for Reviewer</label>
             <textarea
               rows={2}
               value={verifNotes}
               onChange={(e) => setVerifNotes(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+              className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE]"
             />
           </div>
-          <button type="submit" className="px-5 py-2.5 rounded-lg bg-[#1F7A59] text-white text-xs font-semibold">
+          <button type="submit" className="px-5 py-2.5 rounded-lg bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#238653]">
             Submit Verification Request
           </button>
         </form>
@@ -554,6 +555,7 @@ export const ProfileAndBusinessPage: React.FC<{ section: 'profile' | 'business' 
 
 export const SettingsPage: React.FC = () => {
   const { firebaseUser, account, refreshProfile, sendRecoveryEmail } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [consentAi, setConsentAi] = useState(account?.consentAiContext ?? true);
   const [consentEmail, setConsentEmail] = useState(account?.consentEmailAlerts ?? true);
   const [language, setLanguage] = useState(account?.preferredLanguage || 'en');
@@ -586,23 +588,57 @@ export const SettingsPage: React.FC = () => {
     }
   };
 
+  const themeOptions: { mode: ThemeMode; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+    { mode: 'light', label: 'Light', icon: Sun },
+    { mode: 'dark', label: 'Dark', icon: Moon },
+    { mode: 'system', label: 'System', icon: Monitor },
+  ];
+
   return (
     <div className="space-y-6 max-w-2xl">
-      <h2 className="font-display text-2xl font-bold text-[#17231F]">Settings &amp; Privacy</h2>
+      <h2 className="font-display text-2xl font-bold text-[#17231F] dark:text-[#ECF1EE]">Settings &amp; Privacy</h2>
 
       {notice && (
-        <div className="bg-[#123C32] text-white px-4 py-3 rounded-lg text-xs">{notice}</div>
+        <div className="bg-[#123C32] dark:bg-[#1F7A59] text-white px-4 py-3 rounded-lg text-xs">{notice}</div>
       )}
 
-      <form onSubmit={saveSettings} className="bg-white border border-[#17231F]/10 rounded-2xl p-6 space-y-6">
+      <form onSubmit={saveSettings} className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-2xl p-6 space-y-6">
         <div className="space-y-3">
-          <h3 className="font-display text-base font-bold text-[#17231F]">AI Privacy &amp; Consent</h3>
-          <label className="flex items-start gap-3 text-sm cursor-pointer">
+          <h3 className="font-display text-base font-bold text-[#17231F] dark:text-[#ECF1EE]">Appearance &amp; Theme</h3>
+          <p className="text-xs text-[#77817C] dark:text-[#9AA8A1]">
+            Choose your preferred workspace display mode or match your device setting.
+          </p>
+          <div className="grid grid-cols-3 gap-3">
+            {themeOptions.map(({ mode, label, icon: Icon }) => {
+              const active = theme === mode;
+              return (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => setTheme(mode)}
+                  aria-pressed={active}
+                  className={`flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg text-xs font-semibold border transition-colors ${
+                    active
+                      ? 'bg-[#123C32] dark:bg-[#1F7A59] text-white border-[#123C32] dark:border-[#1F7A59]'
+                      : 'bg-white dark:bg-[#0F1714] border-[#17231F]/15 dark:border-white/15 text-[#17231F] dark:text-[#ECF1EE] hover:border-[#123C32] dark:hover:border-[#57C496]'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="space-y-3 pt-4 border-t border-[#17231F]/10 dark:border-white/10">
+          <h3 className="font-display text-base font-bold text-[#17231F] dark:text-[#ECF1EE]">AI Privacy &amp; Consent</h3>
+          <label className="flex items-start gap-3 text-sm text-[#17231F] dark:text-[#ECF1EE] cursor-pointer">
             <input
               type="checkbox"
               checked={consentAi}
               onChange={(e) => setConsentAi(e.target.checked)}
-              className="mt-1 accent-[#123C32]"
+              className="mt-1 accent-[#123C32] dark:accent-[#57C496]"
             />
             <span>
               Allow <strong>Ask GIRMA</strong> to reference my business/student profile and saved opportunities for personalized guidance.
@@ -610,14 +646,14 @@ export const SettingsPage: React.FC = () => {
           </label>
         </div>
 
-        <div className="space-y-3 pt-4 border-t border-[#17231F]/10">
-          <h3 className="font-display text-base font-bold text-[#17231F]">Deadline Intelligence &amp; Alerts</h3>
-          <label className="flex items-start gap-3 text-sm cursor-pointer">
+        <div className="space-y-3 pt-4 border-t border-[#17231F]/10 dark:border-white/10">
+          <h3 className="font-display text-base font-bold text-[#17231F] dark:text-[#ECF1EE]">Deadline Intelligence &amp; Alerts</h3>
+          <label className="flex items-start gap-3 text-sm text-[#17231F] dark:text-[#ECF1EE] cursor-pointer">
             <input
               type="checkbox"
               checked={consentEmail}
               onChange={(e) => setConsentEmail(e.target.checked)}
-              className="mt-1 accent-[#123C32]"
+              className="mt-1 accent-[#123C32] dark:accent-[#57C496]"
             />
             <span>Receive email &amp; in-app alerts for high-match opportunity deadlines.</span>
           </label>
@@ -629,8 +665,8 @@ export const SettingsPage: React.FC = () => {
                 onClick={() => toggleDay(d)}
                 className={`px-3.5 py-2 rounded-lg text-xs font-semibold border ${
                   reminderDays.includes(d)
-                    ? 'bg-[#123C32] text-white border-[#123C32]'
-                    : 'bg-white border-[#17231F]/15 text-[#77817C]'
+                    ? 'bg-[#123C32] dark:bg-[#1F7A59] text-white border-[#123C32] dark:border-[#1F7A59]'
+                    : 'bg-white dark:bg-[#0F1714] border-[#17231F]/15 dark:border-white/15 text-[#77817C] dark:text-[#9AA8A1]'
                 }`}
               >
                 {d} Day{d > 1 ? 's' : ''} Before Deadline
@@ -639,13 +675,13 @@ export const SettingsPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="space-y-2 pt-4 border-t border-[#17231F]/10">
-          <h3 className="font-display text-base font-bold text-[#17231F]">Language &amp; Regional Settings</h3>
-          <p className="text-xs text-[#77817C]">Timezone: Africa/Lagos · Currency: Nigerian Naira (₦)</p>
+        <div className="space-y-2 pt-4 border-t border-[#17231F]/10 dark:border-white/10">
+          <h3 className="font-display text-base font-bold text-[#17231F] dark:text-[#ECF1EE]">Language &amp; Regional Settings</h3>
+          <p className="text-xs text-[#77817C] dark:text-[#9AA8A1]">Timezone: Africa/Lagos · Currency: Nigerian Naira (₦)</p>
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value as 'en' | 'ha' | 'yo' | 'ig' | 'fr')}
-            className="px-3.5 py-2 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+            className="px-3.5 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
           >
             <option value="en">English (Active)</option>
             <option value="ha">Hausa (Regional Localization Roadmap)</option>
@@ -655,7 +691,7 @@ export const SettingsPage: React.FC = () => {
           </select>
         </div>
 
-        <div className="pt-4 border-t border-[#17231F]/10 flex flex-wrap items-center justify-between gap-4">
+        <div className="pt-4 border-t border-[#17231F]/10 dark:border-white/10 flex flex-wrap items-center justify-between gap-4">
           <button
             type="button"
             onClick={async () => {
@@ -664,13 +700,13 @@ export const SettingsPage: React.FC = () => {
                 setNotice(`Password reset link sent to ${firebaseUser.email}.`);
               }
             }}
-            className="text-xs font-semibold text-[#123C32] hover:underline"
+            className="text-xs font-semibold text-[#123C32] dark:text-[#57C496] hover:underline"
           >
             Send Password Reset Email
           </button>
           <button
             type="submit"
-            className="px-6 py-2.5 rounded-lg bg-[#123C32] text-white text-sm font-semibold"
+            className="px-6 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-sm font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]"
           >
             Save Preferences
           </button>

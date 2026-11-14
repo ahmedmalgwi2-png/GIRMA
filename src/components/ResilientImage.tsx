@@ -19,7 +19,7 @@ export const ResilientImage: React.FC<ResilientImageProps> = ({
   if (failed || !src) {
     return (
       <div
-        className={`flex flex-col items-center justify-center bg-[#123C32]/10 text-[#123C32] p-6 text-center ${className}`}
+        className={`flex flex-col items-center justify-center bg-[#123C32]/10 dark:bg-[#1F7A59]/15 text-[#123C32] dark:text-[#57C496] p-6 text-center ${className}`}
         role="img"
         aria-label={alt}
       >

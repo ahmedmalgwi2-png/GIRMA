@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { PublicLayout } from './components/PublicLayout';
 import { AppShell } from './components/AppShell';
 import { LandingPage } from './pages/LandingPage';
@@ -42,12 +43,12 @@ class ErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#F8F7F1] flex items-center justify-center p-6">
-          <div className="max-w-lg w-full bg-white border border-[#17231F]/10 rounded-2xl p-8 space-y-4">
-            <h1 className="font-display text-2xl font-bold text-[#17231F]">
+        <div className="min-h-screen bg-[#F8F7F1] dark:bg-[#0B110F] flex items-center justify-center p-6">
+          <div className="max-w-lg w-full bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-2xl p-8 space-y-4">
+            <h1 className="font-display text-2xl font-bold text-[#17231F] dark:text-[#ECF1EE]">
               Something went wrong
             </h1>
-            <p className="text-sm text-[#77817C] leading-relaxed">
+            <p className="text-sm text-[#77817C] dark:text-[#9AA8A1] leading-relaxed">
               {this.state.message}
             </p>
             <button
@@ -56,7 +57,7 @@ class ErrorBoundary extends React.Component<
                 this.setState({ hasError: false, message: '' });
                 window.location.href = '/';
               }}
-              className="px-5 py-2.5 rounded-lg bg-[#123C32] text-white text-sm font-semibold"
+              className="px-5 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-sm font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653] transition-colors"
             >
               Return to GIRMA Home
             </button>
@@ -154,8 +155,8 @@ function GirmaRouter() {
   if (isAppRoute) {
     if (authLoading || !firebaseUser) {
       return (
-        <div className="min-h-screen bg-[#F8F7F1] flex items-center justify-center p-6">
-          <div className="text-sm font-medium text-[#77817C]">Loading your GIRMA workspace...</div>
+        <div className="min-h-screen bg-[#F8F7F1] dark:bg-[#0B110F] flex items-center justify-center p-6">
+          <div className="text-sm font-medium text-[#77817C] dark:text-[#9AA8A1]">Loading your GIRMA workspace...</div>
         </div>
       );
     }
@@ -330,10 +331,12 @@ function GirmaRouter() {
 
 export default function App() {
   return (
-    <ErrorBoundary>
-      <AuthProvider>
-        <GirmaRouter />
-      </AuthProvider>
-    </ErrorBoundary>
+    <ThemeProvider>
+      <ErrorBoundary>
+        <AuthProvider>
+          <GirmaRouter />
+        </AuthProvider>
+      </ErrorBoundary>
+    </ThemeProvider>
   );
 }

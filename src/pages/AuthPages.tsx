@@ -77,23 +77,23 @@ export const LoginPage: React.FC<AuthPageProps> = ({ navigate }) => {
 
   return (
     <div className="max-w-md mx-auto px-4 py-14">
-      <div className="bg-white border border-[#17231F]/10 rounded-2xl p-6 sm:p-8 space-y-6">
+      <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-2xl p-6 sm:p-8 space-y-6">
         <div className="space-y-1">
-          <h1 className="font-display text-2xl font-bold text-[#17231F]">
+          <h1 className="font-display text-2xl font-bold text-[#17231F] dark:text-[#ECF1EE]">
             {recoveryMode ? 'Reset Your Password' : 'Sign In to GIRMA'}
           </h1>
-          <p className="text-sm text-[#77817C]">
+          <p className="text-sm text-[#77817C] dark:text-[#9AA8A1]">
             Access your personalized dashboard, matched opportunities, and Ask GIRMA.
           </p>
         </div>
 
         {error && (
-          <div className="p-3.5 rounded-lg bg-[#D94C4C]/10 text-[#D94C4C] text-xs leading-relaxed">
+          <div className="p-3.5 rounded-lg bg-[#D94C4C]/10 dark:bg-[#D94C4C]/20 text-[#D94C4C] dark:text-[#F87171] text-xs leading-relaxed">
             {error}
           </div>
         )}
         {info && (
-          <div className="p-3.5 rounded-lg bg-[#238653]/10 text-[#238653] text-xs leading-relaxed">
+          <div className="p-3.5 rounded-lg bg-[#238653]/10 dark:bg-[#238653]/20 text-[#238653] dark:text-[#57C496] text-xs leading-relaxed">
             {info}
           </div>
         )}
@@ -102,20 +102,20 @@ export const LoginPage: React.FC<AuthPageProps> = ({ navigate }) => {
           type="button"
           onClick={handleGoogle}
           disabled={loading}
-          className="w-full py-3 px-4 rounded-lg bg-[#123C32] text-[#F8F7F1] text-sm font-semibold hover:bg-[#1F7A59] transition-colors disabled:opacity-60"
+          className="w-full py-3 px-4 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-[#F8F7F1] text-sm font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653] transition-colors disabled:opacity-60"
         >
           Continue with Google
         </button>
 
         <div className="relative flex items-center py-1">
-          <div className="flex-grow border-t border-[#17231F]/10" />
-          <span className="px-3 text-xs text-[#77817C]">or with email</span>
-          <div className="flex-grow border-t border-[#17231F]/10" />
+          <div className="flex-grow border-t border-[#17231F]/10 dark:border-white/10" />
+          <span className="px-3 text-xs text-[#77817C] dark:text-[#9AA8A1]">or with email</span>
+          <div className="flex-grow border-t border-[#17231F]/10 dark:border-white/10" />
         </div>
 
         <form onSubmit={handleEmailSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-[#17231F] mb-1.5" htmlFor="login-email">
+            <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="login-email">
               Email Address
             </label>
             <input
@@ -124,14 +124,14 @@ export const LoginPage: React.FC<AuthPageProps> = ({ navigate }) => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm focus:outline-none focus:border-[#1F7A59]"
+              className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm focus:outline-none focus:border-[#1F7A59] dark:focus:border-[#57C496]"
               placeholder="founder@business.ng"
             />
           </div>
 
           {!recoveryMode && (
             <div>
-              <label className="block text-xs font-semibold text-[#17231F] mb-1.5" htmlFor="login-pw">
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="login-pw">
                 Password
               </label>
               <input
@@ -140,7 +140,7 @@ export const LoginPage: React.FC<AuthPageProps> = ({ navigate }) => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm focus:outline-none focus:border-[#1F7A59]"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm focus:outline-none focus:border-[#1F7A59] dark:focus:border-[#57C496]"
                 placeholder="••••••••"
               />
             </div>
@@ -149,13 +149,13 @@ export const LoginPage: React.FC<AuthPageProps> = ({ navigate }) => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 px-4 rounded-lg border border-[#123C32] text-[#123C32] text-sm font-semibold hover:bg-[#123C32]/5 transition-colors disabled:opacity-60"
+            className="w-full py-2.5 px-4 rounded-lg border border-[#123C32] dark:border-[#57C496]/50 text-[#123C32] dark:text-[#57C496] text-sm font-semibold hover:bg-[#123C32]/5 dark:hover:bg-[#57C496]/10 transition-colors disabled:opacity-60"
           >
             {loading ? 'Processing...' : recoveryMode ? 'Send Recovery Link' : 'Sign In'}
           </button>
         </form>
 
-        <div className="flex items-center justify-between text-xs text-[#77817C] pt-2 border-t border-[#17231F]/10">
+        <div className="flex items-center justify-between text-xs text-[#77817C] dark:text-[#9AA8A1] pt-2 border-t border-[#17231F]/10 dark:border-white/10">
           <button
             type="button"
             onClick={() => {
@@ -163,14 +163,14 @@ export const LoginPage: React.FC<AuthPageProps> = ({ navigate }) => {
               setError(null);
               setInfo(null);
             }}
-            className="hover:text-[#123C32] font-medium"
+            className="hover:text-[#123C32] dark:hover:text-[#57C496] font-medium"
           >
             {recoveryMode ? 'Back to Sign In' : 'Forgot password?'}
           </button>
           <button
             type="button"
             onClick={() => navigate('/register')}
-            className="text-[#123C32] font-semibold hover:underline"
+            className="text-[#123C32] dark:text-[#57C496] font-semibold hover:underline"
           >
             Create Account
           </button>
@@ -248,16 +248,16 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
 
   return (
     <div className="max-w-xl mx-auto px-4 py-12">
-      <div className="bg-white border border-[#17231F]/10 rounded-2xl p-6 sm:p-8 space-y-6">
+      <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-2xl p-6 sm:p-8 space-y-6">
         <div className="space-y-1">
-          <h1 className="font-display text-2xl font-bold text-[#17231F]">Create Your GIRMA Account</h1>
-          <p className="text-sm text-[#77817C]">
+          <h1 className="font-display text-2xl font-bold text-[#17231F] dark:text-[#ECF1EE]">Create Your GIRMA Account</h1>
+          <p className="text-sm text-[#77817C] dark:text-[#9AA8A1]">
             Join entrepreneurs, SMEs, students, mentors, and organizations across Africa.
           </p>
         </div>
 
         {error && (
-          <div className="p-3.5 rounded-lg bg-[#D94C4C]/10 text-[#D94C4C] text-xs leading-relaxed">
+          <div className="p-3.5 rounded-lg bg-[#D94C4C]/10 dark:bg-[#D94C4C]/20 text-[#D94C4C] dark:text-[#F87171] text-xs leading-relaxed">
             {error}
           </div>
         )}
@@ -266,21 +266,21 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
           type="button"
           onClick={handleGoogle}
           disabled={loading}
-          className="w-full py-3 px-4 rounded-lg bg-[#123C32] text-[#F8F7F1] text-sm font-semibold hover:bg-[#1F7A59] transition-colors disabled:opacity-60"
+          className="w-full py-3 px-4 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-[#F8F7F1] text-sm font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653] transition-colors disabled:opacity-60"
         >
           Continue with Google (Recommended Instant Setup)
         </button>
 
         <div className="relative flex items-center py-1">
-          <div className="flex-grow border-t border-[#17231F]/10" />
-          <span className="px-3 text-xs text-[#77817C]">or register with email</span>
-          <div className="flex-grow border-t border-[#17231F]/10" />
+          <div className="flex-grow border-t border-[#17231F]/10 dark:border-white/10" />
+          <span className="px-3 text-xs text-[#77817C] dark:text-[#9AA8A1]">or register with email</span>
+          <div className="flex-grow border-t border-[#17231F]/10 dark:border-white/10" />
         </div>
 
         <form onSubmit={handleRegister} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-[#17231F] mb-1.5" htmlFor="reg-name">
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="reg-name">
                 Full Name
               </label>
               <input
@@ -288,12 +288,12 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                 placeholder="Ibrahim Musa"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#17231F] mb-1.5" htmlFor="reg-phone">
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="reg-phone">
                 Phone Number
               </label>
               <input
@@ -301,7 +301,7 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
                 required
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                 placeholder="+234 803 000 0000"
               />
             </div>
@@ -309,7 +309,7 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-[#17231F] mb-1.5" htmlFor="reg-email">
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="reg-email">
                 Email Address
               </label>
               <input
@@ -318,12 +318,12 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                 placeholder="ibrahim@example.ng"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#17231F] mb-1.5" htmlFor="reg-pw">
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="reg-pw">
                 Password (min. 8 chars)
               </label>
               <input
@@ -333,7 +333,7 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
                 minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                 placeholder="••••••••"
               />
             </div>
@@ -341,14 +341,14 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-[#17231F] mb-1.5" htmlFor="reg-country">
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="reg-country">
                 Country
               </label>
               <select
                 id="reg-country"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
               >
                 {AFRICAN_COUNTRIES.map((c) => (
                   <option key={c} value={c}>{c}</option>
@@ -356,7 +356,7 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#17231F] mb-1.5" htmlFor="reg-state">
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="reg-state">
                 State / Region
               </label>
               {country === 'Nigeria' ? (
@@ -364,7 +364,7 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
                   id="reg-state"
                   value={state}
                   onChange={(e) => setState(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                  className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                 >
                   {NIGERIAN_STATES.map((s) => (
                     <option key={s} value={s}>{s}</option>
@@ -375,20 +375,20 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
                   id="reg-state"
                   value={state}
                   onChange={(e) => setState(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   placeholder="Region / City"
                 />
               )}
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#17231F] mb-1.5" htmlFor="reg-cat">
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="reg-cat">
                 User Category
               </label>
               <select
                 id="reg-cat"
                 value={category}
                 onChange={(e) => setCategory(e.target.value as UserCategory)}
-                className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
               >
                 {USER_CATEGORIES.map((cat) => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -400,15 +400,15 @@ export const RegisterPage: React.FC<AuthPageProps> = ({ navigate }) => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 px-4 rounded-lg border border-[#123C32] text-[#123C32] text-sm font-semibold hover:bg-[#123C32]/5 transition-colors disabled:opacity-60"
+            className="w-full py-2.5 px-4 rounded-lg border border-[#123C32] dark:border-[#57C496]/50 text-[#123C32] dark:text-[#57C496] text-sm font-semibold hover:bg-[#123C32]/5 dark:hover:bg-[#57C496]/10 transition-colors disabled:opacity-60"
           >
             {loading ? 'Creating Account...' : 'Create Email Account'}
           </button>
         </form>
 
-        <p className="text-xs text-[#77817C] text-center">
+        <p className="text-xs text-[#77817C] dark:text-[#9AA8A1] text-center">
           Already have a GIRMA account?{' '}
-          <button type="button" onClick={() => navigate('/login')} className="text-[#123C32] font-semibold hover:underline">
+          <button type="button" onClick={() => navigate('/login')} className="text-[#123C32] dark:text-[#57C496] font-semibold hover:underline">
             Sign In
           </button>
         </p>
@@ -472,11 +472,11 @@ export const OnboardingPage: React.FC<AuthPageProps> = ({ navigate }) => {
   if (!firebaseUser) {
     return (
       <div className="max-w-lg mx-auto px-4 py-16 text-center space-y-4">
-        <p className="text-sm text-[#77817C]">Please sign in first to complete onboarding.</p>
+        <p className="text-sm text-[#77817C] dark:text-[#9AA8A1]">Please sign in first to complete onboarding.</p>
         <button
           type="button"
           onClick={() => navigate('/login')}
-          className="px-5 py-2.5 rounded-lg bg-[#123C32] text-white text-sm font-semibold"
+          className="px-5 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-sm font-semibold"
         >
           Go to Sign In
         </button>
@@ -674,23 +674,23 @@ export const OnboardingPage: React.FC<AuthPageProps> = ({ navigate }) => {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
-      <div className="bg-white border border-[#17231F]/10 rounded-2xl p-6 sm:p-8 space-y-6">
+      <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-2xl p-6 sm:p-8 space-y-6">
         <div>
-          <p className="text-xs font-medium text-[#1F7A59]">Smart Onboarding</p>
-          <h1 className="font-display text-2xl font-bold text-[#17231F] mt-1">
+          <p className="text-xs font-medium text-[#1F7A59] dark:text-[#57C496]">Smart Onboarding</p>
+          <h1 className="font-display text-2xl font-bold text-[#17231F] dark:text-[#ECF1EE] mt-1">
             Personalize Your GIRMA Experience
           </h1>
-          <p className="text-sm text-[#77817C] mt-1">
+          <p className="text-sm text-[#77817C] dark:text-[#9AA8A1] mt-1">
             Questions adapt automatically to your user category. Optional details can be updated anytime in your profile.
           </p>
         </div>
 
         {!firebaseUser.emailVerified && (
           <div className="p-4 rounded-xl bg-[#E6A23C]/10 border border-[#E6A23C]/30 space-y-3 text-xs">
-            <p className="font-semibold text-[#17231F]">
+            <p className="font-semibold text-[#17231F] dark:text-[#ECF1EE]">
               Verify your email address ({firebaseUser.email}) to activate your GIRMA account.
             </p>
-            {verifMsg && <p className="text-[#123C32] font-medium">{verifMsg}</p>}
+            {verifMsg && <p className="text-[#123C32] dark:text-[#57C496] font-medium">{verifMsg}</p>}
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
@@ -698,7 +698,7 @@ export const OnboardingPage: React.FC<AuthPageProps> = ({ navigate }) => {
                   await resendVerificationEmail();
                   setVerifMsg('Verification link resent to your email.');
                 }}
-                className="px-3 py-1.5 rounded-lg border border-[#123C32]/25 bg-white font-semibold text-[#123C32]"
+                className="px-3 py-1.5 rounded-lg border border-[#123C32]/25 dark:border-[#57C496]/35 bg-white dark:bg-[#17231F] font-semibold text-[#123C32] dark:text-[#57C496]"
               >
                 Resend Verification Email
               </button>
@@ -708,7 +708,7 @@ export const OnboardingPage: React.FC<AuthPageProps> = ({ navigate }) => {
                   await refreshProfile();
                   setVerifMsg('Checked latest verification status.');
                 }}
-                className="px-3 py-1.5 rounded-lg bg-[#123C32] text-white font-semibold"
+                className="px-3 py-1.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white font-semibold"
               >
                 I Verified My Email — Refresh
               </button>
@@ -717,50 +717,50 @@ export const OnboardingPage: React.FC<AuthPageProps> = ({ navigate }) => {
         )}
 
         {error && (
-          <div className="p-3.5 rounded-lg bg-[#D94C4C]/10 text-[#D94C4C] text-xs">{error}</div>
+          <div className="p-3.5 rounded-lg bg-[#D94C4C]/10 dark:bg-[#D94C4C]/20 text-[#D94C4C] dark:text-[#F87171] text-xs">{error}</div>
         )}
 
         <form onSubmit={handleSave} className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold mb-1.5" htmlFor="ob-name">Full Name</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="ob-name">Full Name</label>
               <input
                 id="ob-name"
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1.5" htmlFor="ob-phone">Phone Number</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="ob-phone">Phone Number</label>
               <input
                 id="ob-phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+234 800 000 0000"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1.5" htmlFor="ob-country">Country</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="ob-country">Country</label>
               <select
                 id="ob-country"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
               >
                 {AFRICAN_COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1.5" htmlFor="ob-state">State</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="ob-state">State</label>
               {country === 'Nigeria' ? (
                 <select
                   id="ob-state"
                   value={state}
                   onChange={(e) => setState(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                  className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                 >
                   {NIGERIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
@@ -769,23 +769,23 @@ export const OnboardingPage: React.FC<AuthPageProps> = ({ navigate }) => {
                   id="ob-state"
                   value={state}
                   onChange={(e) => setState(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                 />
               )}
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1.5" htmlFor="ob-cat">Primary Category</label>
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="ob-cat">Primary Category</label>
               <select
                 id="ob-cat"
                 value={category}
                 onChange={(e) => setCategory(e.target.value as UserCategory)}
-                className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
               >
                 {USER_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1.5" htmlFor="ob-int">
+              <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5" htmlFor="ob-int">
                 Additional Interests (comma-separated)
               </label>
               <input
@@ -793,112 +793,112 @@ export const OnboardingPage: React.FC<AuthPageProps> = ({ navigate }) => {
                 value={interestsText}
                 onChange={(e) => setInterestsText(e.target.value)}
                 placeholder="Grants, Solar, Agribusiness, Export"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
               />
             </div>
           </div>
 
           {isBizCategory && (
-            <div className="pt-5 border-t border-[#17231F]/10 space-y-4">
-              <h2 className="font-display text-lg font-semibold text-[#123C32]">
+            <div className="pt-5 border-t border-[#17231F]/10 dark:border-white/10 space-y-4">
+              <h2 className="font-display text-lg font-semibold text-[#123C32] dark:text-[#57C496]">
                 Business Profile Details
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Business Name</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Business Name</label>
                   <input
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
                     placeholder="e.g., Yola Agro Ventures"
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Industry</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Industry</label>
                   <select
                     value={industry}
                     onChange={(e) => setIndustry(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                    className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                   >
                     {INDUSTRIES.map((ind) => <option key={ind} value={ind}>{ind}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Registration Status</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Registration Status</label>
                   <select
                     value={regStatus}
                     onChange={(e) => setRegStatus(e.target.value as (typeof REGISTRATION_STATUSES)[number])}
-                    className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                    className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                   >
                     {REGISTRATION_STATUSES.map((r) => <option key={r} value={r}>{r}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Business Stage</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Business Stage</label>
                   <select
                     value={stage}
                     onChange={(e) => setStage(e.target.value as (typeof BUSINESS_STAGES)[number])}
-                    className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                    className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                   >
                     {BUSINESS_STAGES.map((st) => <option key={st} value={st}>{st}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Funding Requirement (₦)</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Funding Requirement (₦)</label>
                   <input
                     type="number"
                     min={0}
                     value={fundingNeed}
                     onChange={(e) => setFundingNeed(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm font-mono tabular-nums"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm font-mono tabular-nums"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Products / Services (comma-separated)</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Products / Services (comma-separated)</label>
                   <input
                     value={productsText}
                     onChange={(e) => setProductsText(e.target.value)}
                     placeholder="Maize flour, Solar cold storage"
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-semibold mb-1.5">Business Description</label>
+                <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Business Description</label>
                 <textarea
                   rows={3}
                   value={businessDesc}
                   onChange={(e) => setBusinessDesc(e.target.value)}
                   placeholder="Describe what your business produces, who you serve, and your growth objective..."
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                 />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Target Customers</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Target Customers</label>
                   <input
                     value={targetCustomers}
                     onChange={(e) => setTargetCustomers(e.target.value)}
                     placeholder="Retailers, hotels, households"
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Current Challenges</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Current Challenges</label>
                   <input
                     value={challenges}
                     onChange={(e) => setChallenges(e.target.value)}
                     placeholder="Power costs, working capital"
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Growth Objectives</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Growth Objectives</label>
                   <input
                     value={growthObjectives}
                     onChange={(e) => setGrowthObjectives(e.target.value)}
                     placeholder="Expand to 3 neighboring states"
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
               </div>
@@ -906,46 +906,46 @@ export const OnboardingPage: React.FC<AuthPageProps> = ({ navigate }) => {
           )}
 
           {isStudentCategory && (
-            <div className="pt-5 border-t border-[#17231F]/10 space-y-4">
-              <h2 className="font-display text-lg font-semibold text-[#123C32]">
+            <div className="pt-5 border-t border-[#17231F]/10 dark:border-white/10 space-y-4">
+              <h2 className="font-display text-lg font-semibold text-[#123C32] dark:text-[#57C496]">
                 Academic &amp; Career Details
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Institution</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Institution</label>
                   <input
                     value={institution}
                     onChange={(e) => setInstitution(e.target.value)}
                     placeholder="e.g., Modibbo Adama University, Yola"
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Course of Study</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Course of Study</label>
                   <input
                     value={courseOfStudy}
                     onChange={(e) => setCourseOfStudy(e.target.value)}
                     placeholder="e.g., Agricultural Engineering"
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Education Level</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Education Level</label>
                   <select
                     value={educationLevel}
                     onChange={(e) => setEducationLevel(e.target.value as (typeof EDUCATION_LEVELS)[number])}
-                    className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                    className="w-full px-3 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                   >
                     {EDUCATION_LEVELS.map((l) => <option key={l} value={l}>{l}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Skills (comma-separated)</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Skills (comma-separated)</label>
                   <input
                     value={skillsText}
                     onChange={(e) => setSkillsText(e.target.value)}
                     placeholder="Data analysis, Python, Project management"
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
               </div>
@@ -953,106 +953,106 @@ export const OnboardingPage: React.FC<AuthPageProps> = ({ navigate }) => {
           )}
 
           {isMentorCategory && (
-            <div className="pt-5 border-t border-[#17231F]/10 space-y-4">
-              <h2 className="font-display text-lg font-semibold text-[#123C32]">
+            <div className="pt-5 border-t border-[#17231F]/10 dark:border-white/10 space-y-4">
+              <h2 className="font-display text-lg font-semibold text-[#123C32] dark:text-[#57C496]">
                 Mentor Application (Admin Review Required)
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Professional Background</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Professional Background</label>
                   <input
                     value={mentorBackground}
                     onChange={(e) => setMentorBackground(e.target.value)}
                     placeholder="e.g., Chartered Accountant & SME Advisor"
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Years of Experience</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Years of Experience</label>
                   <input
                     type="number"
                     min={0}
                     value={mentorYears}
                     onChange={(e) => setMentorYears(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Areas of Expertise</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Areas of Expertise</label>
                   <input
                     value={mentorExpertise}
                     onChange={(e) => setMentorExpertise(e.target.value)}
                     placeholder="Finance, Agribusiness, Export"
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Availability</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Availability</label>
                   <input
                     value={mentorAvailability}
                     onChange={(e) => setMentorAvailability(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-semibold mb-1.5">Biography</label>
+                <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Biography</label>
                 <textarea
                   rows={3}
                   value={mentorBio}
                   onChange={(e) => setMentorBio(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                 />
               </div>
             </div>
           )}
 
           {isOrgCategory && (
-            <div className="pt-5 border-t border-[#17231F]/10 space-y-4">
-              <h2 className="font-display text-lg font-semibold text-[#123C32]">
+            <div className="pt-5 border-t border-[#17231F]/10 dark:border-white/10 space-y-4">
+              <h2 className="font-display text-lg font-semibold text-[#123C32] dark:text-[#57C496]">
                 Organization / Investor Profile
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Organization Name</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Organization Name</label>
                   <input
                     value={orgName}
                     onChange={(e) => setOrgName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Organization Type</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Organization Type</label>
                   <input
                     value={orgType}
                     onChange={(e) => setOrgType(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold mb-1.5">Geographic Focus</label>
+                  <label className="block text-xs font-semibold text-[#17231F] dark:text-[#ECF1EE] mb-1.5">Geographic Focus</label>
                   <input
                     value={orgGeo}
                     onChange={(e) => setOrgGeo(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/15 dark:border-white/15 text-sm"
                   />
                 </div>
               </div>
             </div>
           )}
 
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[#17231F]/10">
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[#17231F]/10 dark:border-white/10">
             <button
               type="button"
               onClick={() => navigate('/app')}
-              className="text-sm font-medium text-[#77817C] hover:text-[#17231F]"
+              className="text-sm font-medium text-[#77817C] dark:text-[#9AA8A1] hover:text-[#17231F] dark:hover:text-[#ECF1EE]"
             >
               Complete Optional Details Later
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-3 rounded-lg bg-[#123C32] text-[#F8F7F1] text-sm font-semibold hover:bg-[#1F7A59] disabled:opacity-60"
+              className="px-6 py-3 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-[#F8F7F1] text-sm font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653] disabled:opacity-60 transition-colors"
             >
               {saving ? 'Saving Profile...' : 'Save & Continue to Dashboard'}
             </button>

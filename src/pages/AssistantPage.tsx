@@ -267,20 +267,20 @@ export const AssistantPage: React.FC<AssistantPageProps> = ({ navigate }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-11rem)] min-h-[540px]">
       {/* Conversations History */}
-      <aside className="lg:col-span-4 xl:col-span-3 bg-white border border-[#17231F]/10 rounded-xl p-4 flex flex-col justify-between">
+      <aside className="lg:col-span-4 xl:col-span-3 bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-4 flex flex-col justify-between">
         <div className="space-y-3 overflow-y-auto">
           <button
             type="button"
             onClick={startNewChat}
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-[#123C32] text-white text-xs font-semibold hover:bg-[#1F7A59]"
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]"
           >
             <MessageSquarePlus className="w-4 h-4" />
             <span>New Conversation</span>
           </button>
 
-          <div className="text-xs font-semibold text-[#77817C] pt-2">Recent Threads</div>
+          <div className="text-xs font-semibold text-[#77817C] dark:text-[#9AA8A1] pt-2">Recent Threads</div>
           {conversations.length === 0 ? (
-            <p className="text-xs text-[#77817C] py-2">No previous conversations yet.</p>
+            <p className="text-xs text-[#77817C] dark:text-[#9AA8A1] py-2">No previous conversations yet.</p>
           ) : (
             <div className="space-y-1">
               {conversations.map((c) => (
@@ -290,8 +290,8 @@ export const AssistantPage: React.FC<AssistantPageProps> = ({ navigate }) => {
                   onClick={() => setActiveConvId(c.id || null)}
                   className={`w-full text-left px-3 py-2 rounded-lg text-xs truncate ${
                     activeConvId === c.id
-                      ? 'bg-[#F8F7F1] font-semibold text-[#123C32]'
-                      : 'text-[#77817C] hover:bg-[#F8F7F1]'
+                      ? 'bg-[#F8F7F1] dark:bg-[#17231F] font-semibold text-[#123C32] dark:text-[#57C496]'
+                      : 'text-[#77817C] dark:text-[#9AA8A1] hover:bg-[#F8F7F1] dark:hover:bg-[#17231F]'
                   }`}
                 >
                   {c.title}
@@ -301,14 +301,14 @@ export const AssistantPage: React.FC<AssistantPageProps> = ({ navigate }) => {
           )}
         </div>
 
-        <div className="pt-3 border-t border-[#17231F]/10 text-[11px] text-[#77817C] space-y-1">
-          <div className="font-semibold text-[#17231F]">
+        <div className="pt-3 border-t border-[#17231F]/10 dark:border-white/10 text-[11px] text-[#77817C] dark:text-[#9AA8A1] space-y-1">
+          <div className="font-semibold text-[#17231F] dark:text-[#ECF1EE]">
             Profile Context: {account?.consentAiContext !== false ? 'Shared (Consented)' : 'Disabled'}
           </div>
           <button
             type="button"
             onClick={() => navigate('/app/settings')}
-            className="text-[#123C32] hover:underline"
+            className="text-[#123C32] dark:text-[#57C496] hover:underline"
           >
             Manage AI Consent in Settings
           </button>
@@ -316,16 +316,16 @@ export const AssistantPage: React.FC<AssistantPageProps> = ({ navigate }) => {
       </aside>
 
       {/* Main Chat Canvas */}
-      <section className="lg:col-span-8 xl:col-span-9 bg-white border border-[#17231F]/10 rounded-xl flex flex-col overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#17231F]/10 flex flex-wrap items-center justify-between gap-2">
+      <section className="lg:col-span-8 xl:col-span-9 bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl flex flex-col overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#17231F]/10 dark:border-white/10 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h2 className="font-display text-lg font-bold text-[#17231F]">ASK GIRMA</h2>
-            <p className="text-xs text-[#77817C]">
+            <h2 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE]">ASK GIRMA</h2>
+            <p className="text-xs text-[#77817C] dark:text-[#9AA8A1]">
               Your Intelligent Growth Companion · Grounded in verified GIRMA opportunities
             </p>
           </div>
-          <span className="text-[11px] text-[#77817C] flex items-center gap-1">
-            <ShieldAlert className="w-3.5 h-3.5 text-[#1F7A59]" />
+          <span className="text-[11px] text-[#77817C] dark:text-[#9AA8A1] flex items-center gap-1">
+            <ShieldAlert className="w-3.5 h-3.5 text-[#1F7A59] dark:text-[#57C496]" />
             <span>Never guarantees funding · Always verify official portals</span>
           </span>
         </div>
@@ -334,10 +334,10 @@ export const AssistantPage: React.FC<AssistantPageProps> = ({ navigate }) => {
           {messages.length === 0 ? (
             <div className="max-w-xl mx-auto py-6 space-y-5">
               <div className="space-y-2 text-center">
-                <h3 className="font-display text-xl font-bold text-[#17231F]">
+                <h3 className="font-display text-xl font-bold text-[#17231F] dark:text-[#ECF1EE]">
                   How can GIRMA help you grow today?
                 </h3>
-                <p className="text-sm text-[#77817C]">
+                <p className="text-sm text-[#77817C] dark:text-[#9AA8A1]">
                   Ask about funding eligibility, structured business proposals, marketing plans, financial projections, or learning paths.
                 </p>
               </div>
@@ -347,7 +347,7 @@ export const AssistantPage: React.FC<AssistantPageProps> = ({ navigate }) => {
                     key={p}
                     type="button"
                     onClick={() => sendMessage(p)}
-                    className="text-left p-3.5 rounded-xl bg-[#F8F7F1] border border-[#17231F]/10 hover:border-[#123C32] text-xs text-[#17231F] leading-relaxed"
+                    className="text-left p-3.5 rounded-xl bg-[#F8F7F1] dark:bg-[#17231F] border border-[#17231F]/10 dark:border-white/10 hover:border-[#123C32] dark:hover:border-[#57C496] text-xs text-[#17231F] dark:text-[#ECF1EE] leading-relaxed"
                   >
                     {p}
                   </button>
@@ -363,8 +363,8 @@ export const AssistantPage: React.FC<AssistantPageProps> = ({ navigate }) => {
                 <div
                   className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
                     m.role === 'user'
-                      ? 'bg-[#123C32] text-[#F8F7F1]'
-                      : 'bg-[#F8F7F1] text-[#17231F] border border-[#17231F]/10'
+                      ? 'bg-[#123C32] dark:bg-[#1F7A59] text-[#F8F7F1]'
+                      : 'bg-[#F8F7F1] dark:bg-[#17231F] text-[#17231F] dark:text-[#ECF1EE] border border-[#17231F]/10 dark:border-white/10'
                   }`}
                 >
                   {m.content}
@@ -375,7 +375,7 @@ export const AssistantPage: React.FC<AssistantPageProps> = ({ navigate }) => {
 
           {sending && (
             <div className="flex justify-start">
-              <div className="bg-[#F8F7F1] border border-[#17231F]/10 rounded-2xl px-4 py-3 text-xs text-[#77817C]">
+              <div className="bg-[#F8F7F1] dark:bg-[#17231F] border border-[#17231F]/10 dark:border-white/10 rounded-2xl px-4 py-3 text-xs text-[#77817C] dark:text-[#9AA8A1]">
                 Ask GIRMA is reviewing your context and verified opportunities...
               </div>
             </div>
@@ -383,7 +383,7 @@ export const AssistantPage: React.FC<AssistantPageProps> = ({ navigate }) => {
         </div>
 
         {error && (
-          <div className="px-5 py-2.5 bg-[#D94C4C]/10 text-[#D94C4C] text-xs border-t border-[#D94C4C]/20">
+          <div className="px-5 py-2.5 bg-[#D94C4C]/10 dark:bg-[#F87171]/15 text-[#D94C4C] dark:text-[#F87171] text-xs border-t border-[#D94C4C]/20 dark:border-[#F87171]/30">
             {error}
           </div>
         )}
@@ -393,19 +393,19 @@ export const AssistantPage: React.FC<AssistantPageProps> = ({ navigate }) => {
             e.preventDefault();
             sendMessage();
           }}
-          className="p-4 border-t border-[#17231F]/10 flex items-center gap-3"
+          className="p-4 border-t border-[#17231F]/10 dark:border-white/10 flex items-center gap-3"
         >
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about grants, business proposals, pricing, or strategy..."
             disabled={sending}
-            className="flex-1 px-4 py-2.5 rounded-lg border border-[#17231F]/15 text-sm focus:outline-none focus:border-[#1F7A59]"
+            className="flex-1 px-4 py-2.5 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70 focus:outline-none focus:border-[#1F7A59] dark:focus:border-[#57C496]"
           />
           <button
             type="submit"
             disabled={sending || !input.trim()}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#123C32] text-white text-sm font-semibold hover:bg-[#1F7A59] disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-sm font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653] disabled:opacity-50"
           >
             <Send className="w-4 h-4" />
             <span>Send</span>

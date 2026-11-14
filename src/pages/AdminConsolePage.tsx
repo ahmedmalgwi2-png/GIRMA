@@ -21,6 +21,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { seedEcosystemData } from '../lib/seedData';
 import {
@@ -50,6 +51,8 @@ type AdminTab =
 
 export const AdminConsolePage: React.FC = () => {
   const { firebaseUser, isAdmin } = useAuth();
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
   const [tab, setTab] = useState<AdminTab>('overview');
   const [users, setUsers] = useState<UserAccount[]>([]);
   const [businesses, setBusinesses] = useState<BusinessProfile[]>([]);
@@ -173,9 +176,9 @@ export const AdminConsolePage: React.FC = () => {
 
   if (!isAdmin) {
     return (
-      <div className="bg-white border border-[#D94C4C]/30 rounded-xl p-8 max-w-lg mx-auto text-center space-y-2">
-        <h2 className="font-display text-xl font-bold text-[#17231F]">Administrator Access Required</h2>
-        <p className="text-sm text-[#77817C]">
+      <div className="bg-white dark:bg-[#121B18] border border-[#D94C4C]/30 dark:border-[#F87171]/35 rounded-xl p-8 max-w-lg mx-auto text-center space-y-2">
+        <h2 className="font-display text-xl font-bold text-[#17231F] dark:text-[#ECF1EE]">Administrator Access Required</h2>
+        <p className="text-sm text-[#77817C] dark:text-[#9AA8A1]">
           This console is restricted to authorized GIRMA administrators.
         </p>
       </div>
@@ -372,12 +375,23 @@ export const AdminConsolePage: React.FC = () => {
     ['Entrepreneur', 'Small Business Owner', 'Startup Founder'].includes(u.category)
   ).length;
 
+  const chartGridColor = isDark ? 'rgba(255,255,255,0.1)' : '#E5E7EB';
+  const chartAxisStroke = isDark ? 'rgba(255,255,255,0.15)' : '#D1D5DB';
+  const chartTickColor = isDark ? '#9AA8A1' : '#77817C';
+  const chartTooltipStyle: React.CSSProperties = {
+    backgroundColor: isDark ? '#121B18' : '#FFFFFF',
+    borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(23,35,31,0.15)',
+    color: isDark ? '#ECF1EE' : '#17231F',
+    borderRadius: '0.5rem',
+    fontSize: '12px',
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl font-bold text-[#17231F]">GIRMA Admin Console</h2>
-          <p className="text-sm text-[#77817C] mt-1">
+          <h2 className="font-display text-2xl font-bold text-[#17231F] dark:text-[#ECF1EE]">GIRMA Admin Console</h2>
+          <p className="text-sm text-[#77817C] dark:text-[#9AA8A1] mt-1">
             Platform operations, business &amp; opportunity verification, real-time analytics, and audit logs.
           </p>
         </div>
@@ -391,14 +405,14 @@ export const AdminConsolePage: React.FC = () => {
       </div>
 
       {notice && (
-        <div className="bg-[#123C32] text-white px-4 py-3 rounded-lg text-xs flex justify-between">
+        <div className="bg-[#123C32] dark:bg-[#1F7A59] text-white px-4 py-3 rounded-lg text-xs flex justify-between">
           <span>{notice}</span>
           <button type="button" onClick={() => setNotice(null)} className="underline">Dismiss</button>
         </div>
       )}
 
       {/* Admin Navigation Tabs */}
-      <div className="flex flex-wrap gap-1.5 bg-white border border-[#17231F]/10 rounded-xl p-1.5">
+      <div className="flex flex-wrap gap-1.5 bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-1.5">
         {(
           [
             ['overview', 'Overview'],
@@ -415,7 +429,7 @@ export const AdminConsolePage: React.FC = () => {
             type="button"
             onClick={() => setTab(id)}
             className={`px-3.5 py-2 rounded-lg text-xs font-semibold whitespace-nowrap ${
-              tab === id ? 'bg-[#123C32] text-white' : 'text-[#77817C] hover:text-[#17231F]'
+              tab === id ? 'bg-[#123C32] dark:bg-[#1F7A59] text-white' : 'text-[#77817C] dark:text-[#9AA8A1] hover:text-[#17231F] dark:hover:text-[#ECF1EE]'
             }`}
           >
             {label}
@@ -424,7 +438,7 @@ export const AdminConsolePage: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="h-64 rounded-xl bg-white border border-[#17231F]/10 animate-pulse" />
+        <div className="h-64 rounded-xl bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 animate-pulse" />
       ) : (
         <>
           {tab === 'overview' && (
@@ -441,9 +455,9 @@ export const AdminConsolePage: React.FC = () => {
                 ['Saved / Tracked Apps', applications.length],
                 ['Unread Notifications', notifications.filter((n) => !n.isRead).length],
               ].map(([label, val]) => (
-                <div key={String(label)} className="bg-white border border-[#17231F]/10 rounded-xl p-4">
-                  <div className="text-xs text-[#77817C]">{label}</div>
-                  <div className="font-mono text-2xl font-bold tabular-nums text-[#123C32] mt-1">
+                <div key={String(label)} className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-4">
+                  <div className="text-xs text-[#77817C] dark:text-[#9AA8A1]">{label}</div>
+                  <div className="font-mono text-2xl font-bold tabular-nums text-[#123C32] dark:text-[#57C496] mt-1">
                     {val}
                   </div>
                 </div>
@@ -452,19 +466,19 @@ export const AdminConsolePage: React.FC = () => {
           )}
 
           {tab === 'users' && (
-            <div className="bg-white border border-[#17231F]/10 rounded-xl p-6 space-y-4">
+            <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input
                   type="search"
                   value={userSearch}
                   onChange={(e) => setUserSearch(e.target.value)}
                   placeholder="Search users by name, email, or state..."
-                  className="px-3.5 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="px-3.5 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
                 />
                 <select
                   value={userCatFilter}
                   onChange={(e) => setUserCatFilter(e.target.value)}
-                  className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                  className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                 >
                   <option value="All">All Categories</option>
                   {USER_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -472,9 +486,9 @@ export const AdminConsolePage: React.FC = () => {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
+                <table className="w-full text-left text-xs text-[#17231F] dark:text-[#ECF1EE]">
                   <thead>
-                    <tr className="border-b border-[#17231F]/10 text-[#77817C]">
+                    <tr className="border-b border-[#17231F]/10 dark:border-white/10 text-[#77817C] dark:text-[#9AA8A1]">
                       <th className="py-2 pr-4">Name</th>
                       <th className="py-2 pr-4">Email</th>
                       <th className="py-2 pr-4">Category</th>
@@ -483,7 +497,7 @@ export const AdminConsolePage: React.FC = () => {
                       <th className="py-2">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#17231F]/10">
+                  <tbody className="divide-y divide-[#17231F]/10 dark:divide-white/10">
                     {users
                       .filter((u) => {
                         if (userCatFilter !== 'All' && u.category !== userCatFilter) return false;
@@ -498,7 +512,7 @@ export const AdminConsolePage: React.FC = () => {
                       .map((u) => (
                         <tr key={u.uid}>
                           <td className="py-3 pr-4 font-semibold">{u.fullName}</td>
-                          <td className="py-3 pr-4 text-[#77817C]">{u.email}</td>
+                          <td className="py-3 pr-4 text-[#77817C] dark:text-[#9AA8A1]">{u.email}</td>
                           <td className="py-3 pr-4">{u.category}</td>
                           <td className="py-3 pr-4">{u.state}</td>
                           <td className="py-3 pr-4 capitalize">{u.accountStatus}</td>
@@ -506,14 +520,14 @@ export const AdminConsolePage: React.FC = () => {
                             <button
                               type="button"
                               onClick={() => toggleSuspendUser(u)}
-                              className="px-2.5 py-1 rounded border border-[#17231F]/15 font-semibold"
+                              className="px-2.5 py-1 rounded border border-[#17231F]/15 dark:border-white/15 font-semibold hover:bg-[#F8F7F1] dark:hover:bg-[#17231F]"
                             >
                               {u.accountStatus === 'suspended' ? 'Restore' : 'Suspend'}
                             </button>
                             <button
                               type="button"
                               onClick={() => grantAdminRole(u)}
-                              className="px-2.5 py-1 rounded border border-[#123C32]/25 text-[#123C32] font-semibold"
+                              className="px-2.5 py-1 rounded border border-[#123C32]/25 dark:border-[#57C496]/35 text-[#123C32] dark:text-[#57C496] font-semibold"
                             >
                               Make Admin
                             </button>
@@ -528,34 +542,34 @@ export const AdminConsolePage: React.FC = () => {
 
           {tab === 'opportunities' && (
             <div className="space-y-6">
-              <form onSubmit={createOpportunity} className="bg-white border border-[#17231F]/10 rounded-xl p-6 space-y-4">
-                <h3 className="font-display text-lg font-bold">Publish New Opportunity</h3>
+              <form onSubmit={createOpportunity} className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 space-y-4">
+                <h3 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE]">Publish New Opportunity</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <input
                     required
                     value={oppForm.title}
                     onChange={(e) => setOppForm({ ...oppForm, title: e.target.value })}
                     placeholder="Opportunity Title"
-                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
                   />
                   <input
                     required
                     value={oppForm.organizationName}
                     onChange={(e) => setOppForm({ ...oppForm, organizationName: e.target.value })}
                     placeholder="Organization Name"
-                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
                   />
                   <select
                     value={oppForm.category}
                     onChange={(e) => setOppForm({ ...oppForm, category: e.target.value })}
-                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                   >
                     {OPPORTUNITY_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
                   <select
                     value={oppForm.industry}
                     onChange={(e) => setOppForm({ ...oppForm, industry: e.target.value })}
-                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                   >
                     {INDUSTRIES.map((i) => <option key={i} value={i}>{i}</option>)}
                   </select>
@@ -564,28 +578,28 @@ export const AdminConsolePage: React.FC = () => {
                     required
                     value={oppForm.deadlineDate}
                     onChange={(e) => setOppForm({ ...oppForm, deadlineDate: e.target.value })}
-                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm font-mono"
+                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] font-mono"
                   />
                   <input
                     type="number"
                     value={oppForm.fundingAmountMax}
                     onChange={(e) => setOppForm({ ...oppForm, fundingAmountMax: e.target.value })}
                     placeholder="Max Funding (₦)"
-                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm font-mono tabular-nums"
+                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70 font-mono tabular-nums"
                   />
                   <input
                     required
                     value={oppForm.officialUrl}
                     onChange={(e) => setOppForm({ ...oppForm, officialUrl: e.target.value })}
                     placeholder="Official Application URL"
-                    className="sm:col-span-2 px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                    className="sm:col-span-2 px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
                   />
                   <select
                     value={oppForm.verificationStatus}
                     onChange={(e) =>
                       setOppForm({ ...oppForm, verificationStatus: e.target.value as 'verified' | 'unverified' })
                     }
-                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                   >
                     <option value="verified">Verified Source</option>
                     <option value="unverified">Unverified</option>
@@ -598,19 +612,19 @@ export const AdminConsolePage: React.FC = () => {
                   value={oppForm.description}
                   onChange={(e) => setOppForm({ ...oppForm, description: e.target.value })}
                   placeholder="Full opportunity description & eligibility summary..."
-                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
                 />
-                <button type="submit" className="px-5 py-2.5 rounded-lg bg-[#123C32] text-white text-xs font-semibold">
+                <button type="submit" className="px-5 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]">
                   Publish Opportunity
                 </button>
               </form>
 
-              <div className="bg-white border border-[#17231F]/10 rounded-xl divide-y divide-[#17231F]/10">
+              <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl divide-y divide-[#17231F]/10 dark:divide-white/10">
                 {opportunities.map((o) => (
-                  <div key={o.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
+                  <div key={o.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-[#17231F] dark:text-[#ECF1EE]">
                     <div>
-                      <div className="font-semibold text-sm text-[#17231F]">{o.title}</div>
-                      <div className="text-[#77817C]">
+                      <div className="font-semibold text-sm text-[#17231F] dark:text-[#ECF1EE]">{o.title}</div>
+                      <div className="text-[#77817C] dark:text-[#9AA8A1]">
                         {o.organizationName} · {o.status} · {o.verificationStatus} · Due {o.deadlineDate}
                         {o.isSeedData && ' · Development Seed'}
                       </div>
@@ -619,7 +633,7 @@ export const AdminConsolePage: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => toggleOpportunityVerified(o)}
-                        className="px-2.5 py-1.5 rounded border border-[#17231F]/15 font-semibold"
+                        className="px-2.5 py-1.5 rounded border border-[#17231F]/15 dark:border-white/15 font-semibold hover:bg-[#F8F7F1] dark:hover:bg-[#17231F]"
                       >
                         {o.verificationStatus === 'verified' ? 'Unverify' : 'Verify Source'}
                       </button>
@@ -628,21 +642,21 @@ export const AdminConsolePage: React.FC = () => {
                         onClick={() =>
                           updateOpportunityStatus(o, o.status === 'published' ? 'draft' : 'published')
                         }
-                        className="px-2.5 py-1.5 rounded border border-[#17231F]/15 font-semibold"
+                        className="px-2.5 py-1.5 rounded border border-[#17231F]/15 dark:border-white/15 font-semibold hover:bg-[#F8F7F1] dark:hover:bg-[#17231F]"
                       >
                         {o.status === 'published' ? 'Unpublish' : 'Publish'}
                       </button>
                       <button
                         type="button"
                         onClick={() => updateOpportunityStatus(o, 'expired')}
-                        className="px-2.5 py-1.5 rounded border border-[#E6A23C]/40 text-[#E6A23C] font-semibold"
+                        className="px-2.5 py-1.5 rounded border border-[#E6A23C]/40 dark:border-[#FBBF24]/40 text-[#E6A23C] dark:text-[#FBBF24] font-semibold"
                       >
                         Mark Expired
                       </button>
                       <button
                         type="button"
                         onClick={() => o.id && deleteOpportunity(o.id)}
-                        className="px-2.5 py-1.5 rounded border border-[#D94C4C]/40 text-[#D94C4C] font-semibold"
+                        className="px-2.5 py-1.5 rounded border border-[#D94C4C]/40 dark:border-[#F87171]/40 text-[#D94C4C] dark:text-[#F87171] font-semibold"
                       >
                         Delete
                       </button>
@@ -655,20 +669,20 @@ export const AdminConsolePage: React.FC = () => {
 
           {tab === 'verifications' && (
             <div className="space-y-6">
-              <div className="bg-white border border-[#17231F]/10 rounded-xl p-6 space-y-4">
-                <h3 className="font-display text-lg font-bold">Business Verification Queue</h3>
+              <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 space-y-4">
+                <h3 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE]">Business Verification Queue</h3>
                 {verifications.length === 0 ? (
-                  <p className="text-sm text-[#77817C]">No business verification requests submitted yet.</p>
+                  <p className="text-sm text-[#77817C] dark:text-[#9AA8A1]">No business verification requests submitted yet.</p>
                 ) : (
-                  <div className="divide-y divide-[#17231F]/10">
+                  <div className="divide-y divide-[#17231F]/10 dark:divide-white/10">
                     {verifications.map((v) => (
                       <div key={v.id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
                         <div>
-                          <div className="text-sm font-bold text-[#17231F]">{v.businessName}</div>
-                          <div className="text-[#77817C]">
+                          <div className="text-sm font-bold text-[#17231F] dark:text-[#ECF1EE]">{v.businessName}</div>
+                          <div className="text-[#77817C] dark:text-[#9AA8A1]">
                             {v.documentType} · Ref: <span className="font-mono">{v.registrationRef}</span> · Status: <strong>{v.status}</strong>
                           </div>
-                          {v.notes && <p className="mt-1 text-[#17231F]">{v.notes}</p>}
+                          {v.notes && <p className="mt-1 text-[#17231F] dark:text-[#ECF1EE]">{v.notes}</p>}
                         </div>
                         <div className="flex flex-wrap gap-2 shrink-0">
                           <button
@@ -681,14 +695,14 @@ export const AdminConsolePage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => reviewVerification(v, 'info_requested', 'Please clarify CAC registration number')}
-                            className="px-3 py-1.5 rounded border border-[#E6A23C] text-[#E6A23C] font-semibold"
+                            className="px-3 py-1.5 rounded border border-[#E6A23C] dark:border-[#FBBF24] text-[#E6A23C] dark:text-[#FBBF24] font-semibold"
                           >
                             Request Info
                           </button>
                           <button
                             type="button"
                             onClick={() => reviewVerification(v, 'rejected', 'Could not verify submitted registration')}
-                            className="px-3 py-1.5 rounded border border-[#D94C4C] text-[#D94C4C] font-semibold"
+                            className="px-3 py-1.5 rounded border border-[#D94C4C] dark:border-[#F87171] text-[#D94C4C] dark:text-[#F87171] font-semibold"
                           >
                             Reject
                           </button>
@@ -699,14 +713,14 @@ export const AdminConsolePage: React.FC = () => {
                 )}
               </div>
 
-              <div className="bg-white border border-[#17231F]/10 rounded-xl p-6 space-y-4">
-                <h3 className="font-display text-lg font-bold">Mentor Approvals</h3>
-                <div className="divide-y divide-[#17231F]/10">
+              <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 space-y-4">
+                <h3 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE]">Mentor Approvals</h3>
+                <div className="divide-y divide-[#17231F]/10 dark:divide-white/10">
                   {mentors.map((m) => (
                     <div key={m.id} className="py-3 flex flex-wrap items-center justify-between gap-4 text-xs">
                       <div>
-                        <span className="text-sm font-bold text-[#17231F]">{m.fullName}</span>
-                        <span className="text-[#77817C] ml-2">
+                        <span className="text-sm font-bold text-[#17231F] dark:text-[#ECF1EE]">{m.fullName}</span>
+                        <span className="text-[#77817C] dark:text-[#9AA8A1] ml-2">
                           {m.background} · {m.state} · Status: <strong>{m.approvalStatus}</strong>
                         </span>
                       </div>
@@ -721,7 +735,7 @@ export const AdminConsolePage: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => reviewMentor(m, 'rejected')}
-                          className="px-3 py-1.5 rounded border border-[#D94C4C] text-[#D94C4C] font-semibold"
+                          className="px-3 py-1.5 rounded border border-[#D94C4C] dark:border-[#F87171] text-[#D94C4C] dark:text-[#F87171] font-semibold"
                         >
                           Reject
                         </button>
@@ -735,20 +749,20 @@ export const AdminConsolePage: React.FC = () => {
 
           {tab === 'content' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <form onSubmit={createLearningResource} className="bg-white border border-[#17231F]/10 rounded-xl p-6 space-y-4">
-                <h3 className="font-display text-lg font-bold">Publish Learning Resource</h3>
+              <form onSubmit={createLearningResource} className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 space-y-4">
+                <h3 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE]">Publish Learning Resource</h3>
                 <input
                   required
                   value={learnForm.title}
                   onChange={(e) => setLearnForm({ ...learnForm, title: e.target.value })}
                   placeholder="Lesson Title"
-                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <select
                     value={learnForm.category}
                     onChange={(e) => setLearnForm({ ...learnForm, category: e.target.value })}
-                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                   >
                     {LEARNING_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
@@ -757,7 +771,7 @@ export const AdminConsolePage: React.FC = () => {
                     onChange={(e) =>
                       setLearnForm({ ...learnForm, contentType: e.target.value as LearningResource['contentType'] })
                     }
-                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm bg-white"
+                    className="px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 text-sm bg-white dark:bg-[#0F1714] text-[#17231F] dark:text-[#ECF1EE]"
                   >
                     {['Article', 'Video', 'Tutorial', 'Downloadable Guide', 'Course', 'Practical Guide'].map(
                       (t) => <option key={t} value={t}>{t}</option>
@@ -769,7 +783,7 @@ export const AdminConsolePage: React.FC = () => {
                   value={learnForm.summary}
                   onChange={(e) => setLearnForm({ ...learnForm, summary: e.target.value })}
                   placeholder="Short summary"
-                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
                 />
                 <textarea
                   required
@@ -778,21 +792,21 @@ export const AdminConsolePage: React.FC = () => {
                   value={learnForm.contentBody}
                   onChange={(e) => setLearnForm({ ...learnForm, contentBody: e.target.value })}
                   placeholder="Lesson content..."
-                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
                 />
-                <button type="submit" className="px-5 py-2.5 rounded-lg bg-[#123C32] text-white text-xs font-semibold">
+                <button type="submit" className="px-5 py-2.5 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653]">
                   Publish Resource ({resources.length} total)
                 </button>
               </form>
 
-              <form onSubmit={sendAnnouncement} className="bg-white border border-[#17231F]/10 rounded-xl p-6 space-y-4">
-                <h3 className="font-display text-lg font-bold">Broadcast Platform Announcement</h3>
+              <form onSubmit={sendAnnouncement} className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 space-y-4">
+                <h3 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE]">Broadcast Platform Announcement</h3>
                 <input
                   required
                   value={announcementTitle}
                   onChange={(e) => setAnnouncementTitle(e.target.value)}
                   placeholder="Announcement Title"
-                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
                 />
                 <textarea
                   required
@@ -800,9 +814,9 @@ export const AdminConsolePage: React.FC = () => {
                   value={announcementBody}
                   onChange={(e) => setAnnouncementBody(e.target.value)}
                   placeholder="Message delivered to user notification inboxes..."
-                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 text-sm"
+                  className="w-full px-3 py-2 rounded-lg border border-[#17231F]/15 dark:border-white/15 bg-white dark:bg-[#0F1714] text-sm text-[#17231F] dark:text-[#ECF1EE] placeholder:text-[#77817C] dark:placeholder:text-[#9AA8A1]/70"
                 />
-                <button type="submit" className="px-5 py-2.5 rounded-lg bg-[#1F7A59] text-white text-xs font-semibold">
+                <button type="submit" className="px-5 py-2.5 rounded-lg bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#238653]">
                   Send Announcement
                 </button>
               </form>
@@ -811,45 +825,45 @@ export const AdminConsolePage: React.FC = () => {
 
           {tab === 'analytics' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-white border border-[#17231F]/10 rounded-xl p-6 space-y-4">
-                <h3 className="font-display text-base font-bold">Users by Category (Live Database)</h3>
+              <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 space-y-4">
+                <h3 className="font-display text-base font-bold text-[#17231F] dark:text-[#ECF1EE]">Users by Category (Live Database)</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={categoryChartData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                      <XAxis dataKey="name" tick={{ fontSize: 10 }} />
-                      <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
-                      <Tooltip />
-                      <Bar dataKey="count" fill="#123C32" radius={[4, 4, 0, 0]} />
+                      <CartesianGrid strokeDasharray="3 3" stroke={chartGridColor} />
+                      <XAxis dataKey="name" tick={{ fontSize: 10, fill: chartTickColor }} stroke={chartAxisStroke} />
+                      <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: chartTickColor }} stroke={chartAxisStroke} />
+                      <Tooltip contentStyle={chartTooltipStyle} />
+                      <Bar dataKey="count" fill={isDark ? '#57C496' : '#123C32'} radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
               </div>
 
-              <div className="bg-white border border-[#17231F]/10 rounded-xl p-6 space-y-4">
-                <h3 className="font-display text-base font-bold">Top States Distribution (Live Database)</h3>
+              <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 space-y-4">
+                <h3 className="font-display text-base font-bold text-[#17231F] dark:text-[#ECF1EE]">Top States Distribution (Live Database)</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={stateChartData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                      <XAxis dataKey="name" tick={{ fontSize: 10 }} />
-                      <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
-                      <Tooltip />
-                      <Bar dataKey="count" fill="#1F7A59" radius={[4, 4, 0, 0]} />
+                      <CartesianGrid strokeDasharray="3 3" stroke={chartGridColor} />
+                      <XAxis dataKey="name" tick={{ fontSize: 10, fill: chartTickColor }} stroke={chartAxisStroke} />
+                      <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: chartTickColor }} stroke={chartAxisStroke} />
+                      <Tooltip contentStyle={chartTooltipStyle} />
+                      <Bar dataKey="count" fill={isDark ? '#2EA477' : '#1F7A59'} radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
               </div>
 
-              <div className="lg:col-span-2 bg-white border border-[#17231F]/10 rounded-xl p-6 space-y-4">
-                <h3 className="font-display text-base font-bold">Opportunities by Category (Live Database)</h3>
+              <div className="lg:col-span-2 bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 space-y-4">
+                <h3 className="font-display text-base font-bold text-[#17231F] dark:text-[#ECF1EE]">Opportunities by Category (Live Database)</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={oppCatChartData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                      <XAxis dataKey="name" tick={{ fontSize: 10 }} />
-                      <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
-                      <Tooltip />
+                      <CartesianGrid strokeDasharray="3 3" stroke={chartGridColor} />
+                      <XAxis dataKey="name" tick={{ fontSize: 10, fill: chartTickColor }} stroke={chartAxisStroke} />
+                      <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: chartTickColor }} stroke={chartAxisStroke} />
+                      <Tooltip contentStyle={chartTooltipStyle} />
                       <Bar dataKey="count" fill="#D6A84F" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
@@ -859,18 +873,18 @@ export const AdminConsolePage: React.FC = () => {
           )}
 
           {tab === 'logs' && (
-            <div className="bg-white border border-[#17231F]/10 rounded-xl p-6 space-y-3">
-              <h3 className="font-display text-lg font-bold">Administrative Audit Logs</h3>
+            <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 space-y-3">
+              <h3 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE]">Administrative Audit Logs</h3>
               {logs.length === 0 ? (
-                <p className="text-sm text-[#77817C]">No audit actions recorded yet.</p>
+                <p className="text-sm text-[#77817C] dark:text-[#9AA8A1]">No audit actions recorded yet.</p>
               ) : (
-                <div className="divide-y divide-[#17231F]/10 text-xs">
+                <div className="divide-y divide-[#17231F]/10 dark:divide-white/10 text-xs text-[#17231F] dark:text-[#ECF1EE]">
                   {logs.map((l) => (
                     <div key={l.id} className="py-2.5 flex flex-wrap justify-between gap-2">
                       <span>
-                        <strong className="font-mono text-[#123C32]">{l.action}</strong> · {l.targetType}/{l.targetId} · {l.details}
+                        <strong className="font-mono text-[#123C32] dark:text-[#57C496]">{l.action}</strong> · {l.targetType}/{l.targetId} · {l.details}
                       </span>
-                      <span className="text-[#77817C]">{l.adminEmail}</span>
+                      <span className="text-[#77817C] dark:text-[#9AA8A1]">{l.adminEmail}</span>
                     </div>
                   ))}
                 </div>

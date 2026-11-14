@@ -86,11 +86,11 @@ export const FundingHubPage: React.FC<FundingHubPageProps> = ({ navigate, isAuth
   return (
     <div className="space-y-10">
       <div className="space-y-2 max-w-3xl">
-        <p className="text-xs font-medium text-[#1F7A59]">GIRMA Funding Hub</p>
-        <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#17231F]">
+        <p className="text-xs font-medium text-[#1F7A59] dark:text-[#57C496]">GIRMA Funding Hub</p>
+        <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#17231F] dark:text-[#ECF1EE]">
           Capital Discovery &amp; Funding Readiness
         </h2>
-        <p className="text-sm text-[#77817C] leading-relaxed">
+        <p className="text-sm text-[#77817C] dark:text-[#9AA8A1] leading-relaxed">
           Explore verified grants, SME loans, angel investment windows, and government empowerment funds. GIRMA connects you to official sources and never guarantees funding approval.
         </p>
       </div>
@@ -102,8 +102,8 @@ export const FundingHubPage: React.FC<FundingHubPageProps> = ({ navigate, isAuth
           onClick={() => setSection('All')}
           className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap ${
             section === 'All'
-              ? 'bg-[#123C32] text-white'
-              : 'bg-white border border-[#17231F]/10 text-[#17231F] hover:border-[#123C32]'
+              ? 'bg-[#123C32] dark:bg-[#1F7A59] text-white'
+              : 'bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 text-[#17231F] dark:text-[#ECF1EE] hover:border-[#123C32] dark:hover:border-[#57C496]'
           }`}
         >
           All Funding
@@ -115,8 +115,8 @@ export const FundingHubPage: React.FC<FundingHubPageProps> = ({ navigate, isAuth
             onClick={() => setSection(sec)}
             className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap ${
               section === sec
-                ? 'bg-[#123C32] text-white'
-                : 'bg-white border border-[#17231F]/10 text-[#17231F] hover:border-[#123C32]'
+                ? 'bg-[#123C32] dark:bg-[#1F7A59] text-white'
+                : 'bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 text-[#17231F] dark:text-[#ECF1EE] hover:border-[#123C32] dark:hover:border-[#57C496]'
             }`}
           >
             {sec}
@@ -128,11 +128,11 @@ export const FundingHubPage: React.FC<FundingHubPageProps> = ({ navigate, isAuth
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {[1, 2].map((i) => (
-            <div key={i} className="h-44 rounded-xl bg-white border border-[#17231F]/10 animate-pulse" />
+            <div key={i} className="h-44 rounded-xl bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 animate-pulse" />
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="bg-white border border-[#17231F]/10 rounded-xl p-8 text-center text-sm text-[#77817C]">
+        <div className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-8 text-center text-sm text-[#77817C] dark:text-[#9AA8A1]">
           No published funding listings match “{section}” right now. Try selecting All Funding.
         </div>
       ) : (
@@ -140,22 +140,22 @@ export const FundingHubPage: React.FC<FundingHubPageProps> = ({ navigate, isAuth
           {filtered.map((opp) => (
             <div
               key={opp.id}
-              className="bg-white border border-[#17231F]/10 rounded-xl p-6 flex flex-col justify-between space-y-4"
+              className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-xl p-6 flex flex-col justify-between space-y-4"
             >
               <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs text-[#77817C]">
-                  <span className="font-semibold text-[#1F7A59]">
+                <div className="flex items-center justify-between text-xs text-[#77817C] dark:text-[#9AA8A1]">
+                  <span className="font-semibold text-[#1F7A59] dark:text-[#57C496]">
                     {opp.fundingType || opp.category}
                   </span>
                   <span className="font-mono tabular-nums">Deadline {opp.deadlineDate}</span>
                 </div>
-                <h3 className="font-display text-lg font-bold text-[#17231F]">{opp.title}</h3>
-                <p className="text-xs text-[#77817C]">{opp.organizationName}</p>
-                <p className="text-sm text-[#77817C] line-clamp-2">{opp.eligibilitySummary || opp.description}</p>
+                <h3 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE]">{opp.title}</h3>
+                <p className="text-xs text-[#77817C] dark:text-[#9AA8A1]">{opp.organizationName}</p>
+                <p className="text-sm text-[#77817C] dark:text-[#9AA8A1] line-clamp-2">{opp.eligibilitySummary || opp.description}</p>
               </div>
 
-              <div className="pt-3 border-t border-[#17231F]/10 flex flex-wrap items-center justify-between gap-3">
-                <span className="font-mono text-sm font-semibold tabular-nums text-[#123C32]">
+              <div className="pt-3 border-t border-[#17231F]/10 dark:border-white/10 flex flex-wrap items-center justify-between gap-3">
+                <span className="font-mono text-sm font-semibold tabular-nums text-[#123C32] dark:text-[#57C496]">
                   {opp.fundingAmountMax
                     ? `${formatNaira(opp.fundingAmountMin, opp.fundingCurrency)} – ${formatNaira(opp.fundingAmountMax, opp.fundingCurrency)}`
                     : 'See official source'}
@@ -170,7 +170,7 @@ export const FundingHubPage: React.FC<FundingHubPageProps> = ({ navigate, isAuth
                           : `/explore?id=${opp.id}`
                       )
                     }
-                    className="px-3.5 py-2 rounded-lg border border-[#123C32]/25 text-xs font-semibold text-[#123C32]"
+                    className="px-3.5 py-2 rounded-lg border border-[#123C32]/25 dark:border-[#57C496]/35 text-xs font-semibold text-[#123C32] dark:text-[#57C496] hover:bg-[#123C32]/5 dark:hover:bg-[#57C496]/10 transition-colors"
                   >
                     Eligibility &amp; Match
                   </button>
@@ -178,7 +178,7 @@ export const FundingHubPage: React.FC<FundingHubPageProps> = ({ navigate, isAuth
                     href={opp.officialUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-[#123C32] text-white text-xs font-semibold"
+                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold hover:bg-[#1F7A59] dark:hover:bg-[#238653] transition-colors"
                   >
                     <span>Official Source</span>
                     <ExternalLink className="w-3 h-3" />
@@ -191,16 +191,16 @@ export const FundingHubPage: React.FC<FundingHubPageProps> = ({ navigate, isAuth
       )}
 
       {/* Funding Education */}
-      <section className="bg-white border border-[#17231F]/10 rounded-2xl p-6 sm:p-8 space-y-6">
+      <section className="bg-white dark:bg-[#121B18] border border-[#17231F]/10 dark:border-white/10 rounded-2xl p-6 sm:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-[#123C32]" />
-            <h3 className="font-display text-xl font-bold text-[#17231F]">Funding Readiness Education</h3>
+            <BookOpen className="w-5 h-5 text-[#123C32] dark:text-[#57C496]" />
+            <h3 className="font-display text-xl font-bold text-[#17231F] dark:text-[#ECF1EE]">Funding Readiness Education</h3>
           </div>
           <button
             type="button"
             onClick={() => navigate(isAuthenticated ? '/app/toolkit' : '/register')}
-            className="text-xs font-semibold text-[#123C32] inline-flex items-center gap-1 hover:underline"
+            className="text-xs font-semibold text-[#123C32] dark:text-[#57C496] inline-flex items-center gap-1 hover:underline"
           >
             <span>Open Financial Calculators &amp; Templates</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -216,8 +216,8 @@ export const FundingHubPage: React.FC<FundingHubPageProps> = ({ navigate, isAuth
                 onClick={() => setActiveGuide(idx)}
                 className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                   activeGuide === idx
-                    ? 'bg-[#123C32] text-white'
-                    : 'bg-[#F8F7F1] text-[#17231F] hover:bg-[#123C32]/10'
+                    ? 'bg-[#123C32] dark:bg-[#1F7A59] text-white'
+                    : 'bg-[#F8F7F1] dark:bg-[#17231F] text-[#17231F] dark:text-[#ECF1EE] hover:bg-[#123C32]/10 dark:hover:bg-[#57C496]/15'
                 }`}
               >
                 {g.title}
@@ -225,12 +225,12 @@ export const FundingHubPage: React.FC<FundingHubPageProps> = ({ navigate, isAuth
             ))}
           </div>
 
-          <div className="lg:col-span-7 bg-[#F8F7F1] rounded-xl p-6 flex flex-col justify-between space-y-4">
+          <div className="lg:col-span-7 bg-[#F8F7F1] dark:bg-[#17231F] rounded-xl p-6 flex flex-col justify-between space-y-4">
             <div className="space-y-3">
-              <h4 className="font-display text-lg font-bold text-[#17231F]">
+              <h4 className="font-display text-lg font-bold text-[#17231F] dark:text-[#ECF1EE]">
                 {FUNDING_EDUCATION[activeGuide].title}
               </h4>
-              <p className="text-sm text-[#77817C] leading-relaxed">
+              <p className="text-sm text-[#77817C] dark:text-[#9AA8A1] leading-relaxed">
                 {FUNDING_EDUCATION[activeGuide].summary}
               </p>
             </div>
@@ -238,14 +238,14 @@ export const FundingHubPage: React.FC<FundingHubPageProps> = ({ navigate, isAuth
               <button
                 type="button"
                 onClick={() => navigate(isAuthenticated ? '/app/assistant' : '/register')}
-                className="px-4 py-2 rounded-lg bg-[#123C32] text-white text-xs font-semibold"
+                className="px-4 py-2 rounded-lg bg-[#123C32] dark:bg-[#1F7A59] text-white text-xs font-semibold"
               >
                 Draft With Ask GIRMA
               </button>
               <button
                 type="button"
                 onClick={() => navigate(isAuthenticated ? '/app/toolkit' : '/register')}
-                className="px-4 py-2 rounded-lg border border-[#123C32]/25 bg-white text-xs font-semibold text-[#123C32]"
+                className="px-4 py-2 rounded-lg border border-[#123C32]/25 dark:border-[#57C496]/35 bg-white dark:bg-[#121B18] text-xs font-semibold text-[#123C32] dark:text-[#57C496]"
               >
                 Launch Business Toolkit
               </button>
