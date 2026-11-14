@@ -1,0 +1,6 @@
+{
+  "name": "GIRMA",
+  "description": "GIRMA (Growth, Innovation, Resources, Markets and Access) – An AI-powered digital ecosystem connecting entrepreneurs, startups, SMEs, students, and organizations across Africa to verified opportunities, funding, markets, mentorship, and business intelligence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

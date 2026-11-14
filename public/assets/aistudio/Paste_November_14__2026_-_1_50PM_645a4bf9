@@ -1,0 +1,1206 @@
+PROJECT NAME
+GIRMA – Growth, Innovation, Resources, Markets and Access.
+
+PROJECT TYPE
+Build a complete, production-oriented, AI-powered digital ecosystem for entrepreneurs, small businesses, startups, students, innovators, professionals, mentors, investors, organizations, and opportunity providers across Africa.
+
+This is a full-stack software development project. Do not build merely a landing page, static dashboard, UI mockup, or frontend demonstration.
+
+Build a functional application with real navigation, authentication, database integration, user roles, business profiles, opportunity management, AI-powered recommendations, notifications, and administrative management.
+
+The application must be modular, secure, responsive, scalable, and maintainable.
+
+PART 1: PRODUCT VISION AND IDENTITY
+1.1 What is GIRMA?
+GIRMA stands for:
+
+G – Growth
+I – Innovation
+R – Resources
+M – Markets
+A – Access
+
+GIRMA is an AI-powered digital platform designed to connect individuals, entrepreneurs, startups, and small businesses with the resources, opportunities, markets, knowledge, mentorship, funding, and support they need to grow.
+
+GIRMA addresses a significant challenge across Africa: people have ideas, skills, products, and business potential, but frequently lack access to the opportunities and networks necessary to turn that potential into measurable progress.
+
+GIRMA exists to close this access gap.
+
+Its mission is to ensure that potential does not go to waste simply because access was missing.
+
+1.2 Target Market
+The initial launch market is Northern Nigeria, with expansion across Nigeria, Africa, and other emerging markets.
+
+Primary users include:
+
+Young entrepreneurs.
+Small and medium-sized enterprises (SMEs).
+Startup founders.
+Students and graduates.
+Freelancers and skilled professionals.
+Innovators and technology enthusiasts.
+Farmers and agribusiness owners.
+Women-owned businesses.
+Mentors and business consultants.
+Investors and funding organizations.
+NGOs and development organizations.
+Government agencies and institutions.
+Opportunity providers and corporate organizations.
+1.3 Core Product Promise
+GIRMA should help users:
+
+Discover relevant opportunities.
+Find grants and funding.
+Access business development resources.
+Connect with markets and customers.
+Learn practical entrepreneurial skills.
+Find mentors and professional support.
+Discover relevant competitions, training, scholarships, and fellowships.
+Understand what opportunities match their profile.
+Receive reminders before application deadlines.
+Grow their businesses through actionable recommendations.
+The platform must make discovering and accessing opportunities easier, smarter, and more organized.
+
+PART 2: BRANDING AND DESIGN SYSTEM
+Create a premium, modern, trustworthy African technology brand.
+
+2.1 Visual Identity
+The design should communicate:
+
+Innovation.
+Growth.
+Accessibility.
+Trust.
+Opportunity.
+African entrepreneurship.
+Professionalism.
+Digital transformation.
+Use an elegant African-inspired technology aesthetic.
+
+Suggested design palette:
+
+Primary: Deep forest green – #123C32
+Secondary: Emerald green – #1F7A59
+Accent: Warm gold – #D6A84F
+Background: Warm ivory – #F8F7F1
+Surface: White – #FFFFFF
+Primary text: Dark charcoal – #17231F
+Secondary text: Muted grey – #77817C
+Success: #238653
+Warning: #E6A23C
+Error: #D94C4C
+
+Use these as initial brand tokens, maintaining consistent design throughout the application.
+
+2.2 Design Direction
+The interface must look like a combination of a premium fintech platform, an African startup ecosystem, and a modern business intelligence application.
+
+Design requirements:
+
+Clean and minimal interfaces.
+Generous whitespace.
+Professional typography.
+Rounded cards with subtle shadows.
+Consistent spacing.
+Clear navigation.
+High-quality icons.
+Beautiful data visualizations.
+Responsive layouts.
+Accessible color contrast.
+Smooth but restrained animations.
+Meaningful empty states.
+Loading skeletons.
+Helpful error messages.
+Clear success notifications.
+Avoid:
+
+Overcrowded dashboards.
+Excessive gradients.
+Unnecessary animations.
+Generic template aesthetics.
+Too many colors.
+Nonfunctional buttons.
+Fake statistics presented as real data.
+The design must work beautifully on smartphones, tablets, laptops, and desktop computers.
+
+2.3 Main Navigation
+Desktop sidebar:
+
+Overview
+Discover Opportunities
+Funding Hub
+Business Directory
+Markets
+Learning Centre
+Business Toolkit
+Mentorship
+AI Assistant
+Notifications
+My Profile
+Settings
+Mobile navigation:
+
+Use a responsive bottom navigation with the most important sections and an accessible menu for the remaining features.
+
+PART 3: USER AUTHENTICATION AND ONBOARDING
+Build a complete authentication system.
+
+3.1 Registration
+Allow users to register using:
+
+Full name.
+Email address.
+Phone number.
+Password.
+Country.
+State.
+User category.
+Include secure password hashing, email verification, password recovery, session management, and logout.
+
+Where supported, include Google authentication.
+
+3.2 User Categories
+During registration, users should select their category:
+
+Entrepreneur.
+Small Business Owner.
+Startup Founder.
+Student.
+Graduate.
+Freelancer.
+Professional.
+Mentor.
+Investor.
+Organization.
+Opportunity Provider.
+A user can select additional interests after registration.
+
+3.3 Smart Onboarding
+After registration, guide users through a personalized onboarding process.
+
+For entrepreneurs and business owners, collect:
+
+Business name.
+Business description.
+Business category.
+Industry.
+Business location.
+Business registration status.
+Business stage.
+Business size.
+Number of employees.
+Years of operation.
+Funding requirements.
+Monthly or annual revenue range (optional).
+Products and services.
+Target customers.
+Current business challenges.
+Growth objectives.
+For students and graduates, collect:
+
+Institution.
+Course of study.
+Education level.
+Skills.
+Career interests.
+Location.
+Preferred opportunities.
+For mentors, collect:
+
+Professional background.
+Areas of expertise.
+Years of experience.
+Mentorship interests.
+Availability.
+For investors and organizations, collect:
+
+Organization name.
+Organization type.
+Industry.
+Investment or support interests.
+Geographic focus.
+Contact information.
+Make onboarding conditional based on user category.
+
+Allow users to complete optional profile information later.
+
+PART 4: USER DASHBOARD
+Create a personalized dashboard for every user.
+
+The dashboard should display:
+
+Welcome message with the user’s name.
+Profile completion percentage.
+Recommended opportunities.
+Funding opportunities.
+Recently added opportunities.
+Upcoming application deadlines.
+Saved opportunities.
+Business growth insights.
+Notifications.
+Recommended learning resources.
+Suggested mentors.
+Quick actions.
+For entrepreneurs, include:
+
+Business profile summary.
+Funding needs.
+Business growth recommendations.
+Relevant market opportunities.
+Business development checklist.
+For students and graduates, prioritize:
+
+Scholarships.
+Fellowships.
+Internships.
+Competitions.
+Training.
+Employment opportunities.
+The dashboard must be dynamic and retrieve information based on the authenticated user’s profile and activity.
+
+PART 5: OPPORTUNITY DISCOVERY ENGINE
+This is one of GIRMA’s most important features.
+
+Create a centralized opportunity discovery system.
+
+5.1 Opportunity Categories
+Support the following categories:
+
+Grants.
+Business funding.
+Loans.
+Scholarships.
+Fellowships.
+Internships.
+Jobs.
+Business competitions.
+Startup accelerators.
+Incubation programmes.
+Training programmes.
+Workshops.
+Conferences.
+Mentorship programmes.
+Government empowerment programmes.
+Procurement opportunities.
+Market access opportunities.
+Research opportunities.
+5.2 Opportunity Information
+Every opportunity must contain:
+
+Opportunity title.
+Organization name.
+Opportunity category.
+Description.
+Eligibility requirements.
+Target audience.
+Country.
+Eligible locations.
+Industry.
+Benefits.
+Funding amount, where applicable.
+Application opening date.
+Application deadline.
+Required documents.
+Application instructions.
+Official application URL.
+Contact information.
+Verification status.
+Date published.
+5.3 Discovery Interface
+Build a searchable opportunity directory.
+
+Users should be able to filter opportunities by:
+
+Category.
+Industry.
+Country.
+State.
+Eligibility.
+Education level.
+Business stage.
+Funding amount.
+Deadline.
+Organization.
+Opportunity type.
+Include sorting by:
+
+Recently published.
+Closing soon.
+Most relevant.
+Highest funding amount, where applicable.
+5.4 Opportunity Management
+Users should be able to:
+
+View full opportunity details.
+Save opportunities.
+Unsave opportunities.
+Share opportunities.
+Mark opportunities as interested.
+Track application status.
+Add personal application notes.
+Open official application links.
+Application tracking statuses:
+
+Saved.
+Planning to Apply.
+Application in Progress.
+Submitted.
+Shortlisted.
+Successful.
+Unsuccessful.
+Never claim that GIRMA has submitted an application when the user has only opened an external application website.
+
+PART 6: AI-POWERED OPPORTUNITY MATCHING
+Develop an intelligent recommendation engine called GIRMA Match.
+
+The system must analyze user profiles and recommend relevant opportunities.
+
+Matching Factors
+Consider:
+
+User category.
+Business industry.
+Business stage.
+Location.
+Education level.
+Skills.
+Funding requirements.
+Business registration status.
+Eligibility criteria.
+User interests.
+Opportunity deadlines.
+Matching Score
+Generate a transparent relevance score between 0 and 100.
+
+Display:
+
+Match percentage.
+Why the opportunity matches.
+Requirements the user already satisfies.
+Requirements still missing.
+Recommended next action.
+Example:
+
+Opportunity: Youth Entrepreneurship Grant.
+
+Match Score: 87%.
+
+Why you match:
+
+Your business operates in an eligible sector.
+Your location is covered.
+Your business stage matches the programme.
+What you need:
+
+Valid business registration.
+Business proposal.
+Financial projections.
+Provide an opportunity recommendation algorithm that combines structured eligibility rules and AI-assisted relevance analysis.
+
+Do not allow an AI model to override mandatory eligibility requirements.
+
+PART 7: FUNDING HUB
+Create a dedicated Funding Hub.
+
+Its purpose is to help entrepreneurs discover and understand available financial support.
+
+Sections:
+
+Grants.
+Business loans.
+Startup capital.
+Seed funding.
+Angel investment opportunities.
+Venture capital opportunities.
+Government funding.
+Women-focused funding.
+Youth-focused funding.
+Agricultural funding.
+Each funding listing should display:
+
+Funding organization.
+Funding type.
+Amount or funding range.
+Eligibility.
+Requirements.
+Deadline.
+Application process.
+Official source.
+Include funding education:
+
+How to write a grant proposal.
+How to prepare a business plan.
+How to develop a pitch deck.
+How to calculate startup costs.
+How to prepare financial projections.
+How to approach investors.
+Understanding equity and debt financing.
+Never guarantee funding or suggest that GIRMA directly provides grants unless a verified programme actually exists.
+
+PART 8: GIRMA AI ASSISTANT
+Build a powerful AI assistant named:
+
+ASK GIRMA.
+
+Tagline: Your Intelligent Growth Companion.
+
+Integrate Google’s Gemini API through a secure server-side implementation.
+
+Never expose API keys in frontend code.
+
+8.1 Assistant Capabilities
+Ask GIRMA should help users:
+
+Develop business ideas.
+Validate business concepts.
+Create business plans.
+Prepare grant applications.
+Understand funding requirements.
+Improve business strategies.
+Identify growth opportunities.
+Develop marketing strategies.
+Understand financial planning.
+Prepare pitch decks.
+Improve business profiles.
+Discover relevant learning resources.
+Understand application eligibility.
+Generate business development checklists.
+8.2 Contextual Intelligence
+The assistant should understand the user’s:
+
+Business profile.
+Industry.
+Location.
+Business stage.
+Funding needs.
+Skills.
+Career interests.
+Previously saved opportunities.
+Use this information to provide relevant recommendations, subject to user consent and access permissions.
+
+8.3 Example Interactions
+User: I run a small agricultural business in Adamawa State. Where can I find funding?
+
+Ask GIRMA should:
+
+Understand the business.
+Identify relevant funding categories.
+Search available verified opportunities.
+Explain eligibility.
+Recommend next steps.
+User: Help me write a business proposal.
+
+Ask GIRMA should guide the user through a structured proposal:
+
+Executive summary.
+Business description.
+Problem statement.
+Proposed solution.
+Market analysis.
+Products and services.
+Marketing strategy.
+Operations.
+Financial projections.
+Funding requirements.
+8.4 AI Safety
+The assistant must:
+
+Avoid inventing grants and opportunities.
+Distinguish verified facts from suggestions.
+Identify uncertain information.
+Avoid guaranteeing business success.
+Never fabricate official application URLs.
+Protect private user information.
+Explain when human professional advice is necessary.
+Include conversation history where appropriate.
+
+PART 9: BUSINESS DIRECTORY
+Build a searchable business directory.
+
+Every approved business should have a public business profile.
+
+Business profile fields:
+
+Business name.
+Logo.
+Cover image.
+Description.
+Industry.
+Location.
+Products.
+Services.
+Contact information.
+Website.
+Social media.
+Registration status.
+Business verification status.
+Features:
+
+Search businesses.
+Filter by industry.
+Filter by location.
+View business profiles.
+Save businesses.
+Contact businesses.
+Share business profiles.
+Include a verification process to distinguish verified businesses from unverified profiles.
+
+Do not automatically label a business as verified because it has completed registration on GIRMA.
+
+PART 10: MARKETS AND BUSINESS CONNECTIONS
+Develop a Markets section that helps businesses connect with potential customers and partners.
+
+Features:
+
+Product listings.
+Service listings.
+Business-to-business connections.
+Product discovery.
+Search by location.
+Search by industry.
+Business contact requests.
+Partnership opportunities.
+Supplier discovery.
+Each listing should contain:
+
+Product or service name.
+Description.
+Images.
+Price, where applicable.
+Business name.
+Location.
+Contact method.
+For the initial MVP, implement business discovery and enquiry functionality.
+
+Do not build complex payment processing or escrow functionality until the relevant business and regulatory requirements have been established.
+
+PART 11: LEARNING CENTRE
+Build a learning platform for entrepreneurs and young professionals.
+
+Learning categories:
+
+Entrepreneurship.
+Business management.
+Financial literacy.
+Digital marketing.
+Technology.
+Artificial intelligence.
+Cybersecurity.
+Leadership.
+Business development.
+Sales.
+Innovation.
+Career development.
+Content types:
+
+Articles.
+Videos.
+Tutorials.
+Downloadable documents.
+Courses.
+Practical guides.
+Features:
+
+Search learning resources.
+Save resources.
+Track completed lessons.
+Recommend learning content based on user interests.
+Display learning progress.
+Allow administrators to upload and manage educational materials.
+
+PART 12: BUSINESS TOOLKIT
+Create practical tools that help entrepreneurs manage and grow their businesses.
+
+Initial tools:
+
+Business Plan Generator.
+Business Model Canvas.
+SWOT Analysis.
+Startup Cost Calculator.
+Profit and Loss Calculator.
+Break-even Calculator.
+Pricing Calculator.
+Marketing Plan Generator.
+Customer Persona Generator.
+Pitch Deck Outline Generator.
+Grant Proposal Assistant.
+Business Readiness Assessment.
+All calculations must use actual mathematical logic rather than AI-generated estimates.
+
+Allow users to save and revisit generated business documents.
+
+Where possible, provide export functionality to PDF.
+
+PART 13: MENTORSHIP AND NETWORKING
+Create a mentorship directory.
+
+Mentors should have profiles containing:
+
+Name.
+Professional background.
+Expertise.
+Industry.
+Experience.
+Location.
+Availability.
+Biography.
+Profile image.
+Features:
+
+Discover mentors.
+Filter by expertise.
+Request mentorship.
+Send connection requests.
+Manage mentorship requests.
+Accept or decline requests.
+Maintain mentorship status.
+Include a simple messaging or contact-request system.
+
+Only approved mentors should appear as verified mentors.
+
+PART 14: NOTIFICATIONS AND DEADLINE INTELLIGENCE
+Build a comprehensive notification system.
+
+Notification categories:
+
+New opportunity alerts.
+Matching opportunities.
+Application deadlines.
+Mentorship requests.
+Business connection requests.
+Administrative announcements.
+Learning recommendations.
+Deadline Intelligence
+This is a critical feature.
+
+Automatically compare opportunity deadlines against user profiles and saved opportunities.
+
+Send reminders:
+
+7 days before deadline.
+3 days before deadline.
+1 day before deadline.
+Prioritize opportunities with a relevance score of at least 60%.
+
+Prevent duplicate notifications using a unique combination of:
+
+User ID.
+Opportunity ID.
+Reminder type.
+Support:
+
+In-app notifications.
+Email notifications.
+Read/unread status.
+Notification preferences.
+Create a scheduled background process for deadline checking.
+
+Make the scheduling implementation compatible with the chosen deployment environment.
+
+PART 15: ADMINISTRATIVE DASHBOARD
+Build a secure administration panel.
+
+Only authorized administrators can access it.
+
+15.1 Admin Overview
+Display:
+
+Total registered users.
+Total entrepreneurs.
+Total businesses.
+Total opportunities.
+Active opportunities.
+Expired opportunities.
+Verified businesses.
+Pending verification requests.
+Total saved opportunities.
+Unread notifications.
+Recent platform activities.
+15.2 User Management
+Administrators should be able to:
+
+View users.
+Search users.
+Filter by category.
+View user profiles.
+Suspend accounts.
+Restore accounts.
+Manage permissions.
+15.3 Opportunity Management
+Administrators should be able to:
+
+Create opportunities.
+Edit opportunities.
+Delete opportunities.
+Publish opportunities.
+Unpublish opportunities.
+Verify opportunity sources.
+Mark opportunities as expired.
+Manage application deadlines.
+15.4 Business Verification
+Allow administrators to:
+
+Review submitted documents.
+Approve verification.
+Reject verification.
+Request additional information.
+Record verification notes.
+15.5 Content Management
+Administrators should manage:
+
+Learning resources.
+Articles.
+Videos.
+Announcements.
+Mentors.
+Featured opportunities.
+15.6 Analytics
+Create interactive charts and reports showing:
+
+User growth.
+User demographics.
+Business categories.
+State distribution.
+Industry distribution.
+Funding needs.
+Opportunity categories.
+Opportunity engagement.
+Most saved opportunities.
+Notification activity.
+Use real database data.
+
+Never display fabricated platform statistics.
+
+PART 16: DATABASE AND BACKEND ARCHITECTURE
+Design a proper relational database architecture.
+
+Use a secure backend API and a relational database.
+
+Preferred implementation:
+
+Frontend: React with TypeScript.
+Styling: Tailwind CSS.
+Backend: Node.js with TypeScript or another supported server-side runtime.
+Database: PostgreSQL or MySQL.
+AI: Google Gemini API.
+Authentication: Secure server-managed authentication.
+Charts: Chart.js or Recharts.
+File storage: Secure cloud storage.
+API architecture: RESTful endpoints with documented request and response structures.
+If Google AI Studio requires a different supported architecture, select the closest production-ready equivalent and explain the decision before implementation.
+
+Required Database Entities
+Create normalized tables or equivalent collections for:
+
+users
+user_roles
+business_profiles
+student_profiles
+mentor_profiles
+organization_profiles
+opportunities
+opportunity_categories
+opportunity_eligibility
+saved_opportunities
+opportunity_applications
+opportunity_matches
+notifications
+notification_preferences
+learning_resources
+learning_progress
+business_listings
+business_connections
+mentorship_requests
+conversations
+messages
+business_documents
+verification_requests
+ai_conversations
+ai_messages
+admin_activity_logs
+platform_settings
+Use:
+
+Primary keys.
+Foreign keys.
+Appropriate indexes.
+Unique constraints.
+Created and updated timestamps.
+Soft deletion where appropriate.
+Database migrations.
+Define relationships correctly.
+
+Use pagination for large datasets.
+
+Avoid loading the entire database into the frontend.
+
+PART 17: SECURITY AND DATA PROTECTION
+Security is mandatory.
+
+Implement:
+
+Secure authentication.
+Password hashing.
+Server-side role-based authorization.
+Input validation.
+API request validation.
+Protection against SQL injection.
+Protection against cross-site scripting.
+CSRF protection where applicable.
+Rate limiting.
+Secure file uploads.
+Environment variables for secrets.
+API key protection.
+Database access restrictions.
+Audit logs for administrative actions.
+User data access controls.
+Secure error handling.
+Users must only be able to modify their own private records unless an authorized administrative role permits otherwise.
+
+Never trust role information submitted directly by the frontend.
+
+Implement privacy-conscious data collection and consent mechanisms.
+
+PART 18: BUSINESS MODEL AND MONETIZATION
+Design the platform to support a freemium business model.
+
+Initial proposed structure:
+
+FREE PLAN:
+
+Basic account.
+Basic business profile.
+Opportunity discovery.
+Limited AI assistance.
+Saved opportunities.
+Basic learning resources.
+GIRMA PRO:
+Proposed price: ₦3,000 per month.
+
+Potential features:
+
+Advanced AI assistance.
+Enhanced opportunity matching.
+Advanced business tools.
+Personalized growth recommendations.
+Extended opportunity tracking.
+ORGANIZATION PLAN:
+Proposed range: ₦10,000–₦50,000+ per month, subject to organizational needs.
+
+Potential features:
+
+Organization profiles.
+Opportunity publishing.
+Talent and entrepreneur discovery.
+Advanced analytics.
+Sponsored opportunity placement.
+Additional potential revenue:
+
+Sponsored opportunities.
+Premium business services.
+Organization subscriptions.
+Business promotion.
+Marketplace connection fees.
+Do not activate payment processing until the business has selected and configured a payment provider.
+
+Build the application architecture so subscription plans can be introduced without restructuring the entire platform.
+
+PART 19: SEARCH, PERFORMANCE AND ACCESSIBILITY
+Implement:
+
+Global search.
+Search suggestions.
+Search filters.
+Database-backed pagination.
+Optimized images.
+Lazy loading.
+Caching where appropriate.
+Responsive components.
+Accessible form labels.
+Keyboard navigation.
+Appropriate semantic HTML.
+Meaningful page titles.
+Good loading performance.
+The platform should work reliably on average smartphones and slower internet connections common in underserved communities.
+
+PART 20: LOCALIZATION AND AFRICAN CONTEXT
+Build GIRMA with African users in mind.
+
+Initial language:
+
+English.
+
+Prepare the application for future support of:
+
+Hausa.
+Yoruba.
+Igbo.
+French.
+Regional settings:
+
+Default country: Nigeria.
+Currency: Nigerian Naira (₦).
+Time zone: Africa/Lagos.
+State selection must include all 36 Nigerian states and the Federal Capital Territory.
+Allow future country expansion.
+
+Avoid assumptions that all African entrepreneurs have access to international banking, expensive devices, or high-speed internet.
+
+PART 21: REQUIRED APPLICATION PAGES
+Create these pages:
+
+PUBLIC PAGES:
+
+Landing Page.
+About GIRMA.
+How It Works.
+Explore Opportunities.
+Funding Hub.
+Business Directory.
+Learning Centre.
+Pricing.
+Contact.
+Login.
+Register.
+Privacy Policy.
+Terms of Service.
+AUTHENTICATED PAGES:
+
+User Dashboard.
+My Profile.
+Business Profile.
+Discover Opportunities.
+Opportunity Details.
+Saved Opportunities.
+My Applications.
+Funding Hub.
+Markets.
+Business Directory.
+Learning Centre.
+Learning Details.
+Business Toolkit.
+Ask GIRMA.
+Mentorship.
+Notifications.
+Settings.
+ADMIN PAGES:
+
+Admin Dashboard.
+User Management.
+Business Management.
+Opportunity Management.
+Opportunity Verification.
+Business Verification.
+Content Management.
+Mentor Management.
+Analytics.
+Notification Management.
+System Settings.
+Audit Logs.
+Use reusable layouts and shared components.
+
+PART 22: LANDING PAGE EXPERIENCE
+The landing page must communicate GIRMA’s value proposition immediately.
+
+Hero headline:
+
+“Your Potential Deserves Access.”
+
+Supporting text:
+
+“GIRMA connects entrepreneurs, innovators, and ambitious individuals to funding, opportunities, markets, knowledge, and the support they need to grow.”
+
+Primary CTA:
+“Get Started”
+
+Secondary CTA:
+“Explore Opportunities”
+
+Include these sections:
+
+Hero section.
+The access problem.
+How GIRMA works.
+Core ecosystem pillars.
+Opportunity discovery preview.
+Funding Hub preview.
+Ask GIRMA AI preview.
+Business growth and market access.
+Who GIRMA serves.
+Why GIRMA.
+Call to action.
+Footer.
+The landing page must be visually impressive, professional, and conversion-focused.
+
+Do not invent testimonials, partner logos, funding success stories, or user statistics.
+
+PART 23: DEVELOPMENT PHASES
+Do not attempt to implement every feature as a disconnected collection of screens.
+
+Build GIRMA incrementally while maintaining one coherent architecture.
+
+PHASE 1 – CORE MVP
+
+Prioritize:
+
+Landing page.
+Authentication.
+User onboarding.
+User profiles.
+Business profiles.
+User dashboard.
+Opportunity directory.
+Opportunity details.
+Opportunity saving.
+Opportunity application tracking.
+GIRMA Match.
+Ask GIRMA AI.
+Funding Hub.
+In-app notifications.
+Admin dashboard.
+Opportunity management.
+PHASE 2 – BUSINESS GROWTH
+
+Add:
+
+Business Directory.
+Markets.
+Learning Centre.
+Business Toolkit.
+Mentorship.
+Deadline Intelligence.
+Advanced analytics.
+PHASE 3 – SCALE
+
+Add:
+
+Subscription management.
+Payment integration.
+Organization dashboards.
+Advanced AI recommendations.
+Multilingual support.
+Mobile application integration.
+Advanced marketplace capabilities.
+External partner integrations.
+Build Phase 1 first, but design the architecture so future phases can be added without rebuilding the application.
+
+PART 24: FUNCTIONAL REQUIREMENTS
+This is extremely important.
+
+Every visible interactive element must perform its intended function.
+
+Do not create:
+
+Dead buttons.
+Fake login forms.
+Static dashboards pretending to contain live data.
+Hardcoded user profiles.
+Fake opportunity matching.
+Placeholder AI conversations presented as real AI.
+Nonfunctional search.
+Nonfunctional filters.
+Decorative charts with invented numbers.
+For every major feature:
+
+Build the frontend.
+Build the backend logic.
+Connect the database.
+Implement validation.
+Implement error handling.
+Test the complete user workflow.
+Use realistic seed data only for development and clearly distinguish it from live records.
+
+Include an authorized development/admin setup process.
+
+PART 25: TESTING AND QUALITY ASSURANCE
+Create tests for:
+
+User registration.
+User login.
+Password recovery.
+Role-based permissions.
+Profile creation.
+Business profile updates.
+Opportunity creation.
+Opportunity searching.
+Opportunity matching.
+Saving opportunities.
+Application tracking.
+AI assistant requests.
+Notification delivery.
+Deadline reminders.
+Administrative actions.
+Test desktop and mobile layouts.
+
+Test invalid input and unauthorized access.
+
+Fix errors before declaring a feature complete.
+
+PART 26: REQUIRED DELIVERABLES
+When building this application, produce:
+
+Complete source code.
+Organized project folder structure.
+Responsive frontend.
+Functional backend.
+Database schema.
+Database migrations.
+API endpoints.
+Authentication system.
+Gemini AI integration.
+Environment variable template.
+Development seed data.
+Admin setup instructions.
+Testing instructions.
+Deployment instructions.
+README documentation.
+Include clear instructions on how to:
+
+Run the application locally.
+Configure the database.
+Configure Gemini API.
+Create the first administrator.
+Add opportunities.
+Manage users.
+Deploy the application.
+PART 27: FINAL BUILD INSTRUCTIONS
+Act as a senior software architect, full-stack engineer, AI engineer, product designer, database architect, and cybersecurity specialist.
+
+You are responsible for transforming this specification into a working product.
+
+Before implementation:
+
+Analyze the requirements.
+Define the application architecture.
+Define the database schema.
+Identify external services.
+Establish the design system.
+Define the MVP implementation sequence.
+Then begin implementation.
+
+Do not stop after producing a plan or a landing page.
+
+Build the actual application.
+
+If an external API, database credential, or integration is unavailable, create the proper integration interface, document the required configuration, and clearly identify what remains unconnected. Do not pretend the integration is working.
+
+Do not silently replace real backend functionality with local mock data.
+
+Maintain consistency across all screens and features.
+
+Keep the application production-oriented, secure, modular, and scalable.
+
+The final product must feel like a serious African technology company, not a student project or a generic template.
+
+GIRMA should become a trusted digital ecosystem where people discover opportunities, access resources, connect with markets, develop their skills, and turn potential into measurable growth.
+
+PROJECT IDENTITY:
+
+GIRMA TECHNOLOGIES
+
+Growth. Innovation. Resources. Markets. Access.
+
+“GIRMA. Where Potential Meets Access.”
+
+FOUNDER: AHMED MALGWI.
+

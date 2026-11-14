@@ -1,0 +1,497 @@
+{
+  "entities": {
+    "UserAccount": {
+      "title": "UserAccount",
+      "description": "Authenticated user account and regional/category profile with PII isolated to owner and admin.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "fullName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "email": { "type": "string", "format": "email", "maxLength": 180 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "country": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "state": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "category": {
+          "type": "string",
+          "enum": [
+            "Entrepreneur",
+            "Small Business Owner",
+            "Startup Founder",
+            "Student",
+            "Graduate",
+            "Freelancer",
+            "Professional",
+            "Mentor",
+            "Investor",
+            "Organization",
+            "Opportunity Provider"
+          ]
+        },
+        "interests": { "type": "array", "maxLength": 15 },
+        "plan": { "type": "string", "enum": ["free", "pro", "organization"] },
+        "accountStatus": { "type": "string", "enum": ["active", "suspended"] },
+        "onboardingCompleted": { "type": "boolean" },
+        "profileCompletion": { "type": "number" },
+        "preferredLanguage": { "type": "string", "enum": ["en", "ha", "yo", "ig", "fr"] },
+        "consentAiContext": { "type": "boolean" },
+        "consentEmailAlerts": { "type": "boolean" },
+        "deadlineReminderDays": { "type": "array", "maxLength": 5 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "fullName", "email", "country", "state", "category", "plan", "accountStatus", "onboardingCompleted", "createdAt", "updatedAt"]
+    },
+    "BusinessProfile": {
+      "title": "BusinessProfile",
+      "description": "Publicly discoverable business profile with admin-controlled verification status.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "businessName": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "description": { "type": "string", "minLength": 10, "maxLength": 2000 },
+        "category": { "type": "string", "maxLength": 80 },
+        "industry": { "type": "string", "maxLength": 80 },
+        "country": { "type": "string", "maxLength": 80 },
+        "state": { "type": "string", "maxLength": 80 },
+        "city": { "type": "string", "maxLength": 80 },
+        "registrationStatus": { "type": "string", "enum": ["Unregistered", "CAC Business Name", "CAC Limited Liability", "Cooperative / NGO"] },
+        "stage": { "type": "string", "enum": ["Idea", "MVP / Early", "Operating (< 2 yrs)", "Growing (2-5 yrs)", "Established (5+ yrs)"] },
+        "size": { "type": "string", "enum": ["Solo", "Micro (2-9)", "Small (10-49)", "Medium (50-249)"] },
+        "employeesCount": { "type": "integer" },
+        "yearsOfOperation": { "type": "number" },
+        "fundingNeedAmount": { "type": "number" },
+        "fundingNeedPurpose": { "type": "string", "maxLength": 300 },
+        "revenueRange": { "type": "string", "maxLength": 80 },
+        "products": { "type": "array", "maxLength": 20 },
+        "services": { "type": "array", "maxLength": 20 },
+        "targetCustomers": { "type": "string", "maxLength": 300 },
+        "challenges": { "type": "string", "maxLength": 500 },
+        "growthObjectives": { "type": "string", "maxLength": 500 },
+        "website": { "type": "string", "maxLength": 240 },
+        "socialHandle": { "type": "string", "maxLength": 160 },
+        "contactEmail": { "type": "string", "maxLength": 180 },
+        "contactPhone": { "type": "string", "maxLength": 40 },
+        "verificationStatus": { "type": "string", "enum": ["unverified", "pending", "verified", "rejected"] },
+        "verificationNotes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "businessName", "description", "industry", "country", "state", "registrationStatus", "stage", "verificationStatus", "createdAt", "updatedAt"]
+    },
+    "StudentProfile": {
+      "title": "StudentProfile",
+      "description": "Student and graduate academic, skill, and career profile.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "institution": { "type": "string", "maxLength": 160 },
+        "courseOfStudy": { "type": "string", "maxLength": 140 },
+        "educationLevel": { "type": "string", "enum": ["Secondary", "OND / NCE", "HND / Bachelor's", "Master's", "PhD", "Vocational / Technical"] },
+        "skills": { "type": "array", "maxLength": 20 },
+        "careerInterests": { "type": "array", "maxLength": 15 },
+        "preferredOpportunities": { "type": "array", "maxLength": 15 },
+        "state": { "type": "string", "maxLength": 80 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "institution", "courseOfStudy", "educationLevel", "createdAt", "updatedAt"]
+    },
+    "MentorProfile": {
+      "title": "MentorProfile",
+      "description": "Mentor profile requiring admin approval before appearing as verified mentor.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "fullName": { "type": "string", "maxLength": 120 },
+        "background": { "type": "string", "maxLength": 240 },
+        "expertise": { "type": "array", "maxLength": 12 },
+        "industry": { "type": "string", "maxLength": 80 },
+        "yearsExperience": { "type": "integer" },
+        "country": { "type": "string", "maxLength": 80 },
+        "state": { "type": "string", "maxLength": 80 },
+        "availability": { "type": "string", "maxLength": 120 },
+        "bio": { "type": "string", "maxLength": 1500 },
+        "approvalStatus": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "fullName", "background", "industry", "yearsExperience", "state", "availability", "bio", "approvalStatus", "createdAt", "updatedAt"]
+    },
+    "OrganizationProfile": {
+      "title": "OrganizationProfile",
+      "description": "Investor, NGO, Government, or Opportunity Provider profile.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "organizationName": { "type": "string", "maxLength": 160 },
+        "organizationType": { "type": "string", "maxLength": 80 },
+        "industry": { "type": "string", "maxLength": 80 },
+        "supportInterests": { "type": "array", "maxLength": 15 },
+        "geographicFocus": { "type": "string", "maxLength": 160 },
+        "contactEmail": { "type": "string", "maxLength": 180 },
+        "website": { "type": "string", "maxLength": 240 },
+        "verified": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "organizationName", "organizationType", "industry", "geographicFocus", "verified", "createdAt", "updatedAt"]
+    },
+    "Opportunity": {
+      "title": "Opportunity",
+      "description": "Verified or curated funding, grant, scholarship, competition, or growth opportunity.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "minLength": 3, "maxLength": 200 },
+        "organizationName": { "type": "string", "minLength": 2, "maxLength": 160 },
+        "category": { "type": "string", "maxLength": 80 },
+        "fundingType": { "type": "string", "maxLength": 80 },
+        "description": { "type": "string", "maxLength": 4000 },
+        "eligibilitySummary": { "type": "string", "maxLength": 2000 },
+        "targetAudiences": { "type": "array", "maxLength": 15 },
+        "eligibleCategories": { "type": "array", "maxLength": 15 },
+        "eligibleBusinessStages": { "type": "array", "maxLength": 10 },
+        "eligibleEducationLevels": { "type": "array", "maxLength": 10 },
+        "requiresRegistration": { "type": "boolean" },
+        "country": { "type": "string", "maxLength": 80 },
+        "eligibleStates": { "type": "array", "maxLength": 40 },
+        "industry": { "type": "string", "maxLength": 100 },
+        "benefits": { "type": "string", "maxLength": 1500 },
+        "fundingAmountMin": { "type": "number" },
+        "fundingAmountMax": { "type": "number" },
+        "fundingCurrency": { "type": "string", "maxLength": 12 },
+        "openingDate": { "type": "string", "maxLength": 32 },
+        "deadlineDate": { "type": "string", "maxLength": 32 },
+        "requiredDocuments": { "type": "array", "maxLength": 15 },
+        "applicationInstructions": { "type": "string", "maxLength": 2000 },
+        "officialUrl": { "type": "string", "maxLength": 400 },
+        "contactInfo": { "type": "string", "maxLength": 240 },
+        "verificationStatus": { "type": "string", "enum": ["unverified", "verified"] },
+        "status": { "type": "string", "enum": ["published", "draft", "expired"] },
+        "isFeatured": { "type": "boolean" },
+        "isSeedData": { "type": "boolean" },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "organizationName", "category", "description", "country", "industry", "deadlineDate", "officialUrl", "verificationStatus", "status", "createdAt", "updatedAt"]
+    },
+    "OpportunityApplication": {
+      "title": "OpportunityApplication",
+      "description": "User-saved opportunity and application status tracker.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "opportunityId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "opportunityTitle": { "type": "string", "maxLength": 200 },
+        "organizationName": { "type": "string", "maxLength": 160 },
+        "category": { "type": "string", "maxLength": 80 },
+        "deadlineDate": { "type": "string", "maxLength": 32 },
+        "status": {
+          "type": "string",
+          "enum": ["Saved", "Planning to Apply", "Application in Progress", "Submitted", "Shortlisted", "Successful", "Unsuccessful"]
+        },
+        "interested": { "type": "boolean" },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "matchScore": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "opportunityId", "status", "createdAt", "updatedAt"]
+    },
+    "BusinessListing": {
+      "title": "BusinessListing",
+      "description": "Markets product, service, supplier, or partnership listing.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "businessId": { "type": "string", "maxLength": 128 },
+        "businessName": { "type": "string", "maxLength": 140 },
+        "title": { "type": "string", "minLength": 2, "maxLength": 160 },
+        "listingType": { "type": "string", "enum": ["product", "service", "partnership", "supplier"] },
+        "description": { "type": "string", "maxLength": 1500 },
+        "industry": { "type": "string", "maxLength": 80 },
+        "country": { "type": "string", "maxLength": 80 },
+        "state": { "type": "string", "maxLength": 80 },
+        "priceNgn": { "type": "number" },
+        "priceUnit": { "type": "string", "maxLength": 40 },
+        "contactMethod": { "type": "string", "maxLength": 160 },
+        "status": { "type": "string", "enum": ["active", "paused"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "businessName", "title", "listingType", "description", "industry", "state", "status", "createdAt", "updatedAt"]
+    },
+    "BusinessConnection": {
+      "title": "BusinessConnection",
+      "description": "Enquiry or B2B partnership request between users and businesses.",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "senderName": { "type": "string", "maxLength": 120 },
+        "recipientOwnerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "businessId": { "type": "string", "maxLength": 128 },
+        "listingId": { "type": "string", "maxLength": 128 },
+        "listingTitle": { "type": "string", "maxLength": 160 },
+        "enquiryType": { "type": "string", "maxLength": 60 },
+        "message": { "type": "string", "minLength": 5, "maxLength": 1500 },
+        "responseMessage": { "type": "string", "maxLength": 1500 },
+        "status": { "type": "string", "enum": ["pending", "responded", "accepted", "declined"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "senderName", "recipientOwnerId", "message", "status", "createdAt", "updatedAt"]
+    },
+    "MentorshipRequest": {
+      "title": "MentorshipRequest",
+      "description": "Mentorship connection request and message thread.",
+      "type": "object",
+      "properties": {
+        "menteeId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "menteeName": { "type": "string", "maxLength": 120 },
+        "mentorId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "mentorOwnerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "mentorName": { "type": "string", "maxLength": 120 },
+        "topic": { "type": "string", "maxLength": 160 },
+        "message": { "type": "string", "minLength": 5, "maxLength": 1500 },
+        "mentorReply": { "type": "string", "maxLength": 1500 },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined", "completed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["menteeId", "menteeName", "mentorId", "mentorOwnerId", "mentorName", "topic", "message", "status", "createdAt", "updatedAt"]
+    },
+    "LearningResource": {
+      "title": "LearningResource",
+      "description": "Educational guide, article, tutorial, course, or downloadable toolkit resource.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "minLength": 3, "maxLength": 180 },
+        "category": { "type": "string", "maxLength": 80 },
+        "contentType": { "type": "string", "enum": ["Article", "Video", "Tutorial", "Downloadable Guide", "Course", "Practical Guide"] },
+        "summary": { "type": "string", "maxLength": 500 },
+        "contentBody": { "type": "string", "maxLength": 8000 },
+        "durationMinutes": { "type": "integer" },
+        "authorName": { "type": "string", "maxLength": 120 },
+        "isPublished": { "type": "boolean" },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "category", "contentType", "summary", "contentBody", "isPublished", "createdAt", "updatedAt"]
+    },
+    "LearningProgress": {
+      "title": "LearningProgress",
+      "description": "User saved and completed learning resource tracking.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "resourceId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "saved": { "type": "boolean" },
+        "completed": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "resourceId", "saved", "completed", "updatedAt"]
+    },
+    "BusinessDocument": {
+      "title": "BusinessDocument",
+      "description": "Saved Business Toolkit generated plans, SWOT, canvases, and financial calculations.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "toolType": { "type": "string", "maxLength": 80 },
+        "title": { "type": "string", "minLength": 2, "maxLength": 160 },
+        "payload": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "toolType", "title", "payload", "createdAt", "updatedAt"]
+    },
+    "VerificationRequest": {
+      "title": "VerificationRequest",
+      "description": "Business verification submission for admin review.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "businessId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "businessName": { "type": "string", "maxLength": 140 },
+        "documentType": { "type": "string", "maxLength": 80 },
+        "registrationRef": { "type": "string", "maxLength": 100 },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected", "info_requested"] },
+        "adminNotes": { "type": "string", "maxLength": 1000 },
+        "reviewedBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "businessName", "documentType", "registrationRef", "status", "createdAt", "updatedAt"]
+    },
+    "NotificationItem": {
+      "title": "NotificationItem",
+      "description": "In-app notification and deduplicated Deadline Intelligence alert.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "category": { "type": "string", "maxLength": 60 },
+        "title": { "type": "string", "maxLength": 180 },
+        "message": { "type": "string", "maxLength": 800 },
+        "opportunityId": { "type": "string", "maxLength": 128 },
+        "reminderType": { "type": "string", "maxLength": 40 },
+        "dedupeKey": { "type": "string", "maxLength": 240 },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "category", "title", "message", "isRead", "createdAt"]
+    },
+    "AiConversation": {
+      "title": "AiConversation",
+      "description": "Ask GIRMA AI conversation session metadata.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "maxLength": 160 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "createdAt", "updatedAt"]
+    },
+    "AiMessage": {
+      "title": "AiMessage",
+      "description": "Individual message inside an Ask GIRMA AI conversation.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "role": { "type": "string", "enum": ["user", "assistant"] },
+        "content": { "type": "string", "maxLength": 16000 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "role", "content", "createdAt"]
+    },
+    "AdminActivityLog": {
+      "title": "AdminActivityLog",
+      "description": "Immutable audit log of administrative actions.",
+      "type": "object",
+      "properties": {
+        "adminUid": { "type": "string", "maxLength": 128 },
+        "adminEmail": { "type": "string", "maxLength": 180 },
+        "action": { "type": "string", "maxLength": 120 },
+        "targetType": { "type": "string", "maxLength": 80 },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "details": { "type": "string", "maxLength": 600 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["adminUid", "adminEmail", "action", "targetType", "targetId", "createdAt"]
+    },
+    "ContactMessage": {
+      "title": "ContactMessage",
+      "description": "Public contact enquiry submission.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "email": { "type": "string", "format": "email", "maxLength": 180 },
+        "subject": { "type": "string", "minLength": 2, "maxLength": 180 },
+        "message": { "type": "string", "minLength": 10, "maxLength": 2000 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "subject", "message", "createdAt"]
+    },
+    "PlatformSettings": {
+      "title": "PlatformSettings",
+      "description": "System-wide configuration managed by administrators.",
+      "type": "object",
+      "properties": {
+        "platformName": { "type": "string", "maxLength": 120 },
+        "defaultCountry": { "type": "string", "maxLength": 80 },
+        "defaultCurrency": { "type": "string", "maxLength": 12 },
+        "seedInitialized": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["platformName", "defaultCountry", "defaultCurrency", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserAccount" },
+      "description": "Private user profile and preferences."
+    },
+    "/admins/{adminId}": {
+      "schema": { "type": "object" },
+      "description": "Authorized administrator registry."
+    },
+    "/business_profiles/{businessId}": {
+      "schema": { "$ref": "#/entities/BusinessProfile" },
+      "description": "Searchable business directory profiles."
+    },
+    "/student_profiles/{userId}": {
+      "schema": { "$ref": "#/entities/StudentProfile" },
+      "description": "Student and graduate academic profiles."
+    },
+    "/mentor_profiles/{mentorId}": {
+      "schema": { "$ref": "#/entities/MentorProfile" },
+      "description": "Mentorship directory profiles."
+    },
+    "/organization_profiles/{orgId}": {
+      "schema": { "$ref": "#/entities/OrganizationProfile" },
+      "description": "Investor and organization profiles."
+    },
+    "/opportunities/{opportunityId}": {
+      "schema": { "$ref": "#/entities/Opportunity" },
+      "description": "Centralized opportunities and Funding Hub listings."
+    },
+    "/opportunity_applications/{appId}": {
+      "schema": { "$ref": "#/entities/OpportunityApplication" },
+      "description": "Saved opportunities and application tracking statuses."
+    },
+    "/business_listings/{listingId}": {
+      "schema": { "$ref": "#/entities/BusinessListing" },
+      "description": "Markets product, service, supplier, and partnership listings."
+    },
+    "/business_connections/{connId}": {
+      "schema": { "$ref": "#/entities/BusinessConnection" },
+      "description": "B2B and customer enquiries."
+    },
+    "/mentorship_requests/{reqId}": {
+      "schema": { "$ref": "#/entities/MentorshipRequest" },
+      "description": "Mentorship connection requests and replies."
+    },
+    "/learning_resources/{resourceId}": {
+      "schema": { "$ref": "#/entities/LearningResource" },
+      "description": "Learning Centre articles, courses, and practical guides."
+    },
+    "/learning_progress/{progressId}": {
+      "schema": { "$ref": "#/entities/LearningProgress" },
+      "description": "User learning progress and saved lessons."
+    },
+    "/business_documents/{docId}": {
+      "schema": { "$ref": "#/entities/BusinessDocument" },
+      "description": "Saved Business Toolkit generated documents."
+    },
+    "/verification_requests/{reqId}": {
+      "schema": { "$ref": "#/entities/VerificationRequest" },
+      "description": "Business verification document submissions."
+    },
+    "/notifications/{notifId}": {
+      "schema": { "$ref": "#/entities/NotificationItem" },
+      "description": "User notifications and Deadline Intelligence alerts."
+    },
+    "/ai_conversations/{convId}": {
+      "schema": { "$ref": "#/entities/AiConversation" },
+      "description": "Ask GIRMA AI chat threads."
+    },
+    "/ai_conversations/{convId}/messages/{msgId}": {
+      "schema": { "$ref": "#/entities/AiMessage" },
+      "description": "Messages within an Ask GIRMA conversation."
+    },
+    "/admin_activity_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AdminActivityLog" },
+      "description": "Administrative audit log trail."
+    },
+    "/contact_messages/{msgId}": {
+      "schema": { "$ref": "#/entities/ContactMessage" },
+      "description": "Public contact form messages."
+    },
+    "/platform_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/PlatformSettings" },
+      "description": "System settings and seed state."
+    }
+  }
+}

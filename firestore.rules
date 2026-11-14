@@ -1,0 +1,893 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Default-Deny Catch-All
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Core Identity & Validation Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isOwner(uid) {
+      return isVerifiedUser() && request.auth.uid == uid;
+    }
+
+    function isBootstrappedAdmin() {
+      return isVerifiedUser() &&
+        request.auth.token.email is string &&
+        request.auth.token.email.lower() == 'ahmedmalgwi2@gmail.com';
+    }
+
+    function isAdmin() {
+      return isBootstrappedAdmin() || (
+        isVerifiedUser() &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidString(val, minLen, maxLen) {
+      return val is string && val.size() >= minLen && val.size() <= maxLen;
+    }
+
+    function isValidOptionalString(data, key, maxLen) {
+      return !(key in data) || (data[key] is string && data[key].size() <= maxLen);
+    }
+
+    function isValidStringList(data, key, maxItems) {
+      return (key in data) &&
+        data[key] is list &&
+        data[key].size() <= maxItems &&
+        (data[key].size() == 0 || data[key][0] is string);
+    }
+
+    function isValidOptionalStringList(data, key, maxItems) {
+      return !(key in data) || isValidStringList(data, key, maxItems);
+    }
+
+    // Entity Validators
+    function isValidUserAccount(data) {
+      return data.keys().hasAll([
+        'uid', 'fullName', 'email', 'country', 'state', 'category',
+        'plan', 'accountStatus', 'onboardingCompleted', 'createdAt', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'uid', 'fullName', 'email', 'phone', 'country', 'state', 'category',
+        'interests', 'plan', 'accountStatus', 'onboardingCompleted',
+        'profileCompletion', 'preferredLanguage', 'consentAiContext',
+        'consentEmailAlerts', 'deadlineReminderDays', 'createdAt', 'updatedAt'
+      ]) &&
+      isValidId(data.uid) &&
+      isValidString(data.fullName, 2, 120) &&
+      isValidString(data.email, 3, 180) &&
+      isValidOptionalString(data, 'phone', 32) &&
+      isValidString(data.country, 2, 80) &&
+      isValidString(data.state, 2, 80) &&
+      data.category in [
+        'Entrepreneur', 'Small Business Owner', 'Startup Founder',
+        'Student', 'Graduate', 'Freelancer', 'Professional',
+        'Mentor', 'Investor', 'Organization', 'Opportunity Provider'
+      ] &&
+      isValidOptionalStringList(data, 'interests', 15) &&
+      data.plan in ['free', 'pro', 'organization'] &&
+      data.accountStatus in ['active', 'suspended'] &&
+      data.onboardingCompleted is bool &&
+      (!('profileCompletion' in data) || (data.profileCompletion is number && data.profileCompletion >= 0 && data.profileCompletion <= 100)) &&
+      (!('preferredLanguage' in data) || data.preferredLanguage in ['en', 'ha', 'yo', 'ig', 'fr']) &&
+      (!('consentAiContext' in data) || data.consentAiContext is bool) &&
+      (!('consentEmailAlerts' in data) || data.consentEmailAlerts is bool) &&
+      (!('deadlineReminderDays' in data) || (data.deadlineReminderDays is list && data.deadlineReminderDays.size() <= 5)) &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidBusinessProfile(data) {
+      return data.keys().hasAll([
+        'ownerId', 'businessName', 'description', 'industry', 'country',
+        'state', 'registrationStatus', 'stage', 'verificationStatus',
+        'createdAt', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'ownerId', 'businessName', 'description', 'category', 'industry',
+        'country', 'state', 'city', 'registrationStatus', 'stage', 'size',
+        'employeesCount', 'yearsOfOperation', 'fundingNeedAmount',
+        'fundingNeedPurpose', 'revenueRange', 'products', 'services',
+        'targetCustomers', 'challenges', 'growthObjectives', 'website',
+        'socialHandle', 'contactEmail', 'contactPhone', 'verificationStatus',
+        'verificationNotes', 'createdAt', 'updatedAt'
+      ]) &&
+      isValidId(data.ownerId) &&
+      isValidString(data.businessName, 2, 140) &&
+      isValidString(data.description, 10, 2000) &&
+      isValidOptionalString(data, 'category', 80) &&
+      isValidString(data.industry, 2, 80) &&
+      isValidString(data.country, 2, 80) &&
+      isValidString(data.state, 2, 80) &&
+      isValidOptionalString(data, 'city', 80) &&
+      data.registrationStatus in ['Unregistered', 'CAC Business Name', 'CAC Limited Liability', 'Cooperative / NGO'] &&
+      data.stage in ['Idea', 'MVP / Early', 'Operating (< 2 yrs)', 'Growing (2-5 yrs)', 'Established (5+ yrs)'] &&
+      (!('size' in data) || data.size in ['Solo', 'Micro (2-9)', 'Small (10-49)', 'Medium (50-249)']) &&
+      (!('employeesCount' in data) || (data.employeesCount is number && data.employeesCount >= 0 && data.employeesCount <= 100000)) &&
+      (!('yearsOfOperation' in data) || (data.yearsOfOperation is number && data.yearsOfOperation >= 0 && data.yearsOfOperation <= 200)) &&
+      (!('fundingNeedAmount' in data) || (data.fundingNeedAmount is number && data.fundingNeedAmount >= 0)) &&
+      isValidOptionalString(data, 'fundingNeedPurpose', 300) &&
+      isValidOptionalString(data, 'revenueRange', 80) &&
+      isValidOptionalStringList(data, 'products', 20) &&
+      isValidOptionalStringList(data, 'services', 20) &&
+      isValidOptionalString(data, 'targetCustomers', 300) &&
+      isValidOptionalString(data, 'challenges', 500) &&
+      isValidOptionalString(data, 'growthObjectives', 500) &&
+      isValidOptionalString(data, 'website', 240) &&
+      isValidOptionalString(data, 'socialHandle', 160) &&
+      isValidOptionalString(data, 'contactEmail', 180) &&
+      isValidOptionalString(data, 'contactPhone', 40) &&
+      data.verificationStatus in ['unverified', 'pending', 'verified', 'rejected'] &&
+      isValidOptionalString(data, 'verificationNotes', 500) &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidStudentProfile(data) {
+      return data.keys().hasAll(['uid', 'institution', 'courseOfStudy', 'educationLevel', 'createdAt', 'updatedAt']) &&
+      data.keys().hasOnly(['uid', 'institution', 'courseOfStudy', 'educationLevel', 'skills', 'careerInterests', 'preferredOpportunities', 'state', 'createdAt', 'updatedAt']) &&
+      isValidId(data.uid) &&
+      isValidString(data.institution, 2, 160) &&
+      isValidString(data.courseOfStudy, 2, 140) &&
+      data.educationLevel in ['Secondary', 'OND / NCE', "HND / Bachelor's", "Master's", 'PhD', 'Vocational / Technical'] &&
+      isValidOptionalStringList(data, 'skills', 20) &&
+      isValidOptionalStringList(data, 'careerInterests', 15) &&
+      isValidOptionalStringList(data, 'preferredOpportunities', 15) &&
+      isValidOptionalString(data, 'state', 80) &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidMentorProfile(data) {
+      return data.keys().hasAll([
+        'ownerId', 'fullName', 'background', 'industry', 'yearsExperience',
+        'state', 'availability', 'bio', 'approvalStatus', 'createdAt', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'ownerId', 'fullName', 'background', 'expertise', 'industry',
+        'yearsExperience', 'country', 'state', 'availability', 'bio',
+        'approvalStatus', 'createdAt', 'updatedAt'
+      ]) &&
+      isValidId(data.ownerId) &&
+      isValidString(data.fullName, 2, 120) &&
+      isValidString(data.background, 3, 240) &&
+      isValidOptionalStringList(data, 'expertise', 12) &&
+      isValidString(data.industry, 2, 80) &&
+      data.yearsExperience is number && data.yearsExperience >= 0 && data.yearsExperience <= 80 &&
+      isValidOptionalString(data, 'country', 80) &&
+      isValidString(data.state, 2, 80) &&
+      isValidString(data.availability, 2, 120) &&
+      isValidString(data.bio, 10, 1500) &&
+      data.approvalStatus in ['pending', 'approved', 'rejected'] &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidOrganizationProfile(data) {
+      return data.keys().hasAll([
+        'ownerId', 'organizationName', 'organizationType', 'industry',
+        'geographicFocus', 'verified', 'createdAt', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'ownerId', 'organizationName', 'organizationType', 'industry',
+        'supportInterests', 'geographicFocus', 'contactEmail', 'website',
+        'verified', 'createdAt', 'updatedAt'
+      ]) &&
+      isValidId(data.ownerId) &&
+      isValidString(data.organizationName, 2, 160) &&
+      isValidString(data.organizationType, 2, 80) &&
+      isValidString(data.industry, 2, 80) &&
+      isValidOptionalStringList(data, 'supportInterests', 15) &&
+      isValidString(data.geographicFocus, 2, 160) &&
+      isValidOptionalString(data, 'contactEmail', 180) &&
+      isValidOptionalString(data, 'website', 240) &&
+      data.verified is bool &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidOpportunity(data) {
+      return data.keys().hasAll([
+        'title', 'organizationName', 'category', 'description', 'country',
+        'industry', 'deadlineDate', 'officialUrl', 'verificationStatus',
+        'status', 'createdAt', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'title', 'organizationName', 'category', 'fundingType', 'description',
+        'eligibilitySummary', 'targetAudiences', 'eligibleCategories',
+        'eligibleBusinessStages', 'eligibleEducationLevels', 'requiresRegistration',
+        'country', 'eligibleStates', 'industry', 'benefits', 'fundingAmountMin',
+        'fundingAmountMax', 'fundingCurrency', 'openingDate', 'deadlineDate',
+        'requiredDocuments', 'applicationInstructions', 'officialUrl',
+        'contactInfo', 'verificationStatus', 'status', 'isFeatured',
+        'isSeedData', 'createdBy', 'createdAt', 'updatedAt'
+      ]) &&
+      isValidString(data.title, 3, 200) &&
+      isValidString(data.organizationName, 2, 160) &&
+      isValidString(data.category, 2, 80) &&
+      isValidOptionalString(data, 'fundingType', 80) &&
+      isValidString(data.description, 10, 4000) &&
+      isValidOptionalString(data, 'eligibilitySummary', 2000) &&
+      isValidOptionalStringList(data, 'targetAudiences', 15) &&
+      isValidOptionalStringList(data, 'eligibleCategories', 15) &&
+      isValidOptionalStringList(data, 'eligibleBusinessStages', 10) &&
+      isValidOptionalStringList(data, 'eligibleEducationLevels', 10) &&
+      (!('requiresRegistration' in data) || data.requiresRegistration is bool) &&
+      isValidString(data.country, 2, 80) &&
+      isValidOptionalStringList(data, 'eligibleStates', 40) &&
+      isValidString(data.industry, 2, 100) &&
+      isValidOptionalString(data, 'benefits', 1500) &&
+      (!('fundingAmountMin' in data) || (data.fundingAmountMin is number && data.fundingAmountMin >= 0)) &&
+      (!('fundingAmountMax' in data) || (data.fundingAmountMax is number && data.fundingAmountMax >= 0)) &&
+      isValidOptionalString(data, 'fundingCurrency', 12) &&
+      isValidOptionalString(data, 'openingDate', 32) &&
+      isValidString(data.deadlineDate, 4, 32) &&
+      isValidOptionalStringList(data, 'requiredDocuments', 15) &&
+      isValidOptionalString(data, 'applicationInstructions', 2000) &&
+      isValidString(data.officialUrl, 5, 400) &&
+      isValidOptionalString(data, 'contactInfo', 240) &&
+      data.verificationStatus in ['unverified', 'verified'] &&
+      data.status in ['published', 'draft', 'expired'] &&
+      (!('isFeatured' in data) || data.isFeatured is bool) &&
+      (!('isSeedData' in data) || data.isSeedData is bool) &&
+      isValidOptionalString(data, 'createdBy', 128) &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidOpportunityApplication(data) {
+      return data.keys().hasAll(['userId', 'opportunityId', 'status', 'createdAt', 'updatedAt']) &&
+      data.keys().hasOnly([
+        'userId', 'opportunityId', 'opportunityTitle', 'organizationName',
+        'category', 'deadlineDate', 'status', 'interested', 'notes',
+        'matchScore', 'createdAt', 'updatedAt'
+      ]) &&
+      isValidId(data.userId) &&
+      isValidId(data.opportunityId) &&
+      isValidOptionalString(data, 'opportunityTitle', 200) &&
+      isValidOptionalString(data, 'organizationName', 160) &&
+      isValidOptionalString(data, 'category', 80) &&
+      isValidOptionalString(data, 'deadlineDate', 32) &&
+      data.status in [
+        'Saved', 'Planning to Apply', 'Application in Progress',
+        'Submitted', 'Shortlisted', 'Successful', 'Unsuccessful'
+      ] &&
+      (!('interested' in data) || data.interested is bool) &&
+      isValidOptionalString(data, 'notes', 2000) &&
+      (!('matchScore' in data) || (data.matchScore is number && data.matchScore >= 0 && data.matchScore <= 100)) &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidBusinessListing(data) {
+      return data.keys().hasAll([
+        'ownerId', 'businessName', 'title', 'listingType', 'description',
+        'industry', 'state', 'status', 'createdAt', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'ownerId', 'businessId', 'businessName', 'title', 'listingType',
+        'description', 'industry', 'country', 'state', 'priceNgn',
+        'priceUnit', 'contactMethod', 'status', 'createdAt', 'updatedAt'
+      ]) &&
+      isValidId(data.ownerId) &&
+      isValidOptionalString(data, 'businessId', 128) &&
+      isValidString(data.businessName, 2, 140) &&
+      isValidString(data.title, 2, 160) &&
+      data.listingType in ['product', 'service', 'partnership', 'supplier'] &&
+      isValidString(data.description, 5, 1500) &&
+      isValidString(data.industry, 2, 80) &&
+      isValidOptionalString(data, 'country', 80) &&
+      isValidString(data.state, 2, 80) &&
+      (!('priceNgn' in data) || (data.priceNgn is number && data.priceNgn >= 0)) &&
+      isValidOptionalString(data, 'priceUnit', 40) &&
+      isValidOptionalString(data, 'contactMethod', 160) &&
+      data.status in ['active', 'paused'] &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidBusinessConnection(data) {
+      return data.keys().hasAll(['senderId', 'senderName', 'recipientOwnerId', 'message', 'status', 'createdAt', 'updatedAt']) &&
+      data.keys().hasOnly([
+        'senderId', 'senderName', 'recipientOwnerId', 'businessId',
+        'listingId', 'listingTitle', 'enquiryType', 'message',
+        'responseMessage', 'status', 'createdAt', 'updatedAt'
+      ]) &&
+      isValidId(data.senderId) &&
+      isValidString(data.senderName, 2, 120) &&
+      isValidId(data.recipientOwnerId) &&
+      isValidOptionalString(data, 'businessId', 128) &&
+      isValidOptionalString(data, 'listingId', 128) &&
+      isValidOptionalString(data, 'listingTitle', 160) &&
+      isValidOptionalString(data, 'enquiryType', 60) &&
+      isValidString(data.message, 5, 1500) &&
+      isValidOptionalString(data, 'responseMessage', 1500) &&
+      data.status in ['pending', 'responded', 'accepted', 'declined'] &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidMentorshipRequest(data) {
+      return data.keys().hasAll([
+        'menteeId', 'menteeName', 'mentorId', 'mentorOwnerId', 'mentorName',
+        'topic', 'message', 'status', 'createdAt', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'menteeId', 'menteeName', 'mentorId', 'mentorOwnerId', 'mentorName',
+        'topic', 'message', 'mentorReply', 'status', 'createdAt', 'updatedAt'
+      ]) &&
+      isValidId(data.menteeId) &&
+      isValidString(data.menteeName, 2, 120) &&
+      isValidId(data.mentorId) &&
+      isValidId(data.mentorOwnerId) &&
+      isValidString(data.mentorName, 2, 120) &&
+      isValidString(data.topic, 2, 160) &&
+      isValidString(data.message, 5, 1500) &&
+      isValidOptionalString(data, 'mentorReply', 1500) &&
+      data.status in ['pending', 'accepted', 'declined', 'completed'] &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidLearningResource(data) {
+      return data.keys().hasAll([
+        'title', 'category', 'contentType', 'summary', 'contentBody',
+        'isPublished', 'createdAt', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'title', 'category', 'contentType', 'summary', 'contentBody',
+        'durationMinutes', 'authorName', 'isPublished', 'createdBy',
+        'createdAt', 'updatedAt'
+      ]) &&
+      isValidString(data.title, 3, 180) &&
+      isValidString(data.category, 2, 80) &&
+      data.contentType in ['Article', 'Video', 'Tutorial', 'Downloadable Guide', 'Course', 'Practical Guide'] &&
+      isValidString(data.summary, 5, 500) &&
+      isValidString(data.contentBody, 10, 8000) &&
+      (!('durationMinutes' in data) || (data.durationMinutes is number && data.durationMinutes >= 1 && data.durationMinutes <= 1000)) &&
+      isValidOptionalString(data, 'authorName', 120) &&
+      data.isPublished is bool &&
+      isValidOptionalString(data, 'createdBy', 128) &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidLearningProgress(data) {
+      return data.keys().hasAll(['userId', 'resourceId', 'saved', 'completed', 'updatedAt']) &&
+      data.keys().hasOnly(['userId', 'resourceId', 'saved', 'completed', 'createdAt', 'updatedAt']) &&
+      isValidId(data.userId) &&
+      isValidId(data.resourceId) &&
+      data.saved is bool &&
+      data.completed is bool &&
+      (!('createdAt' in data) || data.createdAt is timestamp) &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidBusinessDocument(data) {
+      return data.keys().hasAll(['userId', 'toolType', 'title', 'payload', 'createdAt', 'updatedAt']) &&
+      data.keys().hasOnly(['userId', 'toolType', 'title', 'payload', 'createdAt', 'updatedAt']) &&
+      isValidId(data.userId) &&
+      isValidString(data.toolType, 2, 80) &&
+      isValidString(data.title, 2, 160) &&
+      data.payload is map &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidVerificationRequest(data) {
+      return data.keys().hasAll([
+        'userId', 'businessId', 'businessName', 'documentType',
+        'registrationRef', 'status', 'createdAt', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'userId', 'businessId', 'businessName', 'documentType',
+        'registrationRef', 'notes', 'status', 'adminNotes',
+        'reviewedBy', 'createdAt', 'updatedAt'
+      ]) &&
+      isValidId(data.userId) &&
+      isValidId(data.businessId) &&
+      isValidString(data.businessName, 2, 140) &&
+      isValidString(data.documentType, 2, 80) &&
+      isValidString(data.registrationRef, 2, 100) &&
+      isValidOptionalString(data, 'notes', 1000) &&
+      data.status in ['pending', 'approved', 'rejected', 'info_requested'] &&
+      isValidOptionalString(data, 'adminNotes', 1000) &&
+      isValidOptionalString(data, 'reviewedBy', 128) &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidNotificationItem(data) {
+      return data.keys().hasAll(['userId', 'category', 'title', 'message', 'isRead', 'createdAt']) &&
+      data.keys().hasOnly(['userId', 'category', 'title', 'message', 'opportunityId', 'reminderType', 'dedupeKey', 'isRead', 'createdAt']) &&
+      isValidId(data.userId) &&
+      isValidString(data.category, 2, 60) &&
+      isValidString(data.title, 2, 180) &&
+      isValidString(data.message, 2, 800) &&
+      isValidOptionalString(data, 'opportunityId', 128) &&
+      isValidOptionalString(data, 'reminderType', 40) &&
+      isValidOptionalString(data, 'dedupeKey', 240) &&
+      data.isRead is bool &&
+      data.createdAt is timestamp;
+    }
+
+    function isValidAiConversation(data) {
+      return data.keys().hasAll(['userId', 'title', 'createdAt', 'updatedAt']) &&
+      data.keys().hasOnly(['userId', 'title', 'createdAt', 'updatedAt']) &&
+      isValidId(data.userId) &&
+      isValidString(data.title, 1, 160) &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidAiMessage(data) {
+      return data.keys().hasAll(['userId', 'role', 'content', 'createdAt']) &&
+      data.keys().hasOnly(['userId', 'role', 'content', 'createdAt']) &&
+      isValidId(data.userId) &&
+      data.role in ['user', 'assistant'] &&
+      isValidString(data.content, 1, 16000) &&
+      data.createdAt is timestamp;
+    }
+
+    function isValidAdminActivityLog(data) {
+      return data.keys().hasAll(['adminUid', 'adminEmail', 'action', 'targetType', 'targetId', 'createdAt']) &&
+      data.keys().hasOnly(['adminUid', 'adminEmail', 'action', 'targetType', 'targetId', 'details', 'createdAt']) &&
+      isValidId(data.adminUid) &&
+      isValidString(data.adminEmail, 3, 180) &&
+      isValidString(data.action, 2, 120) &&
+      isValidString(data.targetType, 2, 80) &&
+      isValidString(data.targetId, 1, 128) &&
+      isValidOptionalString(data, 'details', 600) &&
+      data.createdAt is timestamp;
+    }
+
+    function isValidContactMessage(data) {
+      return data.keys().hasAll(['name', 'email', 'subject', 'message', 'createdAt']) &&
+      data.keys().hasOnly(['name', 'email', 'subject', 'message', 'createdAt']) &&
+      isValidString(data.name, 2, 120) &&
+      isValidString(data.email, 5, 180) &&
+      isValidString(data.subject, 2, 180) &&
+      isValidString(data.message, 10, 2000) &&
+      data.createdAt is timestamp;
+    }
+
+    function isValidPlatformSettings(data) {
+      return data.keys().hasAll(['platformName', 'defaultCountry', 'defaultCurrency', 'updatedAt']) &&
+      data.keys().hasOnly(['platformName', 'defaultCountry', 'defaultCurrency', 'seedInitialized', 'updatedAt']) &&
+      isValidString(data.platformName, 2, 120) &&
+      isValidString(data.defaultCountry, 2, 80) &&
+      isValidString(data.defaultCurrency, 1, 12) &&
+      (!('seedInitialized' in data) || data.seedInitialized is bool) &&
+      data.updatedAt is timestamp;
+    }
+
+    // 1. Users (Strict PII Isolation & RBAC Field Lock)
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isAdmin() || (isVerifiedUser() && resource.data.uid == request.auth.uid);
+      allow create: if isValidId(userId) && isOwner(userId) &&
+        isValidUserAccount(incoming()) &&
+        incoming().uid == request.auth.uid &&
+        incoming().plan == 'free' &&
+        incoming().accountStatus == 'active' &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(userId) && isValidUserAccount(incoming()) &&
+        incoming().uid == existing().uid &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time && (
+          isAdmin() || (
+            isOwner(userId) &&
+            incoming().plan == existing().plan &&
+            incoming().accountStatus == existing().accountStatus &&
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'fullName', 'phone', 'country', 'state', 'category',
+              'interests', 'onboardingCompleted', 'profileCompletion',
+              'preferredLanguage', 'consentAiContext', 'consentEmailAlerts',
+              'deadlineReminderDays', 'updatedAt'
+            ])
+          )
+        );
+      allow delete: if isValidId(userId) && isAdmin();
+    }
+
+    // 2. Admins Registry
+    match /admins/{adminId} {
+      allow get: if isValidId(adminId) && (isOwner(adminId) || isAdmin());
+      allow list: if isAdmin();
+      allow create, update, delete: if isValidId(adminId) && isAdmin();
+    }
+
+    // 3. Business Profiles (Directory Public Read, Admin-Only Verification)
+    match /business_profiles/{businessId} {
+      allow get: if isValidId(businessId);
+      allow list: if resource.data.verificationStatus in ['verified', 'unverified', 'pending'] ||
+        (isVerifiedUser() && resource.data.ownerId == request.auth.uid) ||
+        isAdmin();
+      allow create: if isValidId(businessId) && isValidBusinessProfile(incoming()) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time && (
+          isAdmin() || (
+            isVerifiedUser() &&
+            incoming().ownerId == request.auth.uid &&
+            incoming().verificationStatus == 'unverified'
+          )
+        );
+      allow update: if isValidId(businessId) && isValidBusinessProfile(incoming()) &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time && (
+          isAdmin() || (
+            isOwner(existing().ownerId) &&
+            incoming().verificationStatus == existing().verificationStatus &&
+            (!('verificationNotes' in incoming()) || incoming().verificationNotes == existing().verificationNotes) &&
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'businessName', 'description', 'category', 'industry', 'country',
+              'state', 'city', 'registrationStatus', 'stage', 'size',
+              'employeesCount', 'yearsOfOperation', 'fundingNeedAmount',
+              'fundingNeedPurpose', 'revenueRange', 'products', 'services',
+              'targetCustomers', 'challenges', 'growthObjectives', 'website',
+              'socialHandle', 'contactEmail', 'contactPhone', 'updatedAt'
+            ])
+          )
+        );
+      allow delete: if isValidId(businessId) && (isOwner(existing().ownerId) || isAdmin());
+    }
+
+    // 4. Student Profiles
+    match /student_profiles/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isAdmin() || (isVerifiedUser() && resource.data.uid == request.auth.uid);
+      allow create: if isValidId(userId) && isOwner(userId) &&
+        isValidStudentProfile(incoming()) &&
+        incoming().uid == request.auth.uid &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(userId) && (isOwner(userId) || isAdmin()) &&
+        isValidStudentProfile(incoming()) &&
+        incoming().uid == existing().uid &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time;
+      allow delete: if isValidId(userId) && (isOwner(userId) || isAdmin());
+    }
+
+    // 5. Mentor Profiles (Admin Approval Required for Public Directory)
+    match /mentor_profiles/{mentorId} {
+      allow get: if isValidId(mentorId) && (
+        existing().approvalStatus == 'approved' ||
+        isOwner(existing().ownerId) ||
+        isAdmin()
+      );
+      allow list: if resource.data.approvalStatus == 'approved' ||
+        (isVerifiedUser() && resource.data.ownerId == request.auth.uid) ||
+        isAdmin();
+      allow create: if isValidId(mentorId) && isValidMentorProfile(incoming()) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time && (
+          isAdmin() || (
+            isVerifiedUser() &&
+            incoming().ownerId == request.auth.uid &&
+            incoming().approvalStatus == 'pending'
+          )
+        );
+      allow update: if isValidId(mentorId) && isValidMentorProfile(incoming()) &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time && (
+          isAdmin() || (
+            isOwner(existing().ownerId) &&
+            incoming().approvalStatus == existing().approvalStatus &&
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'fullName', 'background', 'expertise', 'industry',
+              'yearsExperience', 'country', 'state', 'availability', 'bio', 'updatedAt'
+            ])
+          )
+        );
+      allow delete: if isValidId(mentorId) && (isOwner(existing().ownerId) || isAdmin());
+    }
+
+    // 6. Organization Profiles
+    match /organization_profiles/{orgId} {
+      allow get: if isValidId(orgId);
+      allow list: if resource.data.verified == true ||
+        (isVerifiedUser() && resource.data.ownerId == request.auth.uid) ||
+        isAdmin();
+      allow create: if isValidId(orgId) && isVerifiedUser() &&
+        isValidOrganizationProfile(incoming()) &&
+        incoming().ownerId == request.auth.uid &&
+        incoming().verified == false &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(orgId) && isValidOrganizationProfile(incoming()) &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time && (
+          isAdmin() || (
+            isOwner(existing().ownerId) &&
+            incoming().verified == existing().verified
+          )
+        );
+      allow delete: if isValidId(orgId) && (isOwner(existing().ownerId) || isAdmin());
+    }
+
+    // 7. Opportunities (Public Read for Published, Admin Write)
+    match /opportunities/{opportunityId} {
+      allow get: if isValidId(opportunityId) && (existing().status == 'published' || isAdmin());
+      allow list: if resource.data.status == 'published' || isAdmin();
+      allow create: if isValidId(opportunityId) && isAdmin() &&
+        isValidOpportunity(incoming()) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(opportunityId) && isAdmin() &&
+        isValidOpportunity(incoming()) &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time;
+      allow delete: if isValidId(opportunityId) && isAdmin();
+    }
+
+    // 8. Saved Opportunities & Application Tracker
+    match /opportunity_applications/{appId} {
+      allow get: if isValidId(appId) && (isOwner(existing().userId) || isAdmin());
+      allow list: if (isVerifiedUser() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow create: if isValidId(appId) && isVerifiedUser() &&
+        isValidOpportunityApplication(incoming()) &&
+        incoming().userId == request.auth.uid &&
+        exists(/databases/$(database)/documents/opportunities/$(incoming().opportunityId)) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(appId) && (isOwner(existing().userId) || isAdmin()) &&
+        isValidOpportunityApplication(incoming()) &&
+        incoming().userId == existing().userId &&
+        incoming().opportunityId == existing().opportunityId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time;
+      allow delete: if isValidId(appId) && (isOwner(existing().userId) || isAdmin());
+    }
+
+    // 9. Business Market Listings
+    match /business_listings/{listingId} {
+      allow get: if isValidId(listingId) && (existing().status == 'active' || isOwner(existing().ownerId) || isAdmin());
+      allow list: if resource.data.status == 'active' || (isVerifiedUser() && resource.data.ownerId == request.auth.uid) || isAdmin();
+      allow create: if isValidId(listingId) && isValidBusinessListing(incoming()) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time && (
+          isAdmin() || (isVerifiedUser() && incoming().ownerId == request.auth.uid)
+        );
+      allow update: if isValidId(listingId) && (isOwner(existing().ownerId) || isAdmin()) &&
+        isValidBusinessListing(incoming()) &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time;
+      allow delete: if isValidId(listingId) && (isOwner(existing().ownerId) || isAdmin());
+    }
+
+    // 10. Business Connections & Enquiries
+    match /business_connections/{connId} {
+      allow get: if isValidId(connId) && (
+        isOwner(existing().senderId) || isOwner(existing().recipientOwnerId) || isAdmin()
+      );
+      allow list: if (isVerifiedUser() && (
+        resource.data.senderId == request.auth.uid || resource.data.recipientOwnerId == request.auth.uid
+      )) || isAdmin();
+      allow create: if isValidId(connId) && isVerifiedUser() &&
+        isValidBusinessConnection(incoming()) &&
+        incoming().senderId == request.auth.uid &&
+        incoming().status == 'pending' &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(connId) && isValidBusinessConnection(incoming()) &&
+        incoming().senderId == existing().senderId &&
+        incoming().recipientOwnerId == existing().recipientOwnerId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time && (
+          isAdmin() || (
+            isOwner(existing().recipientOwnerId) &&
+            existing().status == 'pending' &&
+            incoming().diff(existing()).affectedKeys().hasOnly(['status', 'responseMessage', 'updatedAt'])
+          )
+        );
+      allow delete: if isValidId(connId) && (isOwner(existing().senderId) || isAdmin());
+    }
+
+    // 11. Mentorship Requests
+    match /mentorship_requests/{reqId} {
+      allow get: if isValidId(reqId) && (
+        isOwner(existing().menteeId) || isOwner(existing().mentorOwnerId) || isAdmin()
+      );
+      allow list: if (isVerifiedUser() && (
+        resource.data.menteeId == request.auth.uid || resource.data.mentorOwnerId == request.auth.uid
+      )) || isAdmin();
+      allow create: if isValidId(reqId) && isVerifiedUser() &&
+        isValidMentorshipRequest(incoming()) &&
+        incoming().menteeId == request.auth.uid &&
+        incoming().status == 'pending' &&
+        exists(/databases/$(database)/documents/mentor_profiles/$(incoming().mentorId)) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(reqId) && isValidMentorshipRequest(incoming()) &&
+        incoming().menteeId == existing().menteeId &&
+        incoming().mentorId == existing().mentorId &&
+        incoming().mentorOwnerId == existing().mentorOwnerId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time && (
+          isAdmin() || (
+            isOwner(existing().mentorOwnerId) &&
+            existing().status in ['pending', 'accepted'] &&
+            incoming().diff(existing()).affectedKeys().hasOnly(['status', 'mentorReply', 'updatedAt'])
+          )
+        );
+      allow delete: if isValidId(reqId) && (isOwner(existing().menteeId) || isAdmin());
+    }
+
+    // 12. Learning Resources
+    match /learning_resources/{resourceId} {
+      allow get: if isValidId(resourceId) && (existing().isPublished == true || isAdmin());
+      allow list: if resource.data.isPublished == true || isAdmin();
+      allow create: if isValidId(resourceId) && isAdmin() &&
+        isValidLearningResource(incoming()) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(resourceId) && isAdmin() &&
+        isValidLearningResource(incoming()) &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time;
+      allow delete: if isValidId(resourceId) && isAdmin();
+    }
+
+    // 13. Learning Progress
+    match /learning_progress/{progressId} {
+      allow get: if isValidId(progressId) && (isOwner(existing().userId) || isAdmin());
+      allow list: if (isVerifiedUser() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow create: if isValidId(progressId) && isVerifiedUser() &&
+        isValidLearningProgress(incoming()) &&
+        incoming().userId == request.auth.uid &&
+        exists(/databases/$(database)/documents/learning_resources/$(incoming().resourceId)) &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(progressId) && (isOwner(existing().userId) || isAdmin()) &&
+        isValidLearningProgress(incoming()) &&
+        incoming().userId == existing().userId &&
+        incoming().resourceId == existing().resourceId &&
+        incoming().updatedAt == request.time;
+      allow delete: if isValidId(progressId) && (isOwner(existing().userId) || isAdmin());
+    }
+
+    // 14. Business Toolkit Documents
+    match /business_documents/{docId} {
+      allow get: if isValidId(docId) && (isOwner(existing().userId) || isAdmin());
+      allow list: if (isVerifiedUser() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow create: if isValidId(docId) && isVerifiedUser() &&
+        isValidBusinessDocument(incoming()) &&
+        incoming().userId == request.auth.uid &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(docId) && (isOwner(existing().userId) || isAdmin()) &&
+        isValidBusinessDocument(incoming()) &&
+        incoming().userId == existing().userId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time;
+      allow delete: if isValidId(docId) && (isOwner(existing().userId) || isAdmin());
+    }
+
+    // 15. Verification Requests (Terminal State Locking)
+    match /verification_requests/{reqId} {
+      allow get: if isValidId(reqId) && (isOwner(existing().userId) || isAdmin());
+      allow list: if (isVerifiedUser() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow create: if isValidId(reqId) && isVerifiedUser() &&
+        isValidVerificationRequest(incoming()) &&
+        incoming().userId == request.auth.uid &&
+        incoming().status == 'pending' &&
+        get(/databases/$(database)/documents/business_profiles/$(incoming().businessId)).data.ownerId == request.auth.uid &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(reqId) && isAdmin() &&
+        isValidVerificationRequest(incoming()) &&
+        incoming().userId == existing().userId &&
+        incoming().businessId == existing().businessId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time;
+      allow delete: if isValidId(reqId) && isAdmin();
+    }
+
+    // 16. Notifications & Deadline Intelligence
+    match /notifications/{notifId} {
+      allow get: if isValidId(notifId) && (isOwner(existing().userId) || isAdmin());
+      allow list: if (isVerifiedUser() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow create: if isValidId(notifId) && isVerifiedUser() &&
+        isValidNotificationItem(incoming()) &&
+        (incoming().userId == request.auth.uid || isAdmin()) &&
+        incoming().createdAt == request.time;
+      allow update: if isValidId(notifId) && isValidNotificationItem(incoming()) &&
+        incoming().userId == existing().userId &&
+        incoming().createdAt == existing().createdAt && (
+          isAdmin() || (
+            isOwner(existing().userId) &&
+            incoming().diff(existing()).affectedKeys().hasOnly(['isRead'])
+          )
+        );
+      allow delete: if isValidId(notifId) && (isOwner(existing().userId) || isAdmin());
+    }
+
+    // 17. AI Conversations & Messages
+    match /ai_conversations/{convId} {
+      allow get: if isValidId(convId) && (isOwner(existing().userId) || isAdmin());
+      allow list: if (isVerifiedUser() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow create: if isValidId(convId) && isVerifiedUser() &&
+        isValidAiConversation(incoming()) &&
+        incoming().userId == request.auth.uid &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(convId) && (isOwner(existing().userId) || isAdmin()) &&
+        isValidAiConversation(incoming()) &&
+        incoming().userId == existing().userId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time;
+      allow delete: if isValidId(convId) && (isOwner(existing().userId) || isAdmin());
+
+      match /messages/{msgId} {
+        allow get: if isValidId(convId) && isValidId(msgId) && (
+          get(/databases/$(database)/documents/ai_conversations/$(convId)).data.userId == request.auth.uid || isAdmin()
+        );
+        allow list: if isVerifiedUser() && (
+          resource.data.userId == request.auth.uid || isAdmin()
+        );
+        allow create: if isValidId(convId) && isValidId(msgId) && isVerifiedUser() &&
+          isValidAiMessage(incoming()) &&
+          incoming().userId == request.auth.uid &&
+          get(/databases/$(database)/documents/ai_conversations/$(convId)).data.userId == request.auth.uid &&
+          incoming().createdAt == request.time;
+        allow update, delete: if false;
+      }
+    }
+
+    // 18. Admin Activity Logs (Immutable Audit Trail)
+    match /admin_activity_logs/{logId} {
+      allow get, list: if isAdmin();
+      allow create: if isValidId(logId) && isAdmin() &&
+        isValidAdminActivityLog(incoming()) &&
+        incoming().adminUid == request.auth.uid &&
+        incoming().createdAt == request.time;
+      allow update, delete: if false;
+    }
+
+    // 19. Public Contact Messages
+    match /contact_messages/{msgId} {
+      allow get, list, update, delete: if isAdmin();
+      allow create: if isValidId(msgId) && isValidContactMessage(incoming()) &&
+        incoming().createdAt == request.time;
+    }
+
+    // 20. Platform Settings
+    match /platform_settings/{settingId} {
+      allow get: if isValidId(settingId);
+      allow list: if isAdmin();
+      allow create, update: if isValidId(settingId) && isAdmin() &&
+        isValidPlatformSettings(incoming()) &&
+        incoming().updatedAt == request.time;
+      allow delete: if false;
+    }
+  }
+}
