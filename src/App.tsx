@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { PublicLayout } from './components/PublicLayout';
 import { AppShell } from './components/AppShell';
@@ -334,6 +335,7 @@ export default function App() {
       <AuthProvider>
         <GirmaRouter />
       </AuthProvider>
+      <Analytics />
     </ErrorBoundary>
   );
 }
