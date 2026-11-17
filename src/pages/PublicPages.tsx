@@ -3,6 +3,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { Check, ArrowRight } from 'lucide-react';
 import { db } from '../lib/firebase';
 import { ResilientImage } from '../components/ResilientImage';
+import learningWorkshopImg from '../assets/images/learning_workshop_1794660909279.jpg';
 
 interface PublicPageProps {
   navigate: (path: string) => void;
@@ -23,7 +24,7 @@ export const AboutPage: React.FC<PublicPageProps> = ({ navigate }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
       <div className="rounded-2xl overflow-hidden border border-[#17231F]/10 dark:border-white/10 bg-white dark:bg-[#121B18]">
         <ResilientImage
-          src="/src/assets/images/learning_workshop_1794660909279.jpg"
+          src={learningWorkshopImg}
           alt="Entrepreneurs and young professionals in a financial literacy workshop"
           className="w-full h-full object-cover min-h-[260px]"
         />

@@ -23,6 +23,7 @@ import {
   NIGERIAN_STATES,
 } from '../types/girma';
 import { ResilientImage } from '../components/ResilientImage';
+import mentorPortraitImg from '../assets/images/mentor_portrait_featured_1794660909070.jpg';
 
 export const LearningCentrePage: React.FC<{
   navigate: (path: string) => void;
@@ -505,7 +506,7 @@ export const MentorshipPage: React.FC = () => {
                   <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-[#17231F]/10 dark:border-white/10">
                     {idx === 0 ? (
                       <ResilientImage
-                        src="/src/assets/images/mentor_portrait_featured_1794660909070.jpg"
+                        src={mentorPortraitImg}
                         alt={m.fullName}
                         className="w-full h-full object-cover"
                       />

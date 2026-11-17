@@ -6,6 +6,9 @@ import { Opportunity } from '../types/girma';
 import { formatNaira } from '../lib/matchingEngine';
 import { ResilientImage } from '../components/ResilientImage';
 import { useAuth } from '../context/AuthContext';
+import heroEcosystemImg from '../assets/images/hero_girma_ecosystem_1794660906822.jpg';
+import pillarAgriImg from '../assets/images/pillar_agriculture_market_1794660907397.jpg';
+import pillarTechImg from '../assets/images/pillar_tech_startup_1794660907503.jpg';
 
 interface LandingPageProps {
   navigate: (path: string) => void;
@@ -92,7 +95,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ navigate }) => {
           <div className="lg:col-span-6">
             <div className="h-full min-h-[320px] lg:min-h-[440px] rounded-2xl overflow-hidden border border-[#17231F]/10 dark:border-white/10 bg-white dark:bg-[#121B18]">
               <ResilientImage
-                src="/src/assets/images/hero_girma_ecosystem_1794660906822.jpg"
+                src={heroEcosystemImg}
                 alt="Entrepreneurs and startup founders collaborating in a sunlit Northern Nigeria innovation hub"
                 className="w-full h-full object-cover"
               />
@@ -203,7 +206,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ navigate }) => {
               </div>
               <div className="min-h-[220px]">
                 <ResilientImage
-                  src="/src/assets/images/pillar_agriculture_market_1794660907397.jpg"
+                  src={pillarAgriImg}
                   alt="Nigerian agribusiness founder inspecting packaged food products"
                   className="w-full h-full object-cover"
                 />
@@ -213,7 +216,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ navigate }) => {
             <div className="lg:col-span-5 bg-[#F8F7F1] dark:bg-[#17231F] border border-[#17231F]/10 dark:border-white/10 rounded-xl overflow-hidden flex flex-col justify-between">
               <div className="h-44 overflow-hidden">
                 <ResilientImage
-                  src="/src/assets/images/pillar_tech_startup_1794660907503.jpg"
+                  src={pillarTechImg}
                   alt="Nigerian startup founders analyzing growth metrics"
                   className="w-full h-full object-cover"
                 />
